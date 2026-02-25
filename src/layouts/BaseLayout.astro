@@ -25,8 +25,48 @@ const {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     />
+    <script is:inline>
+      (() => {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = storedTheme || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body>
     <slot />
+    <script is:inline>
+      (() => {
+        const toggles = document.querySelectorAll("[data-theme-toggle]");
+        if (toggles.length === 0) {
+          return;
+        }
+
+        const root = document.documentElement;
+
+        function applyTheme(theme) {
+          root.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+
+          toggles.forEach((toggle) => {
+            const isDark = theme === "dark";
+            toggle.setAttribute("aria-pressed", String(isDark));
+            toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+            toggle.setAttribute("title", isDark ? "Switch to light mode" : "Switch to dark mode");
+          });
+        }
+
+        const currentTheme = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+        applyTheme(currentTheme);
+
+        toggles.forEach((toggle) => {
+          toggle.addEventListener("click", () => {
+            const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            applyTheme(nextTheme);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

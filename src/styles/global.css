@@ -15,6 +15,23 @@
   --footer: #3d2422;
 }
 
+:root[data-theme="dark"] {
+  --page: #12151b;
+  --surface: #1a1f28;
+  --elevated: #202634;
+  --code: #0d1118;
+  --code-ink: #dbe6ff;
+  --border: #313a4a;
+  --muted: #7f8ca3;
+  --body: #c7d0de;
+  --ink: #ecf2ff;
+  --accent: #f08b78;
+  --accent-hover: #f5a28f;
+  --green: #79b16d;
+  --green-light: #99c888;
+  --footer: #0e1218;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -23,6 +40,13 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(120% 90% at 6% 2%, #1a2638 0%, transparent 55%),
+    radial-gradient(75% 70% at 90% 14%, #2a2134 0%, transparent 56%),
+    var(--page);
 }
 
 body {
@@ -131,6 +155,7 @@ h3 {
 
 .nav-links {
   display: inline-flex;
+  align-items: center;
   gap: 1rem;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
@@ -206,6 +231,42 @@ button {
   padding: 0.33rem 0.62rem;
   cursor: pointer;
   transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.icon-button {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+
+.icon-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.copy-button .icon-check,
+.theme-toggle .theme-icon--sun {
+  display: none;
+}
+
+.copy-button[data-copied="true"] .icon-copy,
+:root[data-theme="dark"] .theme-toggle .theme-icon--moon {
+  display: none;
+}
+
+.copy-button[data-copied="true"] .icon-check,
+:root[data-theme="dark"] .theme-toggle .theme-icon--sun {
+  display: block;
+}
+
+.theme-toggle[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  color: var(--ink);
 }
 
 button:hover {
@@ -596,6 +657,7 @@ pre code {
 
   .nav-links {
     font-size: 0.72rem;
+    flex-wrap: wrap;
   }
 
   .install-pill {

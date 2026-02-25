@@ -135,6 +135,14 @@ const roadmap = [
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/docs">Docs</a>
+      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 17.25A5.25 5.25 0 1 0 12 6.75a5.25 5.25 0 0 0 0 10.5Zm0-15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75Zm0 16.5a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm9-6.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm-16.5 0a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm12.864 6.864a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm-10.608-10.608a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm10.608-1.06a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 1 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM6.756 17.304a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0Z"></path>
+        </svg>
+      </button>
       <a class="nav-link--github" href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path d="M8 .198a8 8 0 0 0-2.53 15.59c.4.074.546-.174.546-.386 0-.19-.007-.692-.01-1.358-2.225.484-2.695-1.072-2.695-1.072-.364-.924-.89-1.17-.89-1.17-.726-.497.055-.487.055-.487.803.057 1.226.824 1.226.824.714 1.222 1.874.869 2.33.665.072-.517.279-.87.508-1.07-1.777-.202-3.644-.888-3.644-3.953 0-.873.312-1.587.823-2.146-.082-.202-.357-1.016.078-2.118 0 0 .672-.215 2.2.82A7.61 7.61 0 0 1 8 4.04a7.6 7.6 0 0 1 2.003.27c1.527-1.035 2.198-.82 2.198-.82.437 1.102.162 1.916.08 2.118.512.559.822 1.273.822 2.146 0 3.073-1.87 3.748-3.652 3.946.287.247.543.734.543 1.48 0 1.069-.01 1.93-.01 2.193 0 .214.144.463.55.384A8 8 0 0 0 8 .198Z"></path>
@@ -154,7 +162,14 @@ const roadmap = [
       </p>
       <div class="install-pill">
         <code id="install-command">go get github.com/cloudboy-jh/bentotui</code>
-        <button type="button" data-copy-target="install-command">Copy</button>
+        <button type="button" class="icon-button copy-button" data-copy-target="install-command" aria-label="Copy install command" title="Copy install command">
+          <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 3.75A2.25 2.25 0 0 1 17.25 6v9A2.25 2.25 0 0 1 15 17.25H7.5A2.25 2.25 0 0 1 5.25 15V6A2.25 2.25 0 0 1 7.5 3.75H15Zm-7.5 1.5a.75.75 0 0 0-.75.75v9c0 .414.336.75.75.75H15a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75H7.5Zm11.25 3a.75.75 0 0 1 .75.75V18A2.25 2.25 0 0 1 17.25 20.25H9.75a.75.75 0 0 1 0-1.5h7.5A.75.75 0 0 0 18 18V9a.75.75 0 0 1 .75-.75Z"></path>
+          </svg>
+          <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M19.28 6.22a.75.75 0 0 1 0 1.06l-9 9a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.97 3.97 8.47-8.47a.75.75 0 0 1 1.06 0Z"></path>
+          </svg>
+        </button>
       </div>
     </section>
 
@@ -193,7 +208,14 @@ const roadmap = [
       <div class="code-frame">
         <div class="code-frame__top">
           <span class="code-title">quickstart.go</span>
-          <button type="button" data-copy-value={quickStartCode}>Copy</button>
+          <button type="button" class="icon-button copy-button" data-copy-value={quickStartCode} aria-label="Copy quickstart code" title="Copy quickstart code">
+            <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M15 3.75A2.25 2.25 0 0 1 17.25 6v9A2.25 2.25 0 0 1 15 17.25H7.5A2.25 2.25 0 0 1 5.25 15V6A2.25 2.25 0 0 1 7.5 3.75H15Zm-7.5 1.5a.75.75 0 0 0-.75.75v9c0 .414.336.75.75.75H15a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75H7.5Zm11.25 3a.75.75 0 0 1 .75.75V18A2.25 2.25 0 0 1 17.25 20.25H9.75a.75.75 0 0 1 0-1.5h7.5A.75.75 0 0 0 18 18V9a.75.75 0 0 1 .75-.75Z"></path>
+            </svg>
+            <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19.28 6.22a.75.75 0 0 1 0 1.06l-9 9a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.97 3.97 8.47-8.47a.75.75 0 0 1 1.06 0Z"></path>
+            </svg>
+          </button>
         </div>
         <Code lang="go" code={quickStartCode} />
       </div>
@@ -229,17 +251,15 @@ const roadmap = [
     async function copyText(button) {
       const rawValue = button.getAttribute("data-copy-value");
       if (rawValue) {
-        const previousLabel = button.textContent;
-
         try {
           await navigator.clipboard.writeText(rawValue);
-          button.textContent = "Copied";
+          button.setAttribute("data-copied", "true");
         } catch {
-          button.textContent = "Manual copy";
+          return;
         }
 
         window.setTimeout(() => {
-          button.textContent = previousLabel;
+          button.removeAttribute("data-copied");
         }, 1200);
         return;
       }
@@ -254,17 +274,15 @@ const roadmap = [
         return;
       }
 
-      const previousLabel = button.textContent;
-
       try {
         await navigator.clipboard.writeText(source.textContent ?? "");
-        button.textContent = "Copied";
+        button.setAttribute("data-copied", "true");
       } catch {
-        button.textContent = "Manual copy";
+        return;
       }
 
       window.setTimeout(() => {
-        button.textContent = previousLabel;
+        button.removeAttribute("data-copied");
       }, 1200);
     }
 

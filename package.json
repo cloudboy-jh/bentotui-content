@@ -5,8 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "clean": "node -e \"const fs=require('node:fs');['dist','.astro'].forEach((d)=>fs.rmSync(d,{recursive:true,force:true}))\"",
     "build": "astro build",
-    "preview": "astro preview"
+    "build:clean": "npm run clean && astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build:clean && wrangler pages deploy dist --project-name bentotui-content",
+    "deploy:prod": "npm run build:clean && wrangler pages deploy dist --project-name bentotui-content --branch main",
+    "lock:frozen": "bun install --frozen-lockfile"
   },
   "dependencies": {
     "astro": "^5.2.0"
