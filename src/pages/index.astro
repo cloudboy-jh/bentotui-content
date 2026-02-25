@@ -1,0 +1,255 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const quickStartCode = `package main
+
+import (
+\t"fmt"
+
+\ttea "charm.land/bubbletea/v2"
+\t"github.com/cloudboy-jh/bentotui"
+\t"github.com/cloudboy-jh/bentotui/core"
+\t"github.com/cloudboy-jh/bentotui/layout"
+\t"github.com/cloudboy-jh/bentotui/theme"
+\t"github.com/cloudboy-jh/bentotui/ui/components/panel"
+)
+
+func main() {
+\tm := bentotui.New(
+\t\tbentotui.WithTheme(theme.Preset("catppuccin-mocha")),
+\t\tbentotui.WithPages(
+\t\t\tbentotui.Page("home", func() core.Page { return newHomePage() }),
+\t\t),
+\t\tbentotui.WithFooterBar(true),
+\t)
+
+\tp := tea.NewProgram(m)
+\tif _, err := p.Run(); err != nil {
+\t\tfmt.Printf("run failed: %v\\n", err)
+\t}
+}
+
+type homePage struct {
+\troot   *layout.Split
+\twidth  int
+\theight int
+}
+
+func newHomePage() *homePage {
+\tsidebar := panel.New(panel.Title("Sidebar"), panel.Content(staticText("Sessions\\nFiles")))
+\tmain := panel.New(panel.Title("Main"), panel.Content(staticText("Welcome to BentoTUI")))
+\troot := layout.Horizontal(
+\t\tlayout.Fixed(30, sidebar),
+\t\tlayout.Flex(1, main),
+\t)
+\treturn &homePage{root: root}
+}
+
+func (p *homePage) Init() tea.Cmd { return nil }
+func (p *homePage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+\t_, cmd := p.root.Update(msg)
+\treturn p, cmd
+}
+func (p *homePage) View() tea.View { return p.root.View() }
+func (p *homePage) SetSize(w, h int) {
+\tp.width = w
+\tp.height = h
+\tp.root.SetSize(w, h)
+}
+func (p *homePage) GetSize() (int, int) { return p.width, p.height }
+func (p *homePage) Title() string       { return "Home" }
+
+type staticText string
+
+func (s staticText) Init() tea.Cmd                           { return nil }
+func (s staticText) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return s, nil }
+func (s staticText) View() tea.View                          { return tea.NewView(string(s)) }`;
+
+const packages = [
+  {
+    name: "app",
+    className: "bento-card--app",
+    dotClass: "dot--ink",
+    text: "Root shell and top-level routing, status, and dialog coordination."
+  },
+  {
+    name: "router",
+    className: "bento-card--router",
+    dotClass: "dot--green",
+    text: "Page registration, lazy creation, active page switching."
+  },
+  {
+    name: "layout",
+    className: "bento-card--layout",
+    dotClass: "dot--accent",
+    text: "Fixed/flex split containers for horizontal and vertical composition."
+  },
+  {
+    name: "focus",
+    className: "bento-card--focus",
+    dotClass: "dot--ink",
+    text: "Focus ring helper and focus cycling across components."
+  },
+  {
+    name: "dialog",
+    className: "bento-card--dialog",
+    dotClass: "dot--muted",
+    text: "Modal manager and dialog message contracts."
+  },
+  {
+    name: "statusbar",
+    className: "bento-card--statusbar",
+    dotClass: "dot--green-light",
+    text: "Contextual status line and key help surface."
+  },
+  {
+    name: "panel",
+    className: "bento-card--panel",
+    dotClass: "dot--accent",
+    text: "Bordered container for child content."
+  },
+  {
+    name: "theme",
+    className: "bento-card--theme",
+    dotClass: "dot--green",
+    text: "Theme presets and custom token options."
+  }
+];
+
+const roadmap = [
+  { label: "Command palette", status: "planned" },
+  { label: "Searchable grouped picker", status: "planned" },
+  { label: "Responsive breakpoint helpers", status: "planned" },
+  { label: "Richer dialog overlay compositing", status: "planned" },
+  { label: "Expanded docs and examples", status: "progress" }
+];
+---
+
+<BaseLayout>
+  <header class="site-nav reveal" style="--delay: 40ms;">
+    <a class="brand" href="#top" aria-label="BentoTUI home">
+      <span class="brand__icon" aria-hidden="true">🍱</span>
+      <span class="brand__name">BentoTUI</span>
+      <span class="brand__badge">v0.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#quick-start">Docs</a>
+      <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top" class="main-wrap">
+    <section class="hero section-pad reveal" style="--delay: 120ms;">
+      <p class="hero__icon" aria-hidden="true">🍱</p>
+      <h1>BentoTUI</h1>
+      <p class="hero__subtitle">The application framework for Bubble Tea.</p>
+      <p class="hero__pitch">
+        Stop rebuilding the same architectural layer every time you ship a terminal app.
+        BentoTUI gives you routing, layouts, focus management, dialogs, and theming.
+      </p>
+      <div class="install-pill">
+        <code id="install-command">go get github.com/cloudboy-jh/bentotui</code>
+        <button type="button" data-copy-target="install-command">Copy</button>
+      </div>
+    </section>
+
+    <section class="problem section-pad section-body reveal" style="--delay: 180ms;">
+      <h2>You keep rebuilding the same things.</h2>
+      <p>
+        Every Bubble Tea app needs multi-panel layouts, focus routing, page switching,
+        modal dialogs, and status bars. BentoTUI packages these patterns into composable
+        Go packages so your app code stays focused on what makes it unique.
+      </p>
+    </section>
+
+    <section class="packages section-pad reveal" style="--delay: 240ms;">
+      <div class="section-heading">
+        <h2>Everything you need. Nothing you don't.</h2>
+        <p>The bento-box grid makes the package story recognizable at a glance.</p>
+      </div>
+      <div class="bento-grid" aria-label="BentoTUI package grid">
+        {
+          packages.map((pkg, index) => (
+            <article class={`bento-card ${pkg.className} reveal`} style={`--delay: ${260 + index * 40}ms;`}>
+              <span class={`dot ${pkg.dotClass}`}></span>
+              <h3>{pkg.name}</h3>
+              <p>{pkg.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="quick-start" class="quick-start section-pad section-body reveal" style="--delay: 300ms;">
+      <div class="section-heading">
+        <h2>Ship your first app in minutes.</h2>
+        <p>Full working snippet from the project README.</p>
+      </div>
+      <div class="code-frame">
+        <div class="code-frame__top">
+          <span class="code-title">quickstart.go</span>
+          <button type="button" data-copy-target="quickstart-code">Copy</button>
+        </div>
+        <pre><code id="quickstart-code">{quickStartCode}</code></pre>
+      </div>
+    </section>
+
+    <section class="roadmap section-pad section-body reveal" style="--delay: 360ms;">
+      <h2>Where we're headed.</h2>
+      <ul>
+        {
+          roadmap.map((item) => (
+            <li>
+              <span class={`status status--${item.status}`}></span>
+              {item.label}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer reveal" style="--delay: 420ms;">
+    <p>Built by Jack Horton</p>
+    <div class="footer-links">
+      <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
+      <a href="#quick-start">Docs</a>
+    </div>
+    <p>Part of a growing terminal toolkit.</p>
+  </footer>
+
+  <script>
+    const copyButtons = document.querySelectorAll("[data-copy-target]");
+
+    async function copyText(button) {
+      const targetId = button.getAttribute("data-copy-target");
+      if (!targetId) {
+        return;
+      }
+
+      const source = document.getElementById(targetId);
+      if (!source) {
+        return;
+      }
+
+      const previousLabel = button.textContent;
+
+      try {
+        await navigator.clipboard.writeText(source.textContent ?? "");
+        button.textContent = "Copied";
+      } catch {
+        button.textContent = "Manual copy";
+      }
+
+      window.setTimeout(() => {
+        button.textContent = previousLabel;
+      }, 1200);
+    }
+
+    copyButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        copyText(button);
+      });
+    });
+  </script>
+</BaseLayout>
