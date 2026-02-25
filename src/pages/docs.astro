@@ -15,10 +15,10 @@ const docPages = [
     text: "ADR-0001 renderer contract: full-frame paint guarantees, layer order, and layout ownership."
   },
   {
-    title: "Next Steps",
+    title: "Framework Progress Update",
     href: "/docs/next-steps",
     status: "active",
-    text: "Current implementation phases and validation milestones used to drive daily work."
+    text: "Current production baseline, active gaps, and near-term priorities for framework hardening."
   },
   {
     title: "Framework Research",
@@ -58,14 +58,36 @@ const docPages = [
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
       <h1>Project Docs</h1>
-      <p class="hero__subtitle">Dedicated technical docs synced to the latest BentoTUI project state.</p>
+      <p class="hero__subtitle">Dedicated technical docs synced to the active BentoTUI framework baseline.</p>
       <p class="hero__pitch">
         This section mirrors the core material from <code>project-docs/</code> in the BentoTUI repo,
-        including architecture decisions, rendering contracts, and active roadmap phases.
+        including runtime contracts, rendering guarantees, and active execution priorities.
       </p>
     </section>
 
-    <section class="docs-section section-pad reveal" style="--delay: 160ms;">
+    <section class="docs-section section-pad reveal" style="--delay: 130ms;">
+      <h2>Framework Progress Update</h2>
+      <div class="docs-update">
+        <p><strong>Date:</strong> 2026-02-25</p>
+        <p><strong>Status:</strong> Active (early production)</p>
+        <p>
+          BentoTUI has moved from a rough harness into a structured framework baseline with a clear
+          runtime/UI split across <code>runtime/core</code>, <code>ui/components/*</code>, and <code>ui/styles</code>.
+        </p>
+        <ul>
+          <li>Footer-first shell API, dialog routing behavior, and deterministic theme picker flow are shipped.</li>
+          <li>Locked theme set: <code>catppuccin-mocha</code> (default), <code>dracula</code>, and <code>osaka-jade</code>.</li>
+          <li>Theme persistence and command-string harness flow are active and stable.</li>
+          <li>Architecture direction is locked around contract-first components and deterministic layer order.</li>
+        </ul>
+        <p>
+          Current priorities: footer action chip model, focus manager hardening, shared UI primitives, and
+          broader regression coverage validated with <code>go test ./...</code> and <code>go vet ./...</code>.
+        </p>
+      </div>
+    </section>
+
+    <section class="docs-section section-pad reveal" style="--delay: 170ms;">
       <h2>Documentation Set</h2>
       <div class="docs-grid">
         {

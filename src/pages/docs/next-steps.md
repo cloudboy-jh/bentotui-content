@@ -1,99 +1,75 @@
 ---
 layout: ../../layouts/DocsLayout.astro
-title: BentoTUI Next Steps
-description: Active near-term implementation plan for BentoTUI.
+title: BentoTUI Framework Progress Update
+description: Active framework baseline, current gaps, and next execution priorities.
 ---
 
-# BentoTUI Next Steps
+# BentoTUI Framework Progress Update
 
-Status: Active  
-Date: 2026-02-24
+Date: 2026-02-25  
+Status: Active (early production)
 
-This plan follows ADR-0001 in `project-docs/rendering-system-design.md`.
+## Current State
 
-## Phase A: Paint Baseline (Color Blocking)
+BentoTUI has moved from a rough harness into a structured framework baseline with a clear runtime/UI split:
 
-- Ensure every shell/layout/component slot paints a full rectangular area each frame
-- Remove rendering paths that flatten child ANSI styling into a single foreground pass
-- Verify no transparent seams remain during route switch, resize, or overlay open/close
+- runtime/core: `shell`, `router`, `layout`, `focus`, `surface`, `theme`, `core`
+- UI layer: `ui/components/*`
+- style layer: `ui/styles`
 
-Exit criteria:
+This separation is now documented and enforced through:
 
-- no visible bleed-through of previous terminal buffer content
-- panel/dialog/status surfaces read as solid blocks, not wireframes
+- `project-docs/component-system-reference.md`
+- `project-docs/next-steps.md`
+- `project-docs/framework-roadmap.md`
 
-## Phase B: Theme and Surface Language (Primary)
+## Shipped Progress
 
-- Finalize v0.1 built-in presets and startup default policy:
+- Footer-first shell API is in place (`WithFooterBar`, `WithFooter`).
+- Dialog system is stabilized for routing and bounds behavior.
+- Theme picker flow is functional and deterministic.
+- Theme set is locked to:
   - `catppuccin-mocha` (default)
   - `dracula`
   - `osaka-jade`
-- Tune semantic token ladder (`Background`, `Surface`, `SurfaceMuted`) for clear depth
-- Strengthen component token contrast (`Border`, `BorderFocused`, `TitleBG`, `StatusBG`, `DialogBG`)
+- Theme persistence and reload behavior are active.
+- Test harness command flow is now command-string based:
+  - type `/theme`, `/dialog`, `/confirm` in input, run on Enter
+  - `/` no longer auto-opens a modal
+- README and changelog discipline are in place (`CHANGELOG.md`, early-production warning tag).
 
-Exit criteria:
+## Architecture Direction (Locked)
 
-- clear visual hierarchy in harness at a glance
-- focused panels are unmistakable during tab cycling
-- theme switching and restart persistence stable
+- No ad hoc components.
+- Contract-first component behavior (`SetSize`/`GetSize`, bounded rendering, deterministic key routing).
+- Visual direction: flat, minimal, solid card surfaces with low chrome.
+- Dialog layering remains deterministic:
+  - `body -> footer -> scrim -> dialog`
 
-## Phase C: Focus Visibility Pass
+## Current Gaps
 
-- Increase focused title/border delta while keeping non-focused panels quiet
-- Validate focus cues in both wide and compact layouts
-- Add tests that assert focus-cycling causes visible state changes
+- Footer still uses plain hint text rather than structured action chips.
+- Focus manager needs a clearer API/state contract and stronger test coverage.
+- Visual polish is improved but not fully normalized across all components/themes.
 
-Exit criteria:
+## Next Priorities
 
-- no ambiguity about focused target after a single `tab` press
+1. Footer action model and deterministic truncation contract.
+2. Focus manager hardening (`SetRing`, `SetIndex`, `FocusBy`, events, wrap/enable behavior).
+3. Shared UI primitives (modal frame, input surface, list row, footer action chip).
+4. Broader regression coverage (dialog bounds, footer rendering, key routing).
 
-## Phase D: Lock Renderer Correctness
+## Validation Snapshot
 
-- Ensure root renderer remains update-safe (`Update` mutates state, `View` renders state)
-- Keep deterministic z-order in app shell (`shell -> body -> status -> scrim -> dialog`)
-- Verify split allocations always paint full slot areas
-- Add resize stress tests for split layouts and viewport changes
+Recent framework passes are consistently validated with:
 
-Exit criteria:
+- `go test ./...`
+- `go vet ./...`
 
-- no right/bottom unpainted bands in Windows Terminal with blur/transparency on
-- no startup ghost frame
-- `go test ./...` and `go vet ./...` clean
+## Reference Docs
 
-## Phase E: Componentize Surface Rendering
-
-- Expand `surface` package as shared primitive layer:
-  - fill blocks
-  - fixed-size regions
-  - width fitting and clipping helpers
-- Move panel frame/title/body rendering into composable internal units
-- Unify dialog frame rendering through shared modal frame helpers
-- Standardize footer segment layout with shared fit policies
-
-Exit criteria:
-
-- no duplicated low-level width/fill helpers across modules
-- panel/dialog/status all consume shared surface utilities
-
-## Phase F: Docs and Examples
-
-- Add a dedicated "Build a real app shell" guide to main spec
-- Add examples for:
-  - multi-page routing
-  - focus manager integration
-  - dialog flows
-  - fullscreen vs inline mode
-- Keep README concise and professional; push deep detail to project docs
-
-Exit criteria:
-
-- README stays short and stable
-- project docs cover operational details and architecture contracts
-
-## Milestone Work Items (Near-Term)
-
-1. Add renderer regression tests for full-frame paint guarantees.
-2. Add layout slot paint tests for fixed/flex remainder behavior.
-3. Add footer truncation tests for narrow widths.
-4. Finalize default theme set (`catppuccin-mocha`, `dracula`, `osaka-jade`) and startup/persistence policy.
-5. Keep `cmd/test-tui` as the canonical color/focus validation harness.
+- Main spec: `project-docs/bentotui-main-spec.md`
+- Next execution list: `project-docs/next-steps.md`
+- Component contract: `project-docs/component-system-reference.md`
+- Framework roadmap: `project-docs/framework-roadmap.md`
+- Rendering ADR: `project-docs/rendering-system-design.md`

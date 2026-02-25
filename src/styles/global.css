@@ -4,6 +4,7 @@
   --elevated: #ede8dd;
   --code: #1f2430;
   --code-ink: #e9edf5;
+  --code-border: #414a5f;
   --border: #d4cdc0;
   --muted: #c8b898;
   --body: #4a2c2a;
@@ -19,10 +20,11 @@
   --page: #1a1412;
   --surface: #261d1a;
   --elevated: #312521;
-  --code: #181311;
-  --code-ink: #f1e4d5;
+  --code: #231a17;
+  --code-ink: #f7ebdd;
+  --code-border: #57433a;
   --border: #4a3a34;
-  --muted: #b29578;
+  --muted: #c5a88a;
   --body: #decbb7;
   --ink: #f8ebde;
   --accent: #dd7a72;
@@ -139,14 +141,30 @@ h3 {
 :root[data-theme="dark"] .brand {
   padding: 0.28rem 0.5rem;
   border-radius: 0.7rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
-  background: color-mix(in srgb, #3a2a24 70%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  background: color-mix(in srgb, #312420 74%, var(--surface));
+}
+
+:root[data-theme="dark"] .brand--wordmark {
+  border-color: color-mix(in srgb, #f1dcc5 58%, var(--border));
+  background:
+    linear-gradient(180deg, rgba(250, 238, 221, 0.96) 0%, rgba(233, 213, 188, 0.95) 100%),
+    radial-gradient(120% 140% at 5% 5%, rgba(255, 255, 255, 0.35) 0%, transparent 55%);
+  box-shadow:
+    0 10px 22px -20px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 :root[data-theme="dark"] .brand__badge {
   color: color-mix(in srgb, var(--ink) 82%, var(--muted));
   border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
   background: color-mix(in srgb, #2f221d 78%, var(--surface));
+}
+
+:root[data-theme="dark"] .brand--wordmark .brand__badge {
+  color: #6e4d3e;
+  border-color: color-mix(in srgb, #7a5645 60%, rgba(0, 0, 0, 0));
+  background: rgba(255, 248, 238, 0.65);
 }
 
 .brand {
@@ -281,8 +299,8 @@ button {
     repeating-linear-gradient(45deg, transparent 0, transparent 24px, rgba(163, 124, 90, 0.07) 24px, rgba(163, 124, 90, 0.07) 25px);
 }
 
-:root[data-theme="dark"] .hero__subtitle,
-:root[data-theme="dark"] .hero__pitch {
+:root[data-theme="dark"] .hero .hero__subtitle,
+:root[data-theme="dark"] .hero .hero__pitch {
   color: #5d3f36;
 }
 
@@ -421,6 +439,15 @@ button:hover {
   padding: 0.66rem 0.8rem;
 }
 
+:root[data-theme="dark"] .code-frame {
+  border-color: color-mix(in srgb, var(--code-border) 75%, var(--border));
+}
+
+:root[data-theme="dark"] .code-frame__top {
+  background: color-mix(in srgb, var(--surface) 72%, #362925);
+  border-bottom-color: color-mix(in srgb, var(--code-border) 70%, var(--border));
+}
+
 .code-title {
   font-size: 0.75rem;
 }
@@ -430,6 +457,7 @@ pre {
   overflow-x: auto;
   padding: 1rem;
   background: var(--code);
+  border-top: 1px solid color-mix(in srgb, var(--code-border) 60%, transparent);
 }
 
 pre code {
@@ -444,6 +472,13 @@ pre code {
   padding: 1rem;
   overflow-x: auto;
   background: var(--code) !important;
+}
+
+.code-frame .astro-code,
+.docs-prose .astro-code,
+.docs-prose pre {
+  border: 1px solid color-mix(in srgb, var(--code-border) 68%, var(--border));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .docs-main {
@@ -462,6 +497,27 @@ pre code {
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: color-mix(in srgb, var(--surface) 90%, white);
+}
+
+.docs-update {
+  margin-top: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--surface) 92%, white);
+  padding: 0.95rem 1rem;
+}
+
+.docs-update p {
+  margin: 0.5rem 0;
+}
+
+.docs-update ul {
+  margin: 0.65rem 0;
+  padding-left: 1.1rem;
+}
+
+.docs-update li {
+  margin: 0.32rem 0;
 }
 
 .docs-section {
@@ -661,6 +717,58 @@ pre code {
   color: var(--surface);
   background: linear-gradient(180deg, var(--footer) 0%, #2f1b19 100%);
   padding: 1.5rem 1rem 1.75rem;
+}
+
+:root[data-theme="dark"] .docs-hero {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  background:
+    linear-gradient(180deg, rgba(53, 41, 36, 0.9) 0%, rgba(42, 31, 27, 0.95) 100%),
+    radial-gradient(120% 120% at 8% 0%, rgba(164, 115, 89, 0.12) 0%, transparent 62%);
+}
+
+:root[data-theme="dark"] .docs-hero .hero__subtitle {
+  color: color-mix(in srgb, var(--ink) 90%, #f6ebdd);
+}
+
+:root[data-theme="dark"] .docs-hero .hero__pitch {
+  color: color-mix(in srgb, var(--ink) 78%, var(--body));
+}
+
+:root[data-theme="dark"] .docs-hero .hero__pitch code,
+:root[data-theme="dark"] .docs-update code {
+  background: color-mix(in srgb, #3a2a24 70%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: 0.28rem;
+  padding: 0.06rem 0.32rem;
+}
+
+:root[data-theme="dark"] .docs-update,
+:root[data-theme="dark"] .docs-card,
+:root[data-theme="dark"] .docs-prose,
+:root[data-theme="dark"] .docs-toc {
+  border-color: color-mix(in srgb, var(--accent) 20%, var(--border));
+  background: color-mix(in srgb, var(--surface) 88%, #312421);
+}
+
+:root[data-theme="dark"] .docs-card p,
+:root[data-theme="dark"] .docs-prose p,
+:root[data-theme="dark"] .docs-update p,
+:root[data-theme="dark"] .docs-prose li {
+  color: color-mix(in srgb, var(--ink) 84%, var(--body));
+}
+
+:root[data-theme="dark"] .docs-prose :not(pre) > code {
+  background: color-mix(in srgb, var(--surface) 82%, #30221e);
+  border-color: color-mix(in srgb, var(--accent) 20%, var(--border));
+}
+
+:root[data-theme="dark"] .site-footer {
+  color: color-mix(in srgb, var(--ink) 88%, #f5e5d3);
+  background: linear-gradient(180deg, #1e1513 0%, #130d0c 100%);
+}
+
+:root[data-theme="dark"] .footer-links {
+  color: color-mix(in srgb, var(--ink) 68%, var(--muted));
 }
 
 .site-footer p {
