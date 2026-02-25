@@ -115,6 +115,7 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 20;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -123,6 +124,16 @@ h3 {
   background: color-mix(in srgb, var(--page) 85%, white);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(7px);
+}
+
+:root[data-theme="dark"] .site-nav {
+  background:
+    linear-gradient(180deg, rgba(45, 34, 29, 0.94) 0%, rgba(35, 26, 23, 0.9) 100%),
+    radial-gradient(110% 140% at 10% -20%, rgba(148, 98, 76, 0.18) 0%, transparent 70%);
+  border-bottom-color: color-mix(in srgb, var(--accent) 18%, var(--border));
+  box-shadow:
+    0 10px 24px -18px rgba(0, 0, 0, 0.9),
+    inset 0 -1px 0 rgba(255, 224, 201, 0.06);
 }
 
 .brand {
@@ -159,6 +170,23 @@ h3 {
   gap: 1rem;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
+}
+
+.nav-links a {
+  color: var(--body);
+  transition: color 180ms ease;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .nav-links a {
+  color: color-mix(in srgb, var(--ink) 84%, var(--muted));
+}
+
+:root[data-theme="dark"] .nav-links a:hover {
+  color: color-mix(in srgb, var(--ink) 94%, white);
 }
 
 .nav-link--github {
@@ -267,6 +295,22 @@ button {
 .theme-toggle[aria-pressed="true"] {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
   color: var(--ink);
+}
+
+:root[data-theme="dark"] .site-nav .icon-button {
+  background: color-mix(in srgb, var(--elevated) 86%, #241a16);
+  border-color: color-mix(in srgb, var(--accent) 16%, var(--border));
+  color: color-mix(in srgb, var(--ink) 88%, var(--muted));
+}
+
+:root[data-theme="dark"] .site-nav .icon-button:hover {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--border));
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .site-nav .theme-toggle[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 22%, var(--elevated));
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
 }
 
 button:hover {
