@@ -1,3 +1,7 @@
 name = "bentotui-content"
+account_id = "4f8132f223bb2beae85452dc418ff94c"
 compatibility_date = "2026-02-24"
 pages_build_output_dir = "dist"
+
+[assets]
+directory = "dist"
