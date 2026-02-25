@@ -136,6 +136,19 @@ h3 {
     inset 0 -1px 0 rgba(255, 224, 201, 0.06);
 }
 
+:root[data-theme="dark"] .brand {
+  padding: 0.28rem 0.5rem;
+  border-radius: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  background: color-mix(in srgb, #3a2a24 70%, var(--surface));
+}
+
+:root[data-theme="dark"] .brand__badge {
+  color: color-mix(in srgb, var(--ink) 82%, var(--muted));
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  background: color-mix(in srgb, #2f221d 78%, var(--surface));
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -259,6 +272,18 @@ button {
   padding: 0.33rem 0.62rem;
   cursor: pointer;
   transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+:root[data-theme="dark"] .hero {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  background:
+    linear-gradient(180deg, rgba(249, 243, 232, 0.9) 0%, rgba(237, 228, 214, 0.93) 100%),
+    repeating-linear-gradient(45deg, transparent 0, transparent 24px, rgba(163, 124, 90, 0.07) 24px, rgba(163, 124, 90, 0.07) 25px);
+}
+
+:root[data-theme="dark"] .hero__subtitle,
+:root[data-theme="dark"] .hero__pitch {
+  color: #5d3f36;
 }
 
 .icon-button {
