@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Code } from "astro:components";
+import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 
 const quickStartCode = `package main
 
@@ -128,20 +130,23 @@ const roadmap = [
 <BaseLayout>
   <header class="site-nav reveal" style="--delay: 40ms;">
     <a class="brand" href="#top" aria-label="BentoTUI home">
-      <span class="brand__icon" aria-hidden="true">🍱</span>
-      <span class="brand__name">BentoTUI</span>
+      <img class="brand__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
       <span class="brand__badge">v0.1</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#quick-start">Docs</a>
-      <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
+      <a href="/docs">Docs</a>
+      <a class="nav-link--github" href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M8 .198a8 8 0 0 0-2.53 15.59c.4.074.546-.174.546-.386 0-.19-.007-.692-.01-1.358-2.225.484-2.695-1.072-2.695-1.072-.364-.924-.89-1.17-.89-1.17-.726-.497.055-.487.055-.487.803.057 1.226.824 1.226.824.714 1.222 1.874.869 2.33.665.072-.517.279-.87.508-1.07-1.777-.202-3.644-.888-3.644-3.953 0-.873.312-1.587.823-2.146-.082-.202-.357-1.016.078-2.118 0 0 .672-.215 2.2.82A7.61 7.61 0 0 1 8 4.04a7.6 7.6 0 0 1 2.003.27c1.527-1.035 2.198-.82 2.198-.82.437 1.102.162 1.916.08 2.118.512.559.822 1.273.822 2.146 0 3.073-1.87 3.748-3.652 3.946.287.247.543.734.543 1.48 0 1.069-.01 1.93-.01 2.193 0 .214.144.463.55.384A8 8 0 0 0 8 .198Z"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
     </nav>
   </header>
 
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
-      <p class="hero__icon" aria-hidden="true">🍱</p>
-      <h1>BentoTUI</h1>
+      <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
       <p class="hero__subtitle">The application framework for Bubble Tea.</p>
       <p class="hero__pitch">
         Stop rebuilding the same architectural layer every time you ship a terminal app.
@@ -188,9 +193,9 @@ const roadmap = [
       <div class="code-frame">
         <div class="code-frame__top">
           <span class="code-title">quickstart.go</span>
-          <button type="button" data-copy-target="quickstart-code">Copy</button>
+          <button type="button" data-copy-value={quickStartCode}>Copy</button>
         </div>
-        <pre><code id="quickstart-code">{quickStartCode}</code></pre>
+        <Code lang="go" code={quickStartCode} />
       </div>
     </section>
 
@@ -213,15 +218,32 @@ const roadmap = [
     <p>Built by Jack Horton</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
-      <a href="#quick-start">Docs</a>
+      <a href="/docs">Docs</a>
     </div>
     <p>Part of a growing terminal toolkit.</p>
   </footer>
 
   <script>
-    const copyButtons = document.querySelectorAll("[data-copy-target]");
+    const copyButtons = document.querySelectorAll("[data-copy-target], [data-copy-value]");
 
     async function copyText(button) {
+      const rawValue = button.getAttribute("data-copy-value");
+      if (rawValue) {
+        const previousLabel = button.textContent;
+
+        try {
+          await navigator.clipboard.writeText(rawValue);
+          button.textContent = "Copied";
+        } catch {
+          button.textContent = "Manual copy";
+        }
+
+        window.setTimeout(() => {
+          button.textContent = previousLabel;
+        }, 1200);
+        return;
+      }
+
       const targetId = button.getAttribute("data-copy-target");
       if (!targetId) {
         return;

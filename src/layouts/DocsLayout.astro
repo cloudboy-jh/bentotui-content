@@ -1,0 +1,87 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "BentoTUI project documentation." } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <header class="site-nav reveal" style="--delay: 30ms;">
+    <a class="brand" href="/" aria-label="BentoTUI home">
+      <span class="brand__name">BentoTUI</span>
+      <span class="brand__badge">docs</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/docs">Docs Home</a>
+      <a href="https://github.com/cloudboy-jh/bentotui/tree/main/project-docs">Source Docs</a>
+      <a class="nav-link--github" href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M8 .198a8 8 0 0 0-2.53 15.59c.4.074.546-.174.546-.386 0-.19-.007-.692-.01-1.358-2.225.484-2.695-1.072-2.695-1.072-.364-.924-.89-1.17-.89-1.17-.726-.497.055-.487.055-.487.803.057 1.226.824 1.226.824.714 1.222 1.874.869 2.33.665.072-.517.279-.87.508-1.07-1.777-.202-3.644-.888-3.644-3.953 0-.873.312-1.587.823-2.146-.082-.202-.357-1.016.078-2.118 0 0 .672-.215 2.2.82A7.61 7.61 0 0 1 8 4.04a7.6 7.6 0 0 1 2.003.27c1.527-1.035 2.198-.82 2.198-.82.437 1.102.162 1.916.08 2.118.512.559.822 1.273.822 2.146 0 3.073-1.87 3.748-3.652 3.946.287.247.543.734.543 1.48 0 1.069-.01 1.93-.01 2.193 0 .214.144.463.55.384A8 8 0 0 0 8 .198Z"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="main-wrap docs-main">
+    <div class="docs-shell">
+      <article id="docs-content" class="docs-prose reveal" style="--delay: 90ms;">
+        <slot />
+      </article>
+
+      <aside class="docs-toc reveal" style="--delay: 130ms;" aria-label="On this page">
+        <p class="docs-toc__title">On this page</p>
+        <nav>
+          <ul id="docs-toc-list"></ul>
+        </nav>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const content = document.getElementById("docs-content");
+    const tocList = document.getElementById("docs-toc-list");
+    const toc = document.querySelector(".docs-toc");
+
+    if (content && tocList && toc) {
+      const headings = Array.from(content.querySelectorAll("h2, h3"));
+      if (headings.length === 0) {
+        toc.setAttribute("hidden", "hidden");
+      } else {
+        function slugify(text) {
+          return text
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-");
+        }
+
+        const seen = new Map();
+
+        headings.forEach((heading) => {
+          if (!heading.id) {
+            const base = slugify(heading.textContent || "section") || "section";
+            const count = seen.get(base) || 0;
+            seen.set(base, count + 1);
+            heading.id = count === 0 ? base : `${base}-${count + 1}`;
+          }
+
+          const item = document.createElement("li");
+          item.className = heading.tagName === "H3" ? "docs-toc__item docs-toc__item--sub" : "docs-toc__item";
+
+          const link = document.createElement("a");
+          link.href = `#${heading.id}`;
+          link.textContent = heading.textContent || "Section";
+
+          item.appendChild(link);
+          tocList.appendChild(item);
+        });
+      }
+    }
+  </script>
+</BaseLayout>
