@@ -15,10 +15,22 @@ const docPages = [
     text: "ADR-0001 renderer contract: full-frame paint guarantees, layer order, and layout ownership."
   },
   {
+    title: "Component System Reference",
+    href: "/docs/component-system-reference",
+    status: "current",
+    text: "Contract-first component API, bounded rendering behavior, and shared primitive conventions."
+  },
+  {
     title: "Framework Progress Update",
     href: "/docs/next-steps",
     status: "active",
     text: "Current production baseline, active gaps, and near-term priorities for framework hardening."
+  },
+  {
+    title: "Framework Roadmap",
+    href: "/docs/framework-roadmap",
+    status: "active",
+    text: "Execution path focused on footer cards, focus manager hardening, and regression coverage."
   },
   {
     title: "Framework Research",
@@ -68,20 +80,20 @@ const docPages = [
     <section class="docs-section section-pad reveal" style="--delay: 130ms;">
       <h2>Framework Progress Update</h2>
       <div class="docs-update">
-        <p><strong>Date:</strong> 2026-02-25</p>
+        <p><strong>Date:</strong> 2026-02-26</p>
         <p><strong>Status:</strong> Active (early production)</p>
         <p>
           BentoTUI has moved from a rough harness into a structured framework baseline with a clear
-          runtime/UI split across <code>runtime/core</code>, <code>ui/components/*</code>, and <code>ui/styles</code>.
+          runtime/UI split across <code>runtime/core</code>, <code>ui/components/*</code>, <code>ui/primitives</code>, and <code>ui/styles</code>.
         </p>
         <ul>
           <li>Footer-first shell API, dialog routing behavior, and deterministic theme picker flow are shipped.</li>
           <li>Locked theme set: <code>catppuccin-mocha</code> (default), <code>dracula</code>, and <code>osaka-jade</code>.</li>
-          <li>Theme persistence and command-string harness flow are active and stable.</li>
+          <li>Harness flow is command-first with footer cards for <code>/pr</code>, <code>/issue</code>, and <code>/branch</code>.</li>
           <li>Architecture direction is locked around contract-first components and deterministic layer order.</li>
         </ul>
         <p>
-          Current priorities: footer action chip model, focus manager hardening, shared UI primitives, and
+          Current priorities: footer card model, focus manager hardening, shared UI primitives, and
           broader regression coverage validated with <code>go test ./...</code> and <code>go vet ./...</code>.
         </p>
       </div>
