@@ -30,7 +30,7 @@ The framework baseline is organized into five clear layers:
 | **Primitives** | `ui/primitives/` | `row`, `frame`, `surface` |
 | **Styles** | `ui/styles/` | `styles.System` |
 
-See [Layer Architecture](./layer-architecture) for the complete architecture diagram.
+See [Architecture](./architecture) for the complete architecture diagram and API reference.
 
 Theme set remains locked and deterministic:
 
@@ -62,10 +62,6 @@ Roadmap milestones are considered stable when behavior is deterministic under re
 - `go test ./...`
 - `go vet ./...`
 
-## Related Docs
+## Related
 
-- [Layer Architecture](./layer-architecture)
-- [BentoTUI Main Spec](./bentotui-main-spec)
-- [Component System Reference](./component-system-reference)
-- [Framework Progress Update](./next-steps)
-- [Rendering System Design](./rendering-system-design)
+- [Architecture](./architecture) — Five-layer architecture and API reference

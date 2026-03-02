@@ -3,51 +3,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const docPages = [
   {
-    title: "Layer Architecture",
-    href: "/docs/layer-architecture",
-    status: "active",
-    text: "Top-down architecture across core, containers, widgets, primitives, and styles layers."
-  },
-  {
-    title: "Main Spec",
-    href: "/docs/bentotui-main-spec",
-    status: "current",
-    text: "Canonical framework scope, architecture, modules, contracts, and v0.1 surface area."
-  },
-  {
-    title: "Rendering System Design",
-    href: "/docs/rendering-system-design",
-    status: "accepted",
-    text: "ADR-0001 renderer contract: full-frame paint guarantees, layer order, and layout ownership."
-  },
-  {
-    title: "Component System Reference",
-    href: "/docs/component-system-reference",
-    status: "current",
-    text: "Contract-first component API, bounded rendering behavior, and shared primitive conventions."
-  },
-  {
-    title: "Framework Progress Update",
-    href: "/docs/next-steps",
-    status: "active",
-    text: "Current production baseline, active gaps, and near-term priorities for framework hardening."
+    title: "Architecture",
+    href: "/docs/architecture",
+    description: "Five-layer architecture and API reference."
   },
   {
     title: "Framework Roadmap",
     href: "/docs/framework-roadmap",
-    status: "active",
-    text: "Execution path focused on footer cards, focus manager hardening, and regression coverage."
-  },
-  {
-    title: "Framework Research",
-    href: "/docs/tui-framework-research",
-    status: "reference",
-    text: "Ecosystem research and comparative analysis that informed BentoTUI's design direction."
+    description: "Execution priorities and milestones."
   }
 ];
 ---
 
-<BaseLayout title="BentoTUI Docs" description="BentoTUI project docs synced with the upstream project-docs directory.">
+<BaseLayout title="BentoTUI Docs" description="BentoTUI documentation.">
   <header class="site-nav reveal" style="--delay: 40ms;">
     <a class="brand" href="/" aria-label="BentoTUI home">
       <span class="brand__name">BentoTUI</span>
@@ -55,14 +23,8 @@ const docPages = [
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/">Home</a>
-      <a href="https://github.com/cloudboy-jh/bentotui/tree/main/project-docs">Source Docs</a>
-      <a class="nav-link--github" href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path d="M8 .198a8 8 0 0 0-2.53 15.59c.4.074.546-.174.546-.386 0-.19-.007-.692-.01-1.358-2.225.484-2.695-1.072-2.695-1.072-.364-.924-.89-1.17-.89-1.17-.726-.497.055-.487.055-.487.803.057 1.226.824 1.226.824.714 1.222 1.874.869 2.33.665.072-.517.279-.87.508-1.07-1.777-.202-3.644-.888-3.644-3.953 0-.873.312-1.587.823-2.146-.082-.202-.357-1.016.078-2.118 0 0 .672-.215 2.2.82A7.61 7.61 0 0 1 8 4.04a7.6 7.6 0 0 1 2.003.27c1.527-1.035 2.198-.82 2.198-.82.437 1.102.162 1.916.08 2.118.512.559.822 1.273.822 2.146 0 3.073-1.87 3.748-3.652 3.946.287.247.543.734.543 1.48 0 1.069-.01 1.93-.01 2.193 0 .214.144.463.55.384A8 8 0 0 0 8 .198Z"></path>
-        </svg>
-        <span>GitHub</span>
-      </a>
-      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">
+      <a href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">GitHub</a>
+      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme" title="Switch theme">
         <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"></path>
         </svg>
@@ -75,47 +37,17 @@ const docPages = [
 
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
-      <h1>Project Docs</h1>
-      <p class="hero__subtitle">Dedicated technical docs synced to the active BentoTUI framework baseline.</p>
-      <p class="hero__pitch">
-        This section mirrors the core material from <code>project-docs/</code> in the BentoTUI repo,
-        including runtime contracts, rendering guarantees, and active execution priorities.
-      </p>
-    </section>
-
-    <section class="docs-section section-pad reveal" style="--delay: 130ms;">
-      <h2>Framework Progress Update</h2>
-      <div class="docs-update">
-        <p><strong>Date:</strong> 2026-03-02</p>
-        <p><strong>Status:</strong> Active (early production)</p>
-        <p>
-          BentoTUI has moved from a rough harness into a structured framework baseline with a clear
-          five-layer architecture: <code>core</code> (runtime), <code>ui/containers</code> (complex components),
-          <code>ui/widgets</code> (content), <code>ui/primitives</code> (rendering utilities), and <code>ui/styles</code> (theme mapping).
-        </p>
-        <ul>
-          <li><strong>New:</strong> Layer architecture documented with clear separation of concerns across all five layers.</li>
-          <li>Footer-first shell API, dialog routing behavior, and deterministic theme picker flow are shipped.</li>
-          <li>Locked theme set: <code>catppuccin-mocha</code> (default), <code>dracula</code>, and <code>osaka-jade</code>.</li>
-          <li>Harness flow is command-first with footer cards for <code>/pr</code>, <code>/issue</code>, and <code>/branch</code>.</li>
-          <li>Architecture direction is locked around contract-first components and deterministic layer order.</li>
-        </ul>
-        <p>
-          Current priorities: footer card model, focus manager hardening, shared UI primitives, and
-          broader regression coverage validated with <code>go test ./...</code> and <code>go vet ./...</code>.
-        </p>
-      </div>
+      <h1>Documentation</h1>
+      <p class="hero__subtitle">Architecture and roadmap for the BentoTUI framework.</p>
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
-      <h2>Documentation Set</h2>
-      <div class="docs-grid">
+      <div class="docs-grid docs-grid--simple">
         {
           docPages.map((page) => (
             <article class="docs-card">
-              <p class={`docs-status docs-status--${page.status}`}>{page.status}</p>
               <h3><a href={page.href}>{page.title}</a></h3>
-              <p>{page.text}</p>
+              <p>{page.description}</p>
             </article>
           ))
         }
@@ -123,3 +55,18 @@ const docPages = [
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .docs-grid--simple {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  @media (max-width: 680px) {
+    .docs-grid--simple {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

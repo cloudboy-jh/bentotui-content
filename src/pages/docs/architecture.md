@@ -1,0 +1,293 @@
+---
+layout: ../../layouts/DocsLayout.astro
+title: BentoTUI Architecture
+description: Five-layer architecture for building terminal applications.
+---
+
+# BentoTUI Architecture
+
+Five-layer architecture for building terminal applications on Bubble Tea.
+
+---
+
+## Architecture Overview
+
+<div class="arch-diagram">
+  <svg viewBox="0 0 600 520" xmlns="http://www.w3.org/2000/svg">
+    <!-- App Code -->
+    <rect x="220" y="10" width="160" height="40" rx="6" class="app-box"/>
+    <text x="300" y="35" text-anchor="middle" class="app-text">Your App</text>
+    
+    <!-- Arrow down -->
+    <path d="M 300 50 L 300 70" class="arrow-line"/>
+    <polygon points="300,78 295,68 305,68" class="arrow-head"/>
+    
+    <!-- Core Layer -->
+    <g class="layer-group">
+      <rect x="50" y="80" width="500" height="70" rx="8" class="layer-box core-box"/>
+      <text x="300" y="105" text-anchor="middle" class="layer-title">core</text>
+      <text x="300" y="125" text-anchor="middle" class="layer-subtitle">Runtime orchestration</text>
+      <text x="300" y="140" text-anchor="middle" class="layer-items">shell · router · layout · focus · theme · msgs</text>
+    </g>
+    
+    <!-- Arrow down -->
+    <path d="M 300 150 L 300 170" class="arrow-line"/>
+    <polygon points="300,178 295,168 305,168" class="arrow-head"/>
+    
+    <!-- Containers Layer -->
+    <g class="layer-group">
+      <rect x="50" y="180" width="500" height="70" rx="8" class="layer-box containers-box"/>
+      <text x="300" y="205" text-anchor="middle" class="layer-title">ui/containers</text>
+      <text x="300" y="225" text-anchor="middle" class="layer-subtitle">Complex UI with borders and layout</text>
+      <text x="300" y="240" text-anchor="middle" class="layer-items">panel · bar · dialog</text>
+    </g>
+    
+    <!-- Arrow down -->
+    <path d="M 300 250 L 300 270" class="arrow-line"/>
+    <polygon points="300,278 295,268 305,268" class="arrow-head"/>
+    
+    <!-- Widgets Layer -->
+    <g class="layer-group">
+      <rect x="50" y="280" width="500" height="70" rx="8" class="layer-box widgets-box"/>
+      <text x="300" y="305" text-anchor="middle" class="layer-title">ui/widgets</text>
+      <text x="300" y="325" text-anchor="middle" class="layer-subtitle">Simple content components</text>
+      <text x="300" y="340" text-anchor="middle" class="layer-items">card · input · list · table · text</text>
+    </g>
+    
+    <!-- Arrow down -->
+    <path d="M 300 350 L 300 370" class="arrow-line"/>
+    <polygon points="300,378 295,368 305,368" class="arrow-head"/>
+    
+    <!-- Primitives Layer -->
+    <g class="layer-group">
+      <rect x="50" y="380" width="500" height="50" rx="8" class="layer-box primitives-box"/>
+      <text x="300" y="402" text-anchor="middle" class="layer-title">ui/primitives</text>
+      <text x="300" y="418" text-anchor="middle" class="layer-items">row · frame · surface</text>
+    </g>
+    
+    <!-- Arrow down -->
+    <path d="M 300 430 L 300 450" class="arrow-line"/>
+    <polygon points="300,458 295,448 305,448" class="arrow-head"/>
+    
+    <!-- Styles Layer -->
+    <g class="layer-group">
+      <rect x="50" y="460" width="500" height="50" rx="8" class="layer-box styles-box"/>
+      <text x="300" y="482" text-anchor="middle" class="layer-title">ui/styles</text>
+      <text x="300" y="498" text-anchor="middle" class="layer-items">theme tokens → lipgloss styles</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .arch-diagram {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    overflow-x: auto;
+  }
+  
+  .arch-diagram svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  
+  .app-box {
+    fill: var(--accent);
+    stroke: var(--accent-hover);
+    stroke-width: 2;
+  }
+  
+  .app-text {
+    fill: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .arrow-line {
+    stroke: var(--muted);
+    stroke-width: 2;
+    fill: none;
+  }
+  
+  .arrow-head {
+    fill: var(--muted);
+  }
+  
+  .layer-box {
+    stroke-width: 1.5;
+  }
+  
+  .core-box {
+    fill: color-mix(in srgb, var(--accent) 15%, var(--surface));
+    stroke: var(--accent);
+  }
+  
+  .containers-box {
+    fill: color-mix(in srgb, var(--green) 15%, var(--surface));
+    stroke: var(--green);
+  }
+  
+  .widgets-box {
+    fill: color-mix(in srgb, var(--green-light) 20%, var(--surface));
+    stroke: var(--green);
+  }
+  
+  .primitives-box {
+    fill: color-mix(in srgb, var(--ink) 8%, var(--surface));
+    stroke: var(--muted);
+  }
+  
+  .styles-box {
+    fill: color-mix(in srgb, var(--ink) 5%, var(--surface));
+    stroke: var(--border);
+  }
+  
+  .layer-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--ink);
+  }
+  
+  .layer-subtitle {
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    fill: var(--body);
+  }
+  
+  .layer-items {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    fill: var(--muted);
+  }
+  
+  :root[data-theme="dark"] .core-box {
+    fill: color-mix(in srgb, var(--accent) 25%, var(--surface));
+  }
+  
+  :root[data-theme="dark"] .containers-box {
+    fill: color-mix(in srgb, var(--green) 25%, var(--surface));
+  }
+  
+  :root[data-theme="dark"] .widgets-box {
+    fill: color-mix(in srgb, var(--green-light) 25%, var(--surface));
+  }
+</style>
+
+## Layer Responsibilities
+
+| Layer | Path | Purpose |
+|-------|------|---------|
+| **Core** | `core/` | Runtime orchestration: routing, layout, focus, theming |
+| **Containers** | `ui/containers/` | Complex UI with borders: panel, bar, dialog |
+| **Widgets** | `ui/widgets/` | Content components: card, input, list, table, text |
+| **Primitives** | `ui/primitives/` | Low-level rendering utilities |
+| **Styles** | `ui/styles/` | Theme token to lipgloss mapping |
+
+## Key Rule
+
+**Containers hold widgets.** Layout positions containers. Widgets render content only.
+
+```go
+root := layout.Horizontal(
+    layout.Flex(1, panel.New(
+        panel.Title("Sidebar"),
+        panel.Content(widgets.NewList()),
+    )),
+    layout.Flex(2, panel.New(
+        panel.Title("Main"),
+        panel.Content(widgets.NewInput()),
+    )),
+)
+```
+
+## API Reference
+
+### Core Interfaces
+
+```go
+// Component is the base interface
+type Component interface {
+    tea.Model
+}
+
+// Sizeable components receive explicit dimensions
+type Sizeable interface {
+    Component
+    SetSize(width, height int)
+    GetSize() (width, height int)
+}
+
+// Focusable components participate in focus management
+type Focusable interface {
+    Component
+    Focus()
+    Blur()
+    IsFocused() bool
+}
+```
+
+### Containers
+
+**Panel** — Bordered box that holds widget content:
+
+```go
+panel.New(
+    panel.Title("Messages"),
+    panel.Content(widget),
+)
+```
+
+**Bar** — Header/footer with card system:
+
+```go
+bar.New(
+    bar.LeftCard("~/project"),
+    bar.RightCard("v1.0.0"),
+)
+```
+
+**Dialog** — Modal overlay:
+
+```go
+dialog.Open(dialog.Confirm{
+    Title:   "Delete?",
+    Message: "This cannot be undone.",
+})
+```
+
+### Layout
+
+```go
+// Horizontal with fixed and flex columns
+layout.Horizontal(
+    layout.Fixed(30, sidebar),
+    layout.Flex(1, mainContent),
+)
+
+// Vertical stack
+layout.Vertical(
+    layout.Fixed(1, header),
+    layout.Flex(1, body),
+    layout.Fixed(1, footer),
+)
+```
+
+### Theming
+
+```go
+theme := theme.Preset("catppuccin-mocha")
+```
+
+Available presets: `catppuccin-mocha`, `dracula`, `osaka-jade`
+
+---
+
+## Related
+
+- [Framework Roadmap](./framework-roadmap) — Execution priorities and milestones
