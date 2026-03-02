@@ -6,124 +6,49 @@ import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 const quickStartCode = `package main
 
 import (
-\t"fmt"
-
-\ttea "charm.land/bubbletea/v2"
-\t"github.com/cloudboy-jh/bentotui"
-\t"github.com/cloudboy-jh/bentotui/core"
-\t"github.com/cloudboy-jh/bentotui/layout"
-\t"github.com/cloudboy-jh/bentotui/theme"
-\t"github.com/cloudboy-jh/bentotui/ui/components/panel"
+	tea "charm.land/bubbletea/v2"
+	"github.com/cloudboy-jh/bentotui"
+	"github.com/cloudboy-jh/bentotui/core"
+	"github.com/cloudboy-jh/bentotui/layout"
+	"github.com/cloudboy-jh/bentotui/theme"
+	"github.com/cloudboy-jh/bentotui/ui/containers/panel"
 )
 
 func main() {
-\tm := bentotui.New(
-\t\tbentotui.WithTheme(theme.Preset("catppuccin-mocha")),
-\t\tbentotui.WithPages(
-\t\t\tbentotui.Page("home", func() core.Page { return newHomePage() }),
-\t\t),
-\t\tbentotui.WithFooterBar(true),
-\t)
+	m := bentotui.New(
+		bentotui.WithTheme(theme.Preset("catppuccin-mocha")),
+		bentotui.WithPages(
+			bentotui.Page("home", newHomePage),
+		),
+		bentotui.WithFooterBar(true),
+	)
 
-\tp := tea.NewProgram(m)
-\tif _, err := p.Run(); err != nil {
-\t\tfmt.Printf("run failed: %v\\n", err)
-\t}
+	p := tea.NewProgram(m)
+	p.Run()
 }
 
 type homePage struct {
-\troot   *layout.Split
-\twidth  int
-\theight int
+	root layout.Widget
 }
 
-func newHomePage() *homePage {
-\tsidebar := panel.New(panel.Title("Sidebar"), panel.Content(staticText("Sessions\\nFiles")))
-\tmain := panel.New(panel.Title("Main"), panel.Content(staticText("Welcome to BentoTUI")))
-\troot := layout.Horizontal(
-\t\tlayout.Fixed(30, sidebar),
-\t\tlayout.Flex(1, main),
-\t)
-\treturn &homePage{root: root}
-}
+func newHomePage() core.Page {
+	sidebar := panel.New(panel.Title("Files"))
+	main := panel.New(panel.Title("Editor"))
+	
+	return &homePage{
+		root: layout.Horizontal(
+			layout.Fixed(30, sidebar),
+			layout.Flex(1, main),
+		),
+	}
+}`;
 
-func (p *homePage) Init() tea.Cmd { return nil }
-func (p *homePage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-\t_, cmd := p.root.Update(msg)
-\treturn p, cmd
-}
-func (p *homePage) View() tea.View { return p.root.View() }
-func (p *homePage) SetSize(w, h int) {
-\tp.width = w
-\tp.height = h
-\tp.root.SetSize(w, h)
-}
-func (p *homePage) GetSize() (int, int) { return p.width, p.height }
-func (p *homePage) Title() string       { return "Home" }
-
-type staticText string
-
-func (s staticText) Init() tea.Cmd                           { return nil }
-func (s staticText) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return s, nil }
-func (s staticText) View() tea.View                          { return tea.NewView(string(s)) }`;
-
-const packages = [
-  {
-    name: "app",
-    className: "bento-card--app",
-    dotClass: "dot--ink",
-    text: "Root shell and top-level routing, status, and dialog coordination."
-  },
-  {
-    name: "router",
-    className: "bento-card--router",
-    dotClass: "dot--green",
-    text: "Page registration, lazy creation, active page switching."
-  },
-  {
-    name: "layout",
-    className: "bento-card--layout",
-    dotClass: "dot--accent",
-    text: "Fixed/flex split containers for horizontal and vertical composition."
-  },
-  {
-    name: "focus",
-    className: "bento-card--focus",
-    dotClass: "dot--ink",
-    text: "Focus ring helper and focus cycling across components."
-  },
-  {
-    name: "dialog",
-    className: "bento-card--dialog",
-    dotClass: "dot--muted",
-    text: "Modal manager and dialog message contracts."
-  },
-  {
-    name: "statusbar",
-    className: "bento-card--statusbar",
-    dotClass: "dot--green-light",
-    text: "Contextual status line and key help surface."
-  },
-  {
-    name: "panel",
-    className: "bento-card--panel",
-    dotClass: "dot--accent",
-    text: "Bordered container for child content."
-  },
-  {
-    name: "theme",
-    className: "bento-card--theme",
-    dotClass: "dot--green",
-    text: "Theme presets and custom token options."
-  }
-];
-
-const roadmap = [
-  { label: "Command palette", status: "planned" },
-  { label: "Searchable grouped picker", status: "planned" },
-  { label: "Responsive breakpoint helpers", status: "planned" },
-  { label: "Richer dialog overlay compositing", status: "planned" },
-  { label: "Expanded docs and examples", status: "progress" }
+const layers = [
+  { name: "core", items: "shell, router, layout, focus, theme", desc: "Runtime orchestration" },
+  { name: "containers", items: "panel, bar, dialog", desc: "Complex UI with borders" },
+  { name: "widgets", items: "card, input, list, table, text", desc: "Content components" },
+  { name: "primitives", items: "row, frame, surface", desc: "Low-level rendering" },
+  { name: "styles", items: "theme → lipgloss", desc: "Style mapping" }
 ];
 ---
 
@@ -131,23 +56,13 @@ const roadmap = [
   <header class="site-nav reveal" style="--delay: 40ms;">
     <a class="brand brand--wordmark" href="#top" aria-label="BentoTUI home">
       <img class="brand__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <span class="brand__badge">v0.1</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/docs">Docs</a>
-      <a class="nav-link--github" href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path d="M8 .198a8 8 0 0 0-2.53 15.59c.4.074.546-.174.546-.386 0-.19-.007-.692-.01-1.358-2.225.484-2.695-1.072-2.695-1.072-.364-.924-.89-1.17-.89-1.17-.726-.497.055-.487.055-.487.803.057 1.226.824 1.226.824.714 1.222 1.874.869 2.33.665.072-.517.279-.87.508-1.07-1.777-.202-3.644-.888-3.644-3.953 0-.873.312-1.587.823-2.146-.082-.202-.357-1.016.078-2.118 0 0 .672-.215 2.2.82A7.61 7.61 0 0 1 8 4.04a7.6 7.6 0 0 1 2.003.27c1.527-1.035 2.198-.82 2.198-.82.437 1.102.162 1.916.08 2.118.512.559.822 1.273.822 2.146 0 3.073-1.87 3.748-3.652 3.946.287.247.543.734.543 1.48 0 1.069-.01 1.93-.01 2.193 0 .214.144.463.55.384A8 8 0 0 0 8 .198Z"></path>
-        </svg>
-        <span>GitHub</span>
-      </a>
-      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"></path>
-        </svg>
-        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 17.25A5.25 5.25 0 1 0 12 6.75a5.25 5.25 0 0 0 0 10.5Zm0-15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75Zm0 16.5a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm9-6.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm-16.5 0a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm12.864 6.864a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm-10.608-10.608a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm10.608-1.06a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 1 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM6.756 17.304a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0Z"></path>
-        </svg>
+      <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
+      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme">
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24"><path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"/></svg>
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24"><path d="M12 17.25A5.25 5.25 0 1 0 12 6.75a5.25 5.25 0 0 0 0 10.5Z"/></svg>
       </button>
     </nav>
   </header>
@@ -155,141 +70,108 @@ const roadmap = [
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
       <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <p class="hero__subtitle">The application framework for Bubble Tea.</p>
+      <p class="hero__subtitle">Build terminal apps without the boilerplate.</p>
       <p class="hero__pitch">
-        Stop rebuilding the same architectural layer every time you ship a terminal app.
-        BentoTUI gives you routing, layouts, focus management, dialogs, and theming.
+        BentoTUI is a framework for Bubble Tea that gives you layouts, routing, 
+        focus management, and dialogs. Ship polished TUIs without rebuilding the same 
+        architecture every time.
       </p>
       <div class="install-pill">
-        <code id="install-command">go get github.com/cloudboy-jh/bentotui</code>
-        <button type="button" class="icon-button copy-button" data-copy-target="install-command" aria-label="Copy install command" title="Copy install command">
-          <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M15 3.75A2.25 2.25 0 0 1 17.25 6v9A2.25 2.25 0 0 1 15 17.25H7.5A2.25 2.25 0 0 1 5.25 15V6A2.25 2.25 0 0 1 7.5 3.75H15Zm-7.5 1.5a.75.75 0 0 0-.75.75v9c0 .414.336.75.75.75H15a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75H7.5Zm11.25 3a.75.75 0 0 1 .75.75V18A2.25 2.25 0 0 1 17.25 20.25H9.75a.75.75 0 0 1 0-1.5h7.5A.75.75 0 0 0 18 18V9a.75.75 0 0 1 .75-.75Z"></path>
-          </svg>
-          <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M19.28 6.22a.75.75 0 0 1 0 1.06l-9 9a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.97 3.97 8.47-8.47a.75.75 0 0 1 1.06 0Z"></path>
-          </svg>
-        </button>
+        <code>go get github.com/cloudboy-jh/bentotui</code>
       </div>
     </section>
 
-    <section class="problem section-pad section-body reveal" style="--delay: 180ms;">
-      <h2>You keep rebuilding the same things.</h2>
+    <section class="section-pad section-body reveal" style="--delay: 180ms;">
+      <h2>Five layers. Clear separation.</h2>
       <p>
-        Every Bubble Tea app needs multi-panel layouts, focus routing, page switching,
-        modal dialogs, and status bars. BentoTUI packages these patterns into composable
-        Go packages so your app code stays focused on what makes it unique.
+        BentoTUI organizes code into five layers. Each has a single responsibility. 
+        Your app code sits at the top and composes the layers below.
       </p>
-    </section>
-
-    <section class="packages section-pad reveal" style="--delay: 240ms;">
-      <div class="section-heading">
-        <h2>Everything you need. Nothing you don't.</h2>
-        <p>The bento-box grid makes the package story recognizable at a glance.</p>
-      </div>
-      <div class="bento-grid" aria-label="BentoTUI package grid">
-        {
-          packages.map((pkg, index) => (
-            <article class={`bento-card ${pkg.className} reveal`} style={`--delay: ${260 + index * 40}ms;`}>
-              <span class={`dot ${pkg.dotClass}`}></span>
-              <h3>{pkg.name}</h3>
-              <p>{pkg.text}</p>
-            </article>
-          ))
-        }
+      
+      <div class="layers-grid">
+        {layers.map((layer, i) => (
+          <div class="layer-card reveal" style={`--delay: ${200 + i * 40}ms`}>
+            <div class="layer-header">
+              <code class="layer-name">{layer.name}</code>
+              <span class="layer-desc">{layer.desc}</span>
+            </div>
+            <div class="layer-items">{layer.items}</div>
+          </div>
+        ))}
       </div>
     </section>
 
-    <section id="quick-start" class="quick-start section-pad section-body reveal" style="--delay: 300ms;">
-      <div class="section-heading">
-        <h2>Ship your first app in minutes.</h2>
-        <p>Full working snippet from the project README.</p>
-      </div>
+    <section class="section-pad section-body reveal" style="--delay: 400ms;">
+      <h2>Get started</h2>
       <div class="code-frame">
-        <div class="code-frame__top">
-          <span class="code-title">quickstart.go</span>
-          <button type="button" class="icon-button copy-button" data-copy-value={quickStartCode} aria-label="Copy quickstart code" title="Copy quickstart code">
-            <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M15 3.75A2.25 2.25 0 0 1 17.25 6v9A2.25 2.25 0 0 1 15 17.25H7.5A2.25 2.25 0 0 1 5.25 15V6A2.25 2.25 0 0 1 7.5 3.75H15Zm-7.5 1.5a.75.75 0 0 0-.75.75v9c0 .414.336.75.75.75H15a.75.75 0 0 0 .75-.75V6a.75.75 0 0 0-.75-.75H7.5Zm11.25 3a.75.75 0 0 1 .75.75V18A2.25 2.25 0 0 1 17.25 20.25H9.75a.75.75 0 0 1 0-1.5h7.5A.75.75 0 0 0 18 18V9a.75.75 0 0 1 .75-.75Z"></path>
-            </svg>
-            <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M19.28 6.22a.75.75 0 0 1 0 1.06l-9 9a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.97 3.97 8.47-8.47a.75.75 0 0 1 1.06 0Z"></path>
-            </svg>
-          </button>
-        </div>
         <Code lang="go" code={quickStartCode} />
       </div>
-    </section>
-
-    <section class="roadmap section-pad section-body reveal" style="--delay: 360ms;">
-      <h2>Where we're headed.</h2>
-      <ul>
-        {
-          roadmap.map((item) => (
-            <li>
-              <span class={`status status--${item.status}`}></span>
-              {item.label}
-            </li>
-          ))
-        }
-      </ul>
+      <p class="section-p">
+        <a href="/docs/architecture">Read the architecture guide</a> or 
+        <a href="https://github.com/cloudboy-jh/bentotui">explore on GitHub</a>.
+      </p>
     </section>
   </main>
 
-  <footer class="site-footer reveal" style="--delay: 420ms;">
-    <p>Built by Jack Horton</p>
+  <footer class="site-footer reveal" style="--delay: 480ms;">
+    <p>BentoTUI — Application framework for Bubble Tea</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <a href="/docs">Docs</a>
     </div>
-    <p>Part of a growing terminal toolkit.</p>
   </footer>
-
-  <script>
-    const copyButtons = document.querySelectorAll("[data-copy-target], [data-copy-value]");
-
-    async function copyText(button) {
-      const rawValue = button.getAttribute("data-copy-value");
-      if (rawValue) {
-        try {
-          await navigator.clipboard.writeText(rawValue);
-          button.setAttribute("data-copied", "true");
-        } catch {
-          return;
-        }
-
-        window.setTimeout(() => {
-          button.removeAttribute("data-copied");
-        }, 1200);
-        return;
-      }
-
-      const targetId = button.getAttribute("data-copy-target");
-      if (!targetId) {
-        return;
-      }
-
-      const source = document.getElementById(targetId);
-      if (!source) {
-        return;
-      }
-
-      try {
-        await navigator.clipboard.writeText(source.textContent ?? "");
-        button.setAttribute("data-copied", "true");
-      } catch {
-        return;
-      }
-
-      window.setTimeout(() => {
-        button.removeAttribute("data-copied");
-      }, 1200);
-    }
-
-    copyButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        copyText(button);
-      });
-    });
-  </script>
 </BaseLayout>
+
+<style>
+  .layers-grid {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .layer-card {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--surface);
+  }
+  
+  .layer-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .layer-name {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  
+  .layer-desc {
+    font-size: 0.85rem;
+    color: var(--body);
+  }
+  
+  .layer-items {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  
+  .section-p {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .section-p a {
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+  }
+</style>
