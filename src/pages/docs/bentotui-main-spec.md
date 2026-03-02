@@ -45,6 +45,22 @@ import "github.com/cloudboy-jh/bentotui"
 
 ## Architecture
 
+### Five-Layer Architecture
+
+BentoTUI organizes code into five distinct layers, from runtime down to styling:
+
+| Layer | Path | Responsibility |
+|-------|------|----------------|
+| **Core** | `core/` | Runtime orchestration: shell, router, layout, focus, theme, messages |
+| **Containers** | `ui/containers/` | Complex UI with borders/layout: panel, bar, dialog |
+| **Widgets** | `ui/widgets/` | Simple content components: card, input, list, table, text |
+| **Primitives** | `ui/primitives/` | Low-level rendering utilities: row, frame, surface |
+| **Styles** | `ui/styles/` | Semantic style mapping: theme tokens → lipgloss styles |
+
+**Key rule:** Containers hold widgets. Layout positions containers. Primitives are used by containers, not apps directly.
+
+See [Layer Architecture](./layer-architecture) for the complete top-down diagram and usage patterns.
+
 ### The Gap
 
 ```text
@@ -288,8 +304,10 @@ Not in v0.1:
 
 ## References
 
+- [Layer Architecture](./layer-architecture)
 - [Rendering System Design (ADR-0001)](./rendering-system-design)
-- [Implementation Next Steps](./next-steps)
+- [Component System Reference](./component-system-reference)
+- [Framework Progress Update](./next-steps)
 - [TUI Framework Research Doc](./tui-framework-research)
 - [Crush TUI Architecture](https://deepwiki.com/charmbracelet/crush/5.1-tui-architecture)
 - [Bubble Tea](https://github.com/charmbracelet/bubbletea)

@@ -12,6 +12,12 @@ Status: Current
 
 The component system defines a strict runtime contract so pages, dialogs, cards, and shared primitives all render consistently under size changes, key events, and focus transitions.
 
+Components are organized into the architecture layers defined in [Layer Architecture](./layer-architecture):
+
+- **Containers** (`ui/containers/`): panel, bar, dialog — manage borders and layout
+- **Widgets** (`ui/widgets/`): card, input, list, table, text — render content only
+- **Primitives** (`ui/primitives/`): row, frame, surface — low-level render helpers
+
 ## Core Contract
 
 Every interactive component follows a predictable contract:
@@ -46,9 +52,37 @@ The visual stack remains deterministic and stable for runtime composition:
 
 Components should preserve this layering order when opening overlays, handling dialog transitions, or repainting bounded regions.
 
-## Shared Primitive Scope
+## Layer Organization
 
-Shared primitives in `ui/primitives` are responsible for consistent building blocks used across component rows, dialog surfaces, and footer cards.
+### Containers (`ui/containers/`)
+
+Complex UI components that manage borders, layout, and child positioning:
+
+- **panel** — Bordered box holding widget content
+- **bar** — Header/footer with card system
+- **dialog** — Modal overlays
+
+All containers implement `tea.Model` + `SetSize`/`GetSize` for bounded rendering.
+
+### Widgets (`ui/widgets/`)
+
+Simple content components with no border or layout management:
+
+- **card** — Content card for use inside panels
+- **input** — Input field widget
+- **list** — List widget
+- **table** — Table widget
+- **text** — Text content widget
+
+Widgets are used inside containers and implement `SetSize` for content fitting.
+
+### Primitives (`ui/primitives/`)
+
+Low-level rendering utilities used by containers (not directly by apps):
+
+- **row** — `RenderRow` for consistent row rendering
+- **frame** — `RenderFrame` for bordered frames
+- **surface** — Background fills and surfaces
 
 Near-term primitive targets:
 
@@ -66,7 +100,8 @@ Framework changes to components and primitives should continue to validate with:
 
 ## Related Docs
 
-- `project-docs/bentotui-main-spec.md`
-- `project-docs/layer-architecture.md`
-- `project-docs/next-steps.md`
-- `project-docs/framework-roadmap.md`
+- [Layer Architecture](./layer-architecture)
+- [BentoTUI Main Spec](./bentotui-main-spec)
+- [Rendering System Design](./rendering-system-design)
+- [Framework Progress Update](./next-steps)
+- [Framework Roadmap](./framework-roadmap)

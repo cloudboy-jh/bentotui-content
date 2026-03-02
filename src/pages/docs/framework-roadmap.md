@@ -20,12 +20,17 @@ BentoTUI is in early production with a locked architecture direction:
 
 ## Current Baseline
 
-The framework baseline is organized into clear layers:
+The framework baseline is organized into five clear layers:
 
-- runtime/core: `shell`, `router`, `layout`, `focus`, `surface`, `theme`, `core`
-- UI components: `ui/components/*`
-- shared primitives: `ui/primitives`
-- style layer: `ui/styles`
+| Layer | Path | Components |
+|-------|------|------------|
+| **Core** | `core/` | `shell`, `router`, `layout`, `focus`, `theme`, `msgs` |
+| **Containers** | `ui/containers/` | `panel`, `bar`, `dialog` |
+| **Widgets** | `ui/widgets/` | `card`, `input`, `list`, `table`, `text` |
+| **Primitives** | `ui/primitives/` | `row`, `frame`, `surface` |
+| **Styles** | `ui/styles/` | `styles.System` |
+
+See [Layer Architecture](./layer-architecture) for the complete architecture diagram.
 
 Theme set remains locked and deterministic:
 
@@ -59,7 +64,8 @@ Roadmap milestones are considered stable when behavior is deterministic under re
 
 ## Related Docs
 
-- `project-docs/bentotui-main-spec.md`
-- `project-docs/component-system-reference.md`
-- `project-docs/layer-architecture.md`
-- `project-docs/next-steps.md`
+- [Layer Architecture](./layer-architecture)
+- [BentoTUI Main Spec](./bentotui-main-spec)
+- [Component System Reference](./component-system-reference)
+- [Framework Progress Update](./next-steps)
+- [Rendering System Design](./rendering-system-design)

@@ -6,26 +6,28 @@ description: Active framework baseline, architecture direction, current gaps, an
 
 # BentoTUI Framework Progress Update
 
-Date: 2026-02-26  
+Date: 2026-03-02  
 Status: Active (early production)
 
 ## Current State
 
-BentoTUI has moved from a rough harness into a structured framework baseline with a clear runtime/UI split:
+BentoTUI has moved from a rough harness into a structured framework baseline with a clear five-layer architecture:
 
-- runtime/core: `shell`, `router`, `layout`, `focus`, `surface`, `theme`, `core`
-- UI layer: `ui/components/*`
-- shared primitives: `ui/primitives`
-- style layer: `ui/styles`
+- **core**: `shell`, `router`, `layout`, `focus`, `theme`, `msgs` — runtime orchestration
+- **ui/containers**: `panel`, `bar`, `dialog` — complex UI with borders/layout
+- **ui/widgets**: `card`, `input`, `list`, `table`, `text` — simple content components
+- **ui/primitives**: `row`, `frame`, `surface` — low-level rendering utilities
+- **ui/styles**: semantic style mapping from theme tokens
 
 This separation is now documented and enforced through:
 
-- `project-docs/component-system-reference.md`
-- `project-docs/next-steps.md`
-- `project-docs/framework-roadmap.md`
+- [Layer Architecture](./layer-architecture)
+- [Component System Reference](./component-system-reference)
+- [Framework Roadmap](./framework-roadmap)
 
 ## Shipped Progress
 
+- **New:** Layer architecture documented with five clear layers: core, containers, widgets, primitives, and styles.
 - Footer-first shell API is in place (`WithFooterBar`, `WithFooter`).
 - Dialog system is stabilized for routing and bounds behavior.
 - Theme picker flow is functional and deterministic.
@@ -45,6 +47,12 @@ This separation is now documented and enforced through:
 
 ## Architecture Direction (Locked)
 
+- **Five-layer architecture** is now the canonical structure:
+  - `core` — runtime orchestration and layout
+  - `ui/containers` — complex UI with borders (panel, bar, dialog)
+  - `ui/widgets` — simple content components (card, input, list, table, text)
+  - `ui/primitives` — low-level rendering utilities (row, frame, surface)
+  - `ui/styles` — semantic style mapping
 - No ad hoc components.
 - Contract-first component behavior (`SetSize`/`GetSize`, bounded rendering, deterministic key routing).
 - Visual direction: flat, minimal, solid card surfaces with low chrome.
@@ -73,9 +81,8 @@ Recent framework passes are consistently validated with:
 
 ## Reference Docs
 
-- Main spec: `project-docs/bentotui-main-spec.md`
-- Layer architecture: `project-docs/layer-architecture.md`
-- Next execution list: `project-docs/next-steps.md`
-- Component contract: `project-docs/component-system-reference.md`
-- Framework roadmap: `project-docs/framework-roadmap.md`
-- Rendering ADR: `project-docs/rendering-system-design.md`
+- [Layer Architecture](./layer-architecture) — Top-down five-layer architecture
+- [BentoTUI Main Spec](./bentotui-main-spec) — Framework scope and modules
+- [Component System Reference](./component-system-reference) — Component contracts and primitives
+- [Framework Roadmap](./framework-roadmap) — Execution priorities
+- [Rendering System Design](./rendering-system-design) — Renderer ADR

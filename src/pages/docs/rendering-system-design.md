@@ -34,6 +34,10 @@ These are architecture failures, not styling issues.
 
 ## 3. External proof and references
 
+### 3.0 Layer Architecture Context
+
+This ADR implements the rendering guarantees required by the [Layer Architecture](./layer-architecture). The deterministic layering order (`body -> footer -> scrim -> dialog`) is enforced by the core layer, with containers and widgets rendering into their allocated regions.
+
 ### 3.1 Crush (reference for selected architecture)
 
 Crush proves a robust draw-first approach in production:
@@ -228,3 +232,9 @@ No visual polish work should bypass Phase A requirements.
 - Any deviation from this design requires an explicit ADR update.
 - If a quick fix conflicts with this document, reject the quick fix.
 - New components must declare how they satisfy region paint guarantees.
+
+## Related Docs
+
+- [Layer Architecture](./layer-architecture) — Five-layer architecture defining container/widget/primitive boundaries
+- [Component System Reference](./component-system-reference) — Component contracts for bounded rendering
+- [BentoTUI Main Spec](./bentotui-main-spec) — Framework scope and module overview

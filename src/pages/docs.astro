@@ -3,6 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const docPages = [
   {
+    title: "Layer Architecture",
+    href: "/docs/layer-architecture",
+    status: "active",
+    text: "Top-down architecture across core, containers, widgets, primitives, and styles layers."
+  },
+  {
     title: "Main Spec",
     href: "/docs/bentotui-main-spec",
     status: "current",
@@ -80,13 +86,15 @@ const docPages = [
     <section class="docs-section section-pad reveal" style="--delay: 130ms;">
       <h2>Framework Progress Update</h2>
       <div class="docs-update">
-        <p><strong>Date:</strong> 2026-02-26</p>
+        <p><strong>Date:</strong> 2026-03-02</p>
         <p><strong>Status:</strong> Active (early production)</p>
         <p>
           BentoTUI has moved from a rough harness into a structured framework baseline with a clear
-          runtime/UI split across <code>runtime/core</code>, <code>ui/components/*</code>, <code>ui/primitives</code>, and <code>ui/styles</code>.
+          five-layer architecture: <code>core</code> (runtime), <code>ui/containers</code> (complex components),
+          <code>ui/widgets</code> (content), <code>ui/primitives</code> (rendering utilities), and <code>ui/styles</code> (theme mapping).
         </p>
         <ul>
+          <li><strong>New:</strong> Layer architecture documented with clear separation of concerns across all five layers.</li>
           <li>Footer-first shell API, dialog routing behavior, and deterministic theme picker flow are shipped.</li>
           <li>Locked theme set: <code>catppuccin-mocha</code> (default), <code>dracula</code>, and <code>osaka-jade</code>.</li>
           <li>Harness flow is command-first with footer cards for <code>/pr</code>, <code>/issue</code>, and <code>/branch</code>.</li>
