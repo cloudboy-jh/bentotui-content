@@ -10,6 +10,21 @@ import { Code } from "astro:components";
 
 BentoTUI is a registry of copy-and-own terminal UI components built on [Bubble Tea v2](https://github.com/charmbracelet/bubbletea) and [Lip Gloss v2](https://github.com/charmbracelet/lipgloss).
 
+<div class="overview-cards">
+  <article>
+    <p class="overview-label">Model</p>
+    <p class="overview-value">Copy and own</p>
+  </article>
+  <article>
+    <p class="overview-label">Live now</p>
+    <p class="overview-value">8 components</p>
+  </article>
+  <article>
+    <p class="overview-label">Core imports</p>
+    <p class="overview-value">theme, styles, layout</p>
+  </article>
+</div>
+
 ---
 
 ## How It Works
@@ -31,7 +46,7 @@ bentos/                ← complete runnable screen patterns
 ## Architecture Stack
 
 <div class="arch-diagram">
-  <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg">
     <rect x="220" y="10" width="160" height="40" rx="6" class="app-box"/>
     <text x="300" y="35" text-anchor="middle" class="app-text">Your App</text>
     
@@ -59,7 +74,7 @@ bentos/                ← complete runnable screen patterns
     <polygon points="300,278 295,268 305,268" class="arrow-head"/>
     
     <g class="layer-group">
-      <rect x="50" y="280" width="500" height="70" rx="8" class="layer-box charm-box"/>
+      <rect x="50" y="280" width="500" height="80" rx="8" class="layer-box charm-box"/>
       <text x="300" y="305" text-anchor="middle" class="layer-title">Charm Stack</text>
       <text x="300" y="325" text-anchor="middle" class="layer-subtitle">The foundation</text>
       <text x="300" y="340" text-anchor="middle" class="layer-items">Bubble Tea v2 · Lip Gloss v2 · Ultraviolet</text>
@@ -68,13 +83,43 @@ bentos/                ← complete runnable screen patterns
 </div>
 
 <style>{`
-  .arch-diagram {
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    background: var(--surface);
+  .overview-cards {
+    margin: 1.2rem 0 1.6rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .overview-cards article {
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--surface) 90%, white);
+    padding: 0.75rem 0.85rem;
+  }
+
+  .overview-label {
+    margin: 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .overview-value {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  .arch-diagram {
+    margin: 1.7rem 0 1.5rem;
+    padding: 1.5rem 1.2rem;
+    background: color-mix(in srgb, var(--surface) 90%, white);
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
     overflow-x: auto;
+    box-shadow: 0 12px 26px -24px rgba(46, 26, 24, 0.5);
   }
   
   .arch-diagram svg {
@@ -128,7 +173,7 @@ bentos/                ← complete runnable screen patterns
   
   .layer-title {
     font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 600;
     fill: var(--ink);
   }
@@ -141,8 +186,21 @@ bentos/                ← complete runnable screen patterns
   
   .layer-items {
     font-family: "IBM Plex Mono", monospace;
-    font-size: 10px;
+    font-size: 10.5px;
     fill: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .overview-cards {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .arch-diagram {
+      margin-top: 1.1rem;
+      padding: 0.9rem 0.7rem;
+    }
   }
   
   :root[data-theme="dark"] .registry-box {
