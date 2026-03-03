@@ -3,53 +3,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { Code } from "astro:components";
 import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 
-const quickStartCode = `package main
+const installCode = `# Install the CLI
+go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
+
+# Get core deps (real imports, not copied)
+go get github.com/cloudboy-jh/bentotui`;
+
+const quickStartCode = `# Copy components into your project
+bento add input bar surface
+
+# Run the starter app to see it in action
+go run ./cmd/starter-app`;
+
+const exampleCode = `package main
 
 import (
-	tea "charm.land/bubbletea/v2"
-	"github.com/cloudboy-jh/bentotui"
-	"github.com/cloudboy-jh/bentotui/core"
-	"github.com/cloudboy-jh/bentotui/layout"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/cloudboy-jh/bentotui/theme"
-	"github.com/cloudboy-jh/bentotui/ui/containers/panel"
+	"yourmodule/components/surface"
+	"yourmodule/components/bar"
+	"yourmodule/components/input"
 )
 
 func main() {
-	m := bentotui.New(
-		bentotui.WithTheme(theme.Preset("catppuccin-mocha")),
-		bentotui.WithPages(
-			bentotui.Page("home", newHomePage),
-		),
-		bentotui.WithFooterBar(true),
-	)
-
-	p := tea.NewProgram(m)
-	p.Run()
-}
-
-type homePage struct {
-	root layout.Widget
-}
-
-func newHomePage() core.Page {
-	sidebar := panel.New(panel.Title("Files"))
-	main := panel.New(panel.Title("Editor"))
+	// Set theme at startup
+	theme.SetTheme("tokyo-night")
 	
-	return &homePage{
-		root: layout.Horizontal(
-			layout.Fixed(30, sidebar),
-			layout.Flex(1, main),
-		),
-	}
+	// Build your UI with copied components
+	s := surface.New()
+	b := bar.New(bar.Left("My App"))
+	i := input.New(input.Placeholder("Type /help..."))
+	
+	// ... your app logic
 }`;
-
-const layers = [
-  { name: "core", items: "shell, router, layout, focus, theme", desc: "Runtime orchestration" },
-  { name: "containers", items: "panel, bar, dialog", desc: "Complex UI with borders" },
-  { name: "widgets", items: "card, input, list, table, text", desc: "Content components" },
-  { name: "primitives", items: "row, frame, surface", desc: "Low-level rendering" },
-  { name: "styles", items: "theme → lipgloss", desc: "Style mapping" }
-];
 ---
 
 <BaseLayout>
@@ -70,51 +56,171 @@ const layers = [
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
       <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <p class="hero__subtitle">Build terminal apps without the boilerplate.</p>
+      <p class="hero__subtitle">A registry of copy-and-own terminal UI components.</p>
       <p class="hero__pitch">
-        BentoTUI is a framework for Bubble Tea that gives you layouts, routing, 
-        focus management, and dialogs. Ship polished TUIs without rebuilding the same 
-        architecture every time.
-      </p>
-      <div class="install-pill">
-        <code>go get github.com/cloudboy-jh/bentotui</code>
-      </div>
-    </section>
-
-    <section class="section-pad section-body reveal" style="--delay: 180ms;">
-      <h2>Five layers. Clear separation.</h2>
-      <p>
-        BentoTUI organizes code into five layers. Each has a single responsibility. 
-        Your app code sits at the top and composes the layers below.
+        BentoTUI is a collection of components built on Bubble Tea v2 and Lip Gloss v2. 
+        Run <code>bento add input</code> and the source lands in your project. 
+        You own it — read it, modify it, delete what you don't need. 
+        No framework lock-in, no lifecycle hooks, no "extend" API to learn.
       </p>
       
-      <div class="layers-grid">
-        {layers.map((layer, i) => (
-          <div class="layer-card reveal" style={`--delay: ${200 + i * 40}ms`}>
-            <div class="layer-header">
-              <code class="layer-name">{layer.name}</code>
-              <span class="layer-desc">{layer.desc}</span>
-            </div>
-            <div class="layer-items">{layer.items}</div>
-          </div>
-        ))}
+      <div class="warning-banner reveal" style="--delay: 160ms;">
+        <strong>Early development</strong> — APIs and registry paths will change.
+      </div>
+
+      <div class="install-pill reveal" style="--delay: 200ms;">
+        <code>go install github.com/cloudboy-jh/bentotui/cmd/bento@latest</code>
       </div>
     </section>
 
-    <section class="section-pad section-body reveal" style="--delay: 400ms;">
-      <h2>Get started</h2>
+    <section class="section-pad section-body reveal" style="--delay: 240ms;">
+      <h2>How it works</h2>
+      <p>
+        Two things live in this repo: <strong>components</strong> (atomic UI pieces you copy) 
+        and <strong>bentos</strong> (pre-built layout compositions you copy wholesale).
+      </p>
+      
       <div class="code-frame">
-        <Code lang="go" code={quickStartCode} />
+        <Code lang="bash" code={quickStartCode} />
       </div>
+    </section>
+
+    <section class="section-pad section-body reveal" style="--delay: 280ms;">
+      <h2>Available Components</h2>
+      
+      <div class="components-grid">
+        <div class="component-category">
+          <h3>Available Now</h3>
+          <ul class="component-list available">
+            <li><code>surface</code> — Full-screen cell buffer backed by Ultraviolet</li>
+            <li><code>bar</code> — Status/nav bar with left + right slots</li>
+            <li><code>input</code> — Single-line text input with left-border accent</li>
+            <li><code>panel</code> — Titled, focusable content container</li>
+            <li><code>dialog</code> — Modal manager (Confirm, Custom, ThemePicker)</li>
+            <li><code>list</code> — Scrollable log-style list</li>
+            <li><code>table</code> — Header + data rows</li>
+            <li><code>text</code> — Static styled label</li>
+          </ul>
+        </div>
+
+        <div class="component-category">
+          <h3>Tier 1 (Coming Next)</h3>
+          <ul class="component-list upcoming">
+            <li><code>badge</code> — Inline colored label</li>
+            <li><code>kbd</code> — Keyboard shortcut display</li>
+            <li><code>wordmark</code> — Large centered app name</li>
+            <li><code>statusbar</code> — Standalone registry version of bar</li>
+          </ul>
+        </div>
+
+        <div class="component-category">
+          <h3>Tier 2 & 3</h3>
+          <ul class="component-list upcoming">
+            <li><code>select</code>, <code>checkbox</code>, <code>textarea</code></li>
+            <li><code>spinner</code>, <code>progress</code></li>
+            <li><code>command</code>, <code>toast</code>, <code>tabs</code>, <code>separator</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad section-body reveal" style="--delay: 320ms;">
+      <h2>15 Built-in Themes</h2>
+      <p>
+        Set once at startup. Components always call <code>theme.CurrentTheme()</code> in View() — never cache it.
+      </p>
+      <div class="themes-grid">
+        <span class="theme-tag active">catppuccin-mocha (default)</span>
+        <span class="theme-tag">catppuccin-macchiato</span>
+        <span class="theme-tag">catppuccin-frappe</span>
+        <span class="theme-tag">dracula</span>
+        <span class="theme-tag">tokyo-night</span>
+        <span class="theme-tag">tokyo-night-storm</span>
+        <span class="theme-tag">nord</span>
+        <span class="theme-tag">gruvbox-dark</span>
+        <span class="theme-tag">monokai-pro</span>
+        <span class="theme-tag">kanagawa</span>
+        <span class="theme-tag">rose-pine</span>
+        <span class="theme-tag">ayu-mirage</span>
+        <span class="theme-tag">one-dark</span>
+        <span class="theme-tag">material-ocean</span>
+        <span class="theme-tag">github-dark</span>
+      </div>
+      
+      <div class="code-frame">
+        <Code lang="go" code={`theme.SetTheme("tokyo-night")
+t := theme.CurrentTheme()`} />
+      </div>
+    </section>
+
+    <section class="section-pad section-body reveal" style="--delay: 360ms;">
+      <h2>Architecture</h2>
+      <p>
+        Components are copied into your project, but core packages (theme, styles, layout) 
+        are real imports. Everything builds on the Charm stack.
+      </p>
+      
+      <div class="arch-flow">
+        <div class="arch-layer">Your App Code</div>
+        <div class="arch-arrow">▼ copies from</div>
+        <div class="arch-layer highlight">registry/components/ <span class="arch-note">surface, input, bar, dialog, panel, list, table</span></div>
+        <div class="arch-arrow">▼ imports</div>
+        <div class="arch-layer">bentotui module deps <span class="arch-note">theme, styles, layout</span></div>
+        <div class="arch-arrow">▼ built on</div>
+        <div class="arch-layer">Charm Stack <span class="arch-note">Bubble Tea v2, Lip Gloss v2, Ultraviolet</span></div>
+      </div>
+      
       <p class="section-p">
         <a href="/docs/architecture">Read the architecture guide</a> or 
         <a href="https://github.com/cloudboy-jh/bentotui">explore on GitHub</a>.
       </p>
     </section>
+
+    <section class="section-pad section-body reveal" style="--delay: 400ms;">
+      <h2>Current Status</h2>
+      <div class="status-list">
+        <div class="status-item done">
+          <span class="status-check">✓</span>
+          <div>
+            <strong>Starter app</strong> — Home screen with surface-backed rendering (v0.2)
+          </div>
+        </div>
+        <div class="status-item active">
+          <span class="status-check">→</span>
+          <div>
+            <strong>Tier 1 components</strong> — badge, kbd, wordmark, statusbar
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-check">○</span>
+          <div>
+            <strong>home-screen bento</strong> — First bento, mirrors starter app
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-check">○</span>
+          <div>
+            <strong>Tier 2 components</strong> — select, checkbox, textarea, spinner, progress
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-check">○</span>
+          <div>
+            <strong>Remaining bentos</strong> — app-shell, dashboard, detail-view, form
+          </div>
+        </div>
+        <div class="status-item">
+          <span class="status-check">○</span>
+          <div>
+            <strong>Tier 3 components & CLI wiring</strong> — command, toast, tabs, bento init
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer reveal" style="--delay: 480ms;">
-    <p>BentoTUI — Application framework for Bubble Tea</p>
+    <p>BentoTUI — The App framework for Bubble Tea</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <a href="/docs">Docs</a>
@@ -123,53 +229,165 @@ const layers = [
 </BaseLayout>
 
 <style>
-  .layers-grid {
+  .warning-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid #f59e0b;
+    padding: 1rem 1.25rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .components-grid {
     margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .component-category h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .component-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .component-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .component-list li:last-child {
+    border-bottom: none;
+  }
+
+  .component-list.available code {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .component-list.upcoming code {
+    color: var(--muted);
+  }
+
+  .themes-grid {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .theme-tag {
+    padding: 0.35rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--muted);
+  }
+
+  .theme-tag.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  }
+
+  .arch-flow {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .arch-layer {
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+
+  .arch-layer.highlight {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  }
+
+  .arch-note {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 0.25rem;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .arch-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .status-list {
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
-  
-  .layer-card {
-    padding: 1rem 1.25rem;
+
+  .status-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 0.5rem;
-    background: var(--surface);
-  }
-  
-  .layer-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .layer-name {
-    font-family: "IBM Plex Mono", monospace;
     font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: transparent;
-    border: none;
-    padding: 0;
   }
-  
-  .layer-desc {
-    font-size: 0.85rem;
-    color: var(--body);
+
+  .status-item.done {
+    border-left: 4px solid #22c55e;
   }
-  
-  .layer-items {
+
+  .status-item.active {
+    border-left: 4px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  }
+
+  .status-check {
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 1.5rem;
+  }
+
+  .status-item.done .status-check {
+    color: #22c55e;
+  }
+
+  .status-item.active .status-check {
+    color: var(--accent);
+  }
+
+  .status-item:not(.done):not(.active) .status-check {
     color: var(--muted);
   }
-  
+
   .section-p {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     text-align: center;
   }
-  
+
   .section-p a {
     text-decoration: underline;
     text-underline-offset: 0.14em;

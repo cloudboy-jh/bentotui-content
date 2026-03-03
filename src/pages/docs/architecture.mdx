@@ -1,21 +1,37 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: BentoTUI Architecture
-description: Five-layer architecture for building terminal applications.
+description: Component registry architecture built on Bubble Tea v2 and Lip Gloss v2.
 ---
 
 import { Code } from "astro:components";
 
 # BentoTUI Architecture
 
-Five-layer architecture for building terminal applications on Bubble Tea.
+BentoTUI is a registry of copy-and-own terminal UI components built on [Bubble Tea v2](https://github.com/charmbracelet/bubbletea) and [Lip Gloss v2](https://github.com/charmbracelet/lipgloss).
 
 ---
 
-## Architecture Overview
+## How It Works
+
+Two things live in this repo:
+
+| Thing | What it is |
+|-------|-----------|
+| **component** | Atomic UI piece. `bento add input` copies it into your project. |
+| **bentos** | Pre-built layout composition. A complete screen pattern you copy wholesale. |
+
+```
+registry/components/   ← copied into your project by `bento add`
+bentos/                ← complete runnable screen patterns
+```
+
+---
+
+## Architecture Stack
 
 <div class="arch-diagram">
-  <svg viewBox="0 0 600 520" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
     <rect x="220" y="10" width="160" height="40" rx="6" class="app-box"/>
     <text x="300" y="35" text-anchor="middle" class="app-text">Your App</text>
     
@@ -23,48 +39,30 @@ Five-layer architecture for building terminal applications on Bubble Tea.
     <polygon points="300,78 295,68 305,68" class="arrow-head"/>
     
     <g class="layer-group">
-      <rect x="50" y="80" width="500" height="70" rx="8" class="layer-box core-box"/>
-      <text x="300" y="105" text-anchor="middle" class="layer-title">core</text>
-      <text x="300" y="125" text-anchor="middle" class="layer-subtitle">Runtime orchestration</text>
-      <text x="300" y="140" text-anchor="middle" class="layer-items">shell · router · layout · focus · theme · msgs</text>
+      <rect x="50" y="80" width="500" height="70" rx="8" class="layer-box registry-box"/>
+      <text x="300" y="105" text-anchor="middle" class="layer-title">registry/components/</text>
+      <text x="300" y="125" text-anchor="middle" class="layer-subtitle">Copied into your project — you own the source</text>
+      <text x="300" y="140" text-anchor="middle" class="layer-items">surface · bar · input · panel · dialog · list · table · text</text>
     </g>
     
     <path d="M 300 150 L 300 170" class="arrow-line"/>
     <polygon points="300,178 295,168 305,168" class="arrow-head"/>
     
     <g class="layer-group">
-      <rect x="50" y="180" width="500" height="70" rx="8" class="layer-box containers-box"/>
-      <text x="300" y="205" text-anchor="middle" class="layer-title">ui/containers</text>
-      <text x="300" y="225" text-anchor="middle" class="layer-subtitle">Complex UI with borders and layout</text>
-      <text x="300" y="240" text-anchor="middle" class="layer-items">panel · bar · dialog</text>
+      <rect x="50" y="180" width="500" height="70" rx="8" class="layer-box core-box"/>
+      <text x="300" y="205" text-anchor="middle" class="layer-title">bentotui module deps</text>
+      <text x="300" y="225" text-anchor="middle" class="layer-subtitle">Real Go imports — not copied</text>
+      <text x="300" y="240" text-anchor="middle" class="layer-items">theme · styles · layout</text>
     </g>
     
     <path d="M 300 250 L 300 270" class="arrow-line"/>
     <polygon points="300,278 295,268 305,268" class="arrow-head"/>
     
     <g class="layer-group">
-      <rect x="50" y="280" width="500" height="70" rx="8" class="layer-box widgets-box"/>
-      <text x="300" y="305" text-anchor="middle" class="layer-title">ui/widgets</text>
-      <text x="300" y="325" text-anchor="middle" class="layer-subtitle">Simple content components</text>
-      <text x="300" y="340" text-anchor="middle" class="layer-items">card · input · list · table · text</text>
-    </g>
-    
-    <path d="M 300 350 L 300 370" class="arrow-line"/>
-    <polygon points="300,378 295,368 305,368" class="arrow-head"/>
-    
-    <g class="layer-group">
-      <rect x="50" y="380" width="500" height="50" rx="8" class="layer-box primitives-box"/>
-      <text x="300" y="402" text-anchor="middle" class="layer-title">ui/primitives</text>
-      <text x="300" y="418" text-anchor="middle" class="layer-items">row · frame · surface</text>
-    </g>
-    
-    <path d="M 300 430 L 300 450" class="arrow-line"/>
-    <polygon points="300,458 295,448 305,448" class="arrow-head"/>
-    
-    <g class="layer-group">
-      <rect x="50" y="460" width="500" height="50" rx="8" class="layer-box styles-box"/>
-      <text x="300" y="482" text-anchor="middle" class="layer-title">ui/styles</text>
-      <text x="300" y="498" text-anchor="middle" class="layer-items">theme tokens → lipgloss styles</text>
+      <rect x="50" y="280" width="500" height="70" rx="8" class="layer-box charm-box"/>
+      <text x="300" y="305" text-anchor="middle" class="layer-title">Charm Stack</text>
+      <text x="300" y="325" text-anchor="middle" class="layer-subtitle">The foundation</text>
+      <text x="300" y="340" text-anchor="middle" class="layer-items">Bubble Tea v2 · Lip Gloss v2 · Ultraviolet</text>
     </g>
   </svg>
 </div>
@@ -113,29 +111,19 @@ Five-layer architecture for building terminal applications on Bubble Tea.
     stroke-width: 1.5;
   }
   
-  .core-box {
+  .registry-box {
     fill: color-mix(in srgb, var(--accent) 15%, var(--surface));
     stroke: var(--accent);
   }
   
-  .containers-box {
+  .core-box {
     fill: color-mix(in srgb, var(--green) 15%, var(--surface));
     stroke: var(--green);
   }
   
-  .widgets-box {
-    fill: color-mix(in srgb, var(--green-light) 20%, var(--surface));
-    stroke: var(--green);
-  }
-  
-  .primitives-box {
+  .charm-box {
     fill: color-mix(in srgb, var(--ink) 8%, var(--surface));
     stroke: var(--muted);
-  }
-  
-  .styles-box {
-    fill: color-mix(in srgb, var(--ink) 5%, var(--surface));
-    stroke: var(--border);
   }
   
   .layer-title {
@@ -157,111 +145,143 @@ Five-layer architecture for building terminal applications on Bubble Tea.
     fill: var(--muted);
   }
   
-  :root[data-theme="dark"] .core-box {
+  :root[data-theme="dark"] .registry-box {
     fill: color-mix(in srgb, var(--accent) 25%, var(--surface));
   }
   
-  :root[data-theme="dark"] .containers-box {
+  :root[data-theme="dark"] .core-box {
     fill: color-mix(in srgb, var(--green) 25%, var(--surface));
-  }
-  
-  :root[data-theme="dark"] .widgets-box {
-    fill: color-mix(in srgb, var(--green-light) 25%, var(--surface));
   }
 `}</style>
 
-## Layer Responsibilities
+---
 
-| Layer | Path | Purpose |
-|-------|------|---------|
-| **Core** | `core/` | Runtime orchestration: routing, layout, focus, theming |
-| **Containers** | `ui/containers/` | Complex UI with borders: panel, bar, dialog |
-| **Widgets** | `ui/widgets/` | Content components: card, input, list, table, text |
-| **Primitives** | `ui/primitives/` | Low-level rendering utilities |
-| **Styles** | `ui/styles/` | Theme token to lipgloss mapping |
+## Core Packages (Real Imports)
 
-## Key Rule
+These are stable module deps your project imports directly:
 
-**Containers hold widgets.** Layout positions containers. Widgets render content only.
+| Package | Import Path | What it is |
+|---------|-------------|------------|
+| **theme** | `github.com/cloudboy-jh/bentotui/theme` | Global theme store, 15 presets, goroutine-safe |
+| **styles** | `github.com/cloudboy-jh/bentotui/styles` | Theme → Lip Gloss style mapping |
+| **layout** | `github.com/cloudboy-jh/bentotui/layout` | `Horizontal` / `Vertical` split layout |
 
-<Code lang="go" code={`root := layout.Horizontal(
-    layout.Flex(1, panel.New(
-        panel.Title("Sidebar"),
-        panel.Content(widgets.NewList()),
-    )),
-    layout.Flex(2, panel.New(
-        panel.Title("Main"),
-        panel.Content(widgets.NewInput()),
-    )),
-)`} />
+---
 
-## API Reference
+## The `surface` Primitive
 
-### Core Interfaces
+`surface` is the key rendering primitive. It wraps Ultraviolet's cell buffer so every cell is explicitly painted before Bubble Tea flushes the frame — eliminating ANSI whitespace-reset bleed that occurs with pure string composition.
 
-<Code lang="go" code={`// Component is the base interface
-type Component interface {
-    tea.Model
-}
+Used by every full-screen layout.
 
-// Sizeable components receive explicit dimensions
-type Sizeable interface {
-    Component
-    SetSize(width, height int)
-    GetSize() (width, height int)
-}
+---
 
-// Focusable components participate in focus management
-type Focusable interface {
-    Component
-    Focus()
-    Blur()
-    IsFocused() bool
-}`} />
+## Components
 
-### Containers
+All components live in `registry/components/` and are copied into your project by `bento add`. Once copied they live at `yourmodule/components/<name>` — you own the source.
 
-**Panel** — Bordered box that holds widget content:
+### Available Now
 
-<Code lang="go" code={`panel.New(
-    panel.Title("Messages"),
-    panel.Content(widget),
-)`} />
+| Component | Description |
+|-----------|-------------|
+| `surface` | Full-screen cell buffer backed by Ultraviolet. Deterministic background paint — no ANSI whitespace bleed. Used by every full-screen layout. |
+| `bar` | Status/nav bar with left + right slots. |
+| `input` | Single-line text input with left-border accent. Wraps `bubbles/textinput`. |
+| `panel` | Titled, focusable content container. |
+| `dialog` | Modal manager — `Confirm`, `Custom`, `ThemePicker`. |
+| `list` | Scrollable log-style list. |
+| `table` | Header + data rows. |
+| `text` | Static styled label. |
 
-**Bar** — Header/footer with card system:
+### Coming Next — Tier 1
 
-<Code lang="go" code={`bar.New(
-    bar.LeftCard("~/project"),
-    bar.RightCard("v1.0.0"),
-)`} />
+| Component | Description |
+|-----------|-------------|
+| `badge` | Inline colored label. |
+| `kbd` | Keyboard shortcut display. Dim/bright pair. |
+| `wordmark` | Large centered app name. Theme-colored, responsive. |
+| `statusbar` | Standalone registry version of `bar`. |
 
-**Dialog** — Modal overlay:
+### Tier 2
 
-<Code lang="go" code={`dialog.Open(dialog.Confirm{
-    Title:   "Delete?",
-    Message: "This cannot be undone.",
-})`} />
+| Component | Description |
+|-----------|-------------|
+| `select` | Single-choice picker. Opens inline. |
+| `checkbox` | Togglable boolean. |
+| `textarea` | Multi-line input. Wraps `bubbles/textarea`. |
+| `spinner` | Loading indicator. Wraps `bubbles/spinner`. |
+| `progress` | Progress bar with optional label. |
 
-### Layout
+### Tier 3
 
-<Code lang="go" code={`// Horizontal with fixed and flex columns
-layout.Horizontal(
-    layout.Fixed(30, sidebar),
-    layout.Flex(1, mainContent),
-)
+| Component | Description |
+|-----------|-------------|
+| `command` | Command palette with fuzzy search. |
+| `toast` | Ephemeral notification. Auto-dismisses, stacks. |
+| `tabs` | Horizontal tab switcher. |
+| `separator` | Horizontal or vertical rule. |
 
-// Vertical stack
-layout.Vertical(
-    layout.Fixed(1, header),
-    layout.Flex(1, body),
-    layout.Fixed(1, footer),
-)`} />
+---
 
-### Theming
+## Bentos
 
-<Code lang="go" code={`theme := theme.Preset("catppuccin-mocha")`} />
+Bentos are complete runnable screen patterns you copy wholesale. Each is a single self-contained `.go` file demonstrating real component usage.
 
-Available presets: `catppuccin-mocha`, `dracula`, `osaka-jade`
+```
+bentos/
+  home-screen/   ← mirrors starter app (coming soon)
+  app-shell/
+  dashboard/
+  detail-view/
+  form/
+  log-viewer/
+  settings/
+  command-view/
+```
+
+### Planned Bentos
+
+| Bento | Components Used |
+|-------|----------------|
+| `home-screen` | `wordmark`, `input`, `kbd`, `badge`, `bar`, `surface` |
+| `app-shell` | `panel`, `layout`, `bar`, `tabs`, `surface` |
+| `dashboard` | `panel`, `badge`, `table`, `layout`, `surface` |
+| `detail-view` | `list`, `panel`, `layout`, `surface` |
+| `form` | `input`, `textarea`, `checkbox`, `badge`, `surface` |
+| `log-viewer` | `input`, `panel`, `spinner`, `badge`, `surface` |
+| `settings` | `list`, `panel`, `checkbox`, `layout`, `surface` |
+| `command-view` | `command`, `input`, `list`, `surface` |
+
+---
+
+## Theme System
+
+15 built-in presets:
+
+<Code lang="go" code={`// Set once at startup
+theme.SetTheme("tokyo-night")
+
+// Components always call this in View() — never cache it
+t := theme.CurrentTheme()`} />
+
+Available themes: `catppuccin-mocha` (default), `catppuccin-macchiato`, `catppuccin-frappe`, `dracula`, `tokyo-night`, `tokyo-night-storm`, `nord`, `gruvbox-dark`, `monokai-pro`, `kanagawa`, `rose-pine`, `ayu-mirage`, `one-dark`, `material-ocean`, `github-dark`.
+
+Switch themes at runtime via the `/theme` command in the starter app.
+
+---
+
+## CLI Usage
+
+```bash
+# Install the CLI
+go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
+
+# Copy components into your project
+bento add input bar surface
+
+# Run the starter app
+go run ./cmd/starter-app
+```
 
 ---
 
