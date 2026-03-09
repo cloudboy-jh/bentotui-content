@@ -4,10 +4,16 @@ import { Code } from "astro:components";
 import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 
 const quickStartCode = `# Copy components into your project
-bento add input bar surface
+bento add panel bar surface
 
-# Run the starter app to see it in action
-go run ./cmd/starter-app`;
+# See available components and bentos
+bento list
+
+# Check your environment and setup
+bento doctor
+
+# Scaffold or compose from copy-and-own source
+bento init myapp`;
 
 const themes = [
   "catppuccin-mocha",
@@ -46,16 +52,15 @@ const themes = [
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
       <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <p class="hero__subtitle">A registry of copy-and-own terminal UI components.</p>
+      <p class="hero__subtitle">A copy-and-own terminal UI registry for Bubble Tea v2.</p>
       <p class="hero__pitch">
-        BentoTUI is a collection of components built on Bubble Tea v2 and Lip Gloss v2. 
-        Run <code>bento add input</code> and the source lands in your project. 
-        You own it — read it, modify it, delete what you don't need. 
-        No framework lock-in, no lifecycle hooks, no "extend" API to learn.
+        BentoTUI 1.0 finalizes a composition-first component catalog and shifts fully into
+        shipping runnable bento screen patterns. Run <code>bento add &lt;component&gt;</code>, copy
+        source into your app, and build production TUIs without framework lock-in.
       </p>
       
       <div class="warning-banner reveal" style="--delay: 160ms;">
-        <strong>Early development</strong> - APIs and registry paths will change.
+        <strong>1.0 scope finalized</strong> - component catalog is locked and roadmap is now bento-first.
       </div>
 
       <div class="install-pill reveal" style="--delay: 200ms;">
@@ -66,8 +71,8 @@ const themes = [
     <section class="section-pad section-body reveal" style="--delay: 240ms;">
       <h2>How it works</h2>
       <p>
-        Two things live in this repo: <strong>components</strong> (atomic UI pieces you copy) 
-        and <strong>bentos</strong> (pre-built layout compositions you copy wholesale).
+        Two things live in this repo: <strong>components</strong> (composition-ready UI pieces you copy)
+        and <strong>bentos</strong> (full-screen runnable patterns you copy and adapt).
       </p>
       
       <div class="code-frame">
@@ -76,55 +81,69 @@ const themes = [
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 280ms;">
-      <h2>Available Components</h2>
-      <p class="section-copy">Grouped by what you can use now versus what is actively planned.</p>
+      <h2>Final Component Catalog (1.0)</h2>
+      <p class="section-copy">Composition-focused components with compatibility coverage for teams already shipping.</p>
 
       <div class="components-grid">
         <article class="component-card component-card--current">
           <header class="component-card__head">
-            <h3>Available now</h3>
-            <span class="component-count">8</span>
+            <h3>Core layout/container</h3>
+            <span class="component-count">4</span>
           </header>
           <ul class="component-list">
             <li><code>surface</code><span>Cell-buffer rendering with Ultraviolet</span></li>
-            <li><code>bar</code><span>Status/nav bar with left and right slots</span></li>
-            <li><code>input</code><span>Single-line input with accent border</span></li>
             <li><code>panel</code><span>Titled and focusable content container</span></li>
+            <li><code>bar</code><span>Status/nav bar with left and right slots</span></li>
             <li><code>dialog</code><span>Modal manager (Confirm, Custom, ThemePicker)</span></li>
-            <li><code>list</code><span>Scrollable log-style list</span></li>
-            <li><code>table</code><span>Header and data rows</span></li>
-            <li><code>text</code><span>Static styled label</span></li>
           </ul>
         </article>
 
         <article class="component-card">
           <header class="component-card__head">
-            <h3>Tier 1 next</h3>
-            <span class="component-count">4</span>
+            <h3>Display helpers</h3>
+            <span class="component-count">3</span>
           </header>
           <ul class="component-list component-list--muted">
             <li><code>badge</code><span>Inline colored label</span></li>
             <li><code>kbd</code><span>Keyboard shortcut display</span></li>
             <li><code>wordmark</code><span>Large centered app identity</span></li>
-            <li><code>statusbar</code><span>Standalone registry bar</span></li>
           </ul>
         </article>
 
         <article class="component-card">
           <header class="component-card__head">
-            <h3>Tier 2 and 3</h3>
-            <span class="component-count">9</span>
+            <h3>Form/feedback</h3>
+            <span class="component-count">3</span>
           </header>
           <ul class="component-list component-list--muted">
             <li><code>select</code><span>Inline single-choice picker</span></li>
             <li><code>checkbox</code><span>Toggle boolean values</span></li>
-            <li><code>textarea</code><span>Multi-line input</span></li>
-            <li><code>spinner</code><span>Loading indicator</span></li>
             <li><code>progress</code><span>Progress bar with label support</span></li>
-            <li><code>command</code><span>Fuzzy command palette</span></li>
+          </ul>
+        </article>
+
+        <article class="component-card">
+          <header class="component-card__head">
+            <h3>Advanced composition</h3>
+            <span class="component-count">3</span>
+          </header>
+          <ul class="component-list component-list--muted">
             <li><code>toast</code><span>Stacked auto-dismiss notifications</span></li>
             <li><code>tabs</code><span>Horizontal tab switcher</span></li>
             <li><code>separator</code><span>Horizontal or vertical rule</span></li>
+          </ul>
+        </article>
+
+        <article class="component-card">
+          <header class="component-card__head">
+            <h3>Compatibility shipped</h3>
+            <span class="component-count">4</span>
+          </header>
+          <ul class="component-list component-list--muted">
+            <li><code>input</code><span>Single-line input with accent border</span></li>
+            <li><code>list</code><span>Scrollable log-style list</span></li>
+            <li><code>table</code><span>Header and data rows</span></li>
+            <li><code>text</code><span>Static styled label</span></li>
           </ul>
         </article>
       </div>
@@ -161,6 +180,11 @@ t := theme.CurrentTheme()</code></pre>
       <p>
         Components are copied into your project while core packages (<code>theme</code>, <code>styles</code>, <code>layout</code>)
         stay as normal imports from the bentotui module.
+      </p>
+
+      <p>
+        Primitive wrappers are intentionally limited in 1.0. Use <code>charm.land/bubbles/v2/spinner</code>
+        directly unless Bento adds clear composition value.
       </p>
 
       <div class="arch-flow">
@@ -201,42 +225,36 @@ t := theme.CurrentTheme()</code></pre>
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 400ms;">
-      <h2>Current Status</h2>
+      <h2>1.0 Status Snapshot</h2>
       <div class="status-list">
         <div class="status-item done">
           <span class="status-check">✓</span>
           <div>
-            <strong>Starter app</strong> — Home screen with surface-backed rendering (v0.2)
+            <strong>Registry architecture</strong> — In place
+          </div>
+        </div>
+        <div class="status-item active">
+          <span class="status-check">✓</span>
+          <div>
+            <strong>CLI commands shipped</strong> — bento init, bento add, bento list, bento doctor
+          </div>
+        </div>
+        <div class="status-item done">
+          <span class="status-check">✓</span>
+          <div>
+            <strong>Core packages stable</strong> — theme, styles, layout
+          </div>
+        </div>
+        <div class="status-item done">
+          <span class="status-check">✓</span>
+          <div>
+            <strong>Component catalog finalized</strong> — 1.0 scope locked
           </div>
         </div>
         <div class="status-item active">
           <span class="status-check">→</span>
           <div>
-            <strong>Tier 1 components</strong> — badge, kbd, wordmark, statusbar
-          </div>
-        </div>
-        <div class="status-item">
-          <span class="status-check">○</span>
-          <div>
-            <strong>home-screen bento</strong> — First bento, mirrors starter app
-          </div>
-        </div>
-        <div class="status-item">
-          <span class="status-check">○</span>
-          <div>
-            <strong>Tier 2 components</strong> — select, checkbox, textarea, spinner, progress
-          </div>
-        </div>
-        <div class="status-item">
-          <span class="status-check">○</span>
-          <div>
-            <strong>Remaining bentos</strong> — app-shell, dashboard, detail-view, form
-          </div>
-        </div>
-        <div class="status-item">
-          <span class="status-check">○</span>
-          <div>
-            <strong>Tier 3 components & CLI wiring</strong> — command, toast, tabs, bento init
+            <strong>Execution focus now</strong> — ship broad, runnable bento screen patterns
           </div>
         </div>
       </div>
@@ -244,7 +262,7 @@ t := theme.CurrentTheme()</code></pre>
   </main>
 
   <footer class="site-footer reveal" style="--delay: 480ms;">
-    <p>BentoTUI — The App framework for Bubble Tea</p>
+    <p>BentoTUI - Copy-and-own terminal UI registry for Bubble Tea v2</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <a href="/docs">Docs</a>

@@ -1,14 +1,14 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: BentoTUI Architecture
-description: Component registry architecture built on Bubble Tea v2 and Lip Gloss v2.
+description: 1.0 composition-first architecture and component policy for BentoTUI.
 ---
 
 import { Code } from "astro:components";
 
 # BentoTUI Architecture
 
-BentoTUI is a registry of copy-and-own terminal UI components built on [Bubble Tea v2](https://github.com/charmbracelet/bubbletea) and [Lip Gloss v2](https://github.com/charmbracelet/lipgloss).
+BentoTUI is a copy-and-own terminal UI registry for [Bubble Tea v2](https://github.com/charmbracelet/bubbletea) and [Lip Gloss v2](https://github.com/charmbracelet/lipgloss).
 
 <div class="overview-cards">
   <article>
@@ -17,7 +17,7 @@ BentoTUI is a registry of copy-and-own terminal UI components built on [Bubble T
   </article>
   <article>
     <p class="overview-label">Live now</p>
-    <p class="overview-value">8 components</p>
+    <p class="overview-value">17 components</p>
   </article>
   <article>
     <p class="overview-label">Core imports</p>
@@ -57,7 +57,7 @@ bentos/                ← complete runnable screen patterns
       <rect x="50" y="80" width="500" height="70" rx="8" class="layer-box registry-box"/>
       <text x="300" y="105" text-anchor="middle" class="layer-title">registry/components/</text>
       <text x="300" y="125" text-anchor="middle" class="layer-subtitle">Copied into your project — you own the source</text>
-      <text x="300" y="140" text-anchor="middle" class="layer-items">surface · bar · input · panel · dialog · list · table · text</text>
+      <text x="300" y="140" text-anchor="middle" class="layer-items">surface · panel · bar · dialog · ... · separator (17 total)</text>
     </g>
     
     <path d="M 300 150 L 300 170" class="arrow-line"/>
@@ -221,94 +221,96 @@ These are stable module deps your project imports directly:
 | Package | Import Path | What it is |
 |---------|-------------|------------|
 | **theme** | `github.com/cloudboy-jh/bentotui/theme` | Global theme store, 15 presets, goroutine-safe |
-| **styles** | `github.com/cloudboy-jh/bentotui/styles` | Theme → Lip Gloss style mapping |
+| **styles** | `github.com/cloudboy-jh/bentotui/styles` | Theme to Lip Gloss style mapping |
 | **layout** | `github.com/cloudboy-jh/bentotui/layout` | `Horizontal` / `Vertical` split layout |
 
 ---
 
 ## The `surface` Primitive
 
-`surface` is the key rendering primitive. It wraps Ultraviolet's cell buffer so every cell is explicitly painted before Bubble Tea flushes the frame — eliminating ANSI whitespace-reset bleed that occurs with pure string composition.
+`surface` is the key rendering primitive. It wraps Ultraviolet's cell buffer so every cell is explicitly painted before Bubble Tea flushes the frame, eliminating ANSI whitespace-reset bleed that occurs with pure string composition.
 
 Used by every full-screen layout.
 
 ---
 
-## Components
+## Component Policy (1.0)
 
-All components live in `registry/components/` and are copied into your project by `bento add`. Once copied they live at `yourmodule/components/<name>` — you own the source.
+The 1.0 scope is locked around composition-focused components. Bento intentionally avoids rebuilding primitives that are already strong in Bubbles.
 
-### Available Now
-
-| Component | Description |
-|-----------|-------------|
-| `surface` | Full-screen cell buffer backed by Ultraviolet. Deterministic background paint — no ANSI whitespace bleed. Used by every full-screen layout. |
-| `bar` | Status/nav bar with left + right slots. |
-| `input` | Single-line text input with left-border accent. Wraps `bubbles/textinput`. |
-| `panel` | Titled, focusable content container. |
-| `dialog` | Modal manager — `Confirm`, `Custom`, `ThemePicker`. |
-| `list` | Scrollable log-style list. |
-| `table` | Header + data rows. |
-| `text` | Static styled label. |
-
-### Coming Next — Tier 1
-
-| Component | Description |
-|-----------|-------------|
-| `badge` | Inline colored label. |
-| `kbd` | Keyboard shortcut display. Dim/bright pair. |
-| `wordmark` | Large centered app name. Theme-colored, responsive. |
-| `statusbar` | Standalone registry version of `bar`. |
-
-### Tier 2
-
-| Component | Description |
-|-----------|-------------|
-| `select` | Single-choice picker. Opens inline. |
-| `checkbox` | Togglable boolean. |
-| `textarea` | Multi-line input. Wraps `bubbles/textarea`. |
-| `spinner` | Loading indicator. Wraps `bubbles/spinner`. |
-| `progress` | Progress bar with optional label. |
-
-### Tier 3
-
-| Component | Description |
-|-----------|-------------|
-| `command` | Command palette with fuzzy search. |
-| `toast` | Ephemeral notification. Auto-dismisses, stacks. |
-| `tabs` | Horizontal tab switcher. |
-| `separator` | Horizontal or vertical rule. |
+- Use `charm.land/bubbles/v2/spinner` directly for loading states.
+- Prefer direct Bubbles primitives unless Bento-specific composition value is clear.
 
 ---
 
-## Bentos
+## Final Component Catalog (1.0)
 
-Bentos are complete runnable screen patterns you copy wholesale. Each is a single self-contained `.go` file demonstrating real component usage.
+All components live in `registry/components/` and are copied into your project by `bento add`. Once copied they live at `yourmodule/components/<name>` and you own the source.
 
-```
-bentos/
-  home-screen/   ← mirrors starter app (coming soon)
-  app-shell/
-  dashboard/
-  detail-view/
-  form/
-  log-viewer/
-  settings/
-  command-view/
-```
+### Core layout/container
 
-### Planned Bentos
+- `surface`
+- `panel`
+- `bar`
+- `dialog`
 
-| Bento | Components Used |
-|-------|----------------|
-| `home-screen` | `wordmark`, `input`, `kbd`, `badge`, `bar`, `surface` |
-| `app-shell` | `panel`, `layout`, `bar`, `tabs`, `surface` |
-| `dashboard` | `panel`, `badge`, `table`, `layout`, `surface` |
-| `detail-view` | `list`, `panel`, `layout`, `surface` |
-| `form` | `input`, `textarea`, `checkbox`, `badge`, `surface` |
-| `log-viewer` | `input`, `panel`, `spinner`, `badge`, `surface` |
-| `settings` | `list`, `panel`, `checkbox`, `layout`, `surface` |
-| `command-view` | `command`, `input`, `list`, `surface` |
+### Display helpers
+
+- `badge`
+- `kbd`
+- `wordmark`
+
+### Form/feedback
+
+- `select`
+- `checkbox`
+- `progress`
+
+### Advanced composition helpers
+
+- `tabs`
+- `toast`
+- `separator`
+
+### Compatibility components (already shipped)
+
+- `input`
+- `list`
+- `table`
+- `text`
+
+---
+
+## Final Bento List (1.0)
+
+Bentos are complete runnable screen patterns you copy wholesale. Each is a self-contained `.go` file demonstrating real composition in production-like layouts.
+
+### Foundation wave
+
+- `home-screen`
+- `app-shell`
+- `dashboard`
+- `settings`
+
+### Workflow wave
+
+- `form`
+- `detail-view`
+- `log-viewer`
+- `command-view`
+- `table-browser`
+- `file-browser`
+
+### Advanced wave
+
+- `release-monitor`
+- `incident-console`
+- `chat-console`
+- `kanban-board`
+- `onboarding-wizard`
+- `admin-control-center`
+
+Execution focus after scope lock: broad bento example coverage.
 
 ---
 
@@ -324,8 +326,6 @@ t := theme.CurrentTheme()`} />
 
 Available themes: `catppuccin-mocha` (default), `catppuccin-macchiato`, `catppuccin-frappe`, `dracula`, `tokyo-night`, `tokyo-night-storm`, `nord`, `gruvbox-dark`, `monokai-pro`, `kanagawa`, `rose-pine`, `ayu-mirage`, `one-dark`, `material-ocean`, `github-dark`.
 
-Switch themes at runtime via the `/theme` command in the starter app.
-
 ---
 
 ## CLI Usage
@@ -335,14 +335,14 @@ Switch themes at runtime via the `/theme` command in the starter app.
 go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 
 # Copy components into your project
-bento add input bar surface
+bento add panel bar surface
 
-# Run the starter app
-go run ./cmd/starter-app
+# List the 1.0 catalog
+bento list
 ```
 
 ---
 
 ## Related
 
-- [Framework Roadmap](./framework-roadmap) — Execution priorities and milestones
+- [BentoTUI 1.0 Scope Finalized](./framework-roadmap) — Final component and bento scope

@@ -1,184 +1,139 @@
 ---
 layout: ../../layouts/DocsLayout.astro
-title: BentoTUI Framework Roadmap
-description: Current execution order and development milestones for BentoTUI.
+title: BentoTUI 1.0 Scope Finalized
+description: Final component catalog locked; roadmap now bento-first.
+publishedAt: 2026-03-09
+tags:
+  - bentotui
+  - bubbletea
+  - golang
+  - tui
+  - cli
 ---
 
-# BentoTUI Framework Roadmap
+# BentoTUI 1.0 Scope Finalized
 
-**Status:** v0.2 Active Development
+## Positioning
 
----
+BentoTUI is a copy-and-own terminal UI registry for Bubble Tea v2.
 
-## Overview
+- No framework shell
+- No lifecycle lock-in
+- Add source with `bento add <component>`
+- Compose full screens with reusable bento patterns
 
-BentoTUI is in early development — APIs and registry paths will change. This roadmap tracks execution order from the starter app through CLI tooling.
-
----
-
-## Execution Order
-
-### 1. ✅ Starter App — COMPLETE
-
-Home screen with surface-backed rendering. Demonstrates:
-
-- Full-screen cell buffer (Ultraviolet)
-- Deterministic background painting
-- Command parsing (`/theme`, `/dialog`)
-- Live theme switching across 15 presets
-
-**Run it:**
-```bash
-go run ./cmd/starter-app
-```
+Core principle for 1.0: **do not reinvent established primitives**. Bento ships composition-focused components and leans on Bubbles directly for low-level primitives (for example `spinner`).
 
 ---
 
-### 2. → Tier 1 Components — IN PROGRESS
+## 1.0 Status Snapshot
 
-Core UI primitives that many bentos will depend on:
-
-| Component | Description | Status |
-|-----------|-------------|--------|
-| `badge` | Inline colored label | 🔄 |
-| `kbd` | Keyboard shortcut display (dim/bright pair) | 🔄 |
-| `wordmark` | Large centered app name, theme-colored, responsive | 🔄 |
-| `statusbar` | Standalone registry version of `bar` | 🔄 |
+- Registry architecture is in place
+- CLI commands shipped: `bento init`, `bento add`, `bento list`, `bento doctor`
+- Theme/layout core packages are stable imports: `theme`, `styles`, `layout`
+- Component catalog is finalized for 1.0 scope
+- Next execution focus is bento example breadth
 
 ---
 
-### 3. ○ Home-Screen Bento
+## Final Component List (1.0)
 
-First bento — mirrors the starter app as a copyable template:
+### Core layout/container
 
-**Components used:** `wordmark`, `input`, `kbd`, `badge`, `bar`, `surface`
-
-A single `.go` file demonstrating real component composition that developers can copy and modify.
-
----
-
-### 4. ○ Tier 2 Components
-
-Interactive input components:
-
-| Component | Description |
-|-----------|-------------|
-| `select` | Single-choice picker, opens inline |
-| `checkbox` | Togglable boolean |
-| `textarea` | Multi-line input, wraps `bubbles/textarea` |
-| `spinner` | Loading indicator, wraps `bubbles/spinner` |
-| `progress` | Progress bar with optional label |
+- `surface`
+- `panel`
+- `bar`
+- `dialog`
 
 ---
 
-### 5. ○ Remaining Bentos
+### Display helpers
 
-Complete screen patterns:
-
-| Bento | Components Used | Purpose |
-|-------|-----------------|---------|
-| `app-shell` | `panel`, `layout`, `bar`, `tabs`, `surface` | Main application frame |
-| `dashboard` | `panel`, `badge`, `table`, `layout`, `surface` | Data overview screen |
-| `detail-view` | `list`, `panel`, `layout`, `surface` | Item detail screen |
-| `form` | `input`, `textarea`, `checkbox`, `badge`, `surface` | Settings/input form |
+- `badge`
+- `kbd`
+- `wordmark`
 
 ---
 
-### 6. ○ Tier 3 Components
+### Form/feedback
 
-Advanced UI patterns:
-
-| Component | Description |
-|-----------|-------------|
-| `command` | Command palette with fuzzy search |
-| `toast` | Ephemeral notification, auto-dismisses, stacks |
-| `tabs` | Horizontal tab switcher |
-| `separator` | Horizontal or vertical rule |
+- `select`
+- `checkbox`
+- `progress`
 
 ---
 
-### 7. ○ CLI Embed Wiring
+### Advanced composition helpers
 
-Enable `bento add` to copy from embedded registry filesystem:
-
-```bash
-bento add input     # Copies from embedded fs to your project
-bento add bar surface dialog
-```
+- `tabs`
+- `toast`
+- `separator`
 
 ---
 
-### 8. ○ `bento init` Template
+### Compatibility components (already shipped)
 
-Single-screen starter template:
-
-```bash
-bento init myapp    # Scaffolds a new TUI with surface + bar + input
-```
-
----
-
-## Philosophy
-
-- **No framework lock-in** — You own the source after `bento add`
-- **Copy-and-own** — Read it, modify it, delete what you don't need
-- **No lifecycle hooks** — Components are plain Bubble Tea models
-- **No "extend" API** — Compose, don't inherit
-- **Bounded deterministic rendering** — `surface` cell buffer eliminates ANSI bleed
+- `input`
+- `list`
+- `table`
+- `text`
 
 ---
 
-## Available Components (v0.2)
+## Primitive Policy
 
-Already implemented and ready to use:
+For 1.0, Bento does **not** add extra wrapper components for primitives that are already strong in Bubbles.
 
-| Component | Description |
-|-----------|-------------|
-| `surface` | Full-screen cell buffer backed by Ultraviolet |
-| `bar` | Status/nav bar with left + right slots |
-| `input` | Single-line text input with left-border accent |
-| `panel` | Titled, focusable content container |
-| `dialog` | Modal manager — Confirm, Custom, ThemePicker |
-| `list` | Scrollable log-style list |
-| `table` | Header + data rows |
-| `text` | Static styled label |
+- Use `charm.land/bubbles/v2/spinner` directly
+- Prefer direct Bubbles primitives unless Bento-specific composition value is clear
 
 ---
 
-## Theme System
+## Final Bento List (1.0)
 
-15 built-in presets, goroutine-safe global store:
+### Foundation wave
 
-```go
-// Set once at startup
-theme.SetTheme("tokyo-night")
-
-// Components always call this in View() — never cache it
-t := theme.CurrentTheme()
-```
-
-Available: `catppuccin-mocha` (default), `catppuccin-macchiato`, `catppuccin-frappe`, `dracula`, `tokyo-night`, `tokyo-night-storm`, `nord`, `gruvbox-dark`, `monokai-pro`, `kanagawa`, `rose-pine`, `ayu-mirage`, `one-dark`, `material-ocean`, `github-dark`.
+- `home-screen`
+- `app-shell`
+- `dashboard`
+- `settings`
 
 ---
 
-## Quick Start
+### Workflow wave
 
-```bash
-# Install the CLI
-go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
+- `form`
+- `detail-view`
+- `log-viewer`
+- `command-view`
+- `table-browser`
+- `file-browser`
 
-# Get core deps
-go get github.com/cloudboy-jh/bentotui
+---
 
-# Copy components
-bento add input bar surface
+### Advanced wave
 
-# Run the starter app
-go run ./cmd/starter-app
-```
+- `release-monitor`
+- `incident-console`
+- `chat-console`
+- `kanban-board`
+- `onboarding-wizard`
+- `admin-control-center`
+
+---
+
+## Recommended Site Copy (Short)
+
+"BentoTUI 1.0 finalizes a composition-first component catalog and shifts fully into shipping runnable bento screen patterns. You copy source, own source, and build production TUIs without framework lock-in."
+
+---
+
+## Recommended Site Copy (Long)
+
+"BentoTUI is a copy-and-own registry for Bubble Tea v2. Instead of forcing a framework shell, Bento gives you production-ready components and full-screen bento patterns that land directly in your codebase. The 1.0 scope is now locked: a composition-focused component catalog (`surface`, `panel`, `bar`, `dialog`, `badge`, `kbd`, `wordmark`, `select`, `checkbox`, `progress`, `tabs`, `toast`, `separator`) plus compatibility components already in use (`input`, `list`, `table`, `text`). Primitive wrappers are intentionally limited; for example, loading states use `bubbles/spinner` directly. The roadmap now prioritizes broad bento coverage so teams can start from proven screen templates and adapt quickly."
 
 ---
 
 ## Related
 
-- [Architecture](./architecture) — Component registry architecture and API reference
+- [Architecture](./architecture) — Component registry architecture and policy details
