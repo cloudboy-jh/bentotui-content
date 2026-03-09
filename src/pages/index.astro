@@ -15,22 +15,22 @@ bento doctor
 # Scaffold or compose from copy-and-own source
 bento init myapp`;
 
-const themes = [
-  "catppuccin-mocha",
-  "catppuccin-macchiato",
-  "catppuccin-frappe",
-  "dracula",
-  "tokyo-night",
-  "tokyo-night-storm",
-  "nord",
-  "gruvbox-dark",
-  "monokai-pro",
-  "kanagawa",
-  "rose-pine",
-  "ayu-mirage",
-  "one-dark",
-  "material-ocean",
-  "github-dark"
+const themePresets = [
+  { name: "catppuccin-mocha", bg: "#1e1e2e", surface: "#313244", text: "#cdd6f4", accent: "#f38ba8", codebg: "#11111b", codeink: "#cdd6f4" },
+  { name: "catppuccin-macchiato", bg: "#24273a", surface: "#363a4f", text: "#cad3f5", accent: "#f5bde6", codebg: "#181926", codeink: "#cad3f5" },
+  { name: "catppuccin-frappe", bg: "#303446", surface: "#414559", text: "#c6d0f5", accent: "#eebebe", codebg: "#232634", codeink: "#c6d0f5" },
+  { name: "dracula", bg: "#282a36", surface: "#343746", text: "#f8f8f2", accent: "#ff79c6", codebg: "#1f2029", codeink: "#f8f8f2" },
+  { name: "tokyo-night", bg: "#1a1b26", surface: "#24283b", text: "#c0caf5", accent: "#7aa2f7", codebg: "#16161e", codeink: "#c0caf5" },
+  { name: "tokyo-night-storm", bg: "#1f2335", surface: "#292e42", text: "#c0caf5", accent: "#9d7cd8", codebg: "#171b29", codeink: "#c0caf5" },
+  { name: "nord", bg: "#2e3440", surface: "#3b4252", text: "#eceff4", accent: "#88c0d0", codebg: "#242933", codeink: "#eceff4" },
+  { name: "gruvbox-dark", bg: "#282828", surface: "#3c3836", text: "#ebdbb2", accent: "#d79921", codebg: "#1d2021", codeink: "#ebdbb2" },
+  { name: "monokai-pro", bg: "#2d2a2e", surface: "#403e41", text: "#fcfcfa", accent: "#ffd866", codebg: "#221f22", codeink: "#fcfcfa" },
+  { name: "kanagawa", bg: "#1f1f28", surface: "#2a2a37", text: "#dcd7ba", accent: "#7e9cd8", codebg: "#16161d", codeink: "#dcd7ba" },
+  { name: "rose-pine", bg: "#191724", surface: "#26233a", text: "#e0def4", accent: "#eb6f92", codebg: "#111019", codeink: "#e0def4" },
+  { name: "ayu-mirage", bg: "#1f2430", surface: "#2b3245", text: "#cccac2", accent: "#ffb454", codebg: "#171b24", codeink: "#cccac2" },
+  { name: "one-dark", bg: "#282c34", surface: "#353b45", text: "#abb2bf", accent: "#61afef", codebg: "#1f2329", codeink: "#abb2bf" },
+  { name: "material-ocean", bg: "#0f111a", surface: "#1a1c25", text: "#a6accd", accent: "#89ddff", codebg: "#090b10", codeink: "#a6accd" },
+  { name: "github-dark", bg: "#0d1117", surface: "#161b22", text: "#c9d1d9", accent: "#58a6ff", codebg: "#010409", codeink: "#c9d1d9" }
 ];
 ---
 
@@ -58,10 +58,6 @@ const themes = [
         shipping runnable bento screen patterns. Run <code>bento add &lt;component&gt;</code>, copy
         source into your app, and build production TUIs without framework lock-in.
       </p>
-      
-      <div class="warning-banner reveal" style="--delay: 160ms;">
-        <strong>1.0 scope finalized</strong> - component catalog is locked and roadmap is now bento-first.
-      </div>
 
       <div class="install-pill reveal" style="--delay: 200ms;">
         <code>go install github.com/cloudboy-jh/bentotui/cmd/bento@latest</code>
@@ -152,25 +148,57 @@ const themes = [
     <section class="section-pad section-body reveal" style="--delay: 320ms;">
       <h2>15 Built-in Themes</h2>
       <p>
-        Click a theme to update the snippet. Components should call <code>theme.CurrentTheme()</code>
-        in each View render and should not cache the value.
+        Click a theme to generate a complete setup snippet. Components should call
+        <code>theme.CurrentTheme()</code> in each View render and should not cache the value.
       </p>
       <div class="themes-grid" role="group" aria-label="Built-in themes">
-        {themes.map((name, idx) => (
+        {themePresets.map((theme, idx) => (
           <button
             type="button"
             class={`theme-chip${idx === 0 ? " is-active" : ""}`}
             data-theme-preset
-            data-theme-name={name}
+            data-theme-name={theme.name}
+            data-theme-bg={theme.bg}
+            data-theme-surface={theme.surface}
+            data-theme-text={theme.text}
+            data-theme-accent={theme.accent}
+            data-theme-codebg={theme.codebg}
+            data-theme-codeink={theme.codeink}
             aria-pressed={idx === 0 ? "true" : "false"}
           >
-            {name}
+            {theme.name}
           </button>
         ))}
       </div>
 
+      <div class="theme-preview" id="theme-preview" aria-live="polite">
+        <div class="theme-preview__header">
+          <span class="theme-preview__label">Live Theme Preview</span>
+          <span class="theme-preview__name" id="theme-preview-name">catppuccin-mocha</span>
+        </div>
+        <div class="theme-preview__card">
+          <div class="theme-preview__bar">
+            <span class="theme-preview__dot"></span>
+            <span>bento app-shell preview</span>
+          </div>
+          <div class="theme-preview__body">
+            <p class="theme-preview__title">Dashboard panel</p>
+            <p class="theme-preview__text">Pick a preset, copy the snippet, then render with <code>theme.CurrentTheme()</code> in each View.</p>
+          </div>
+          <pre class="theme-preview__code"><code>$ bento add panel bar surface
+$ bento init myapp</code></pre>
+        </div>
+      </div>
+
       <div class="code-frame code-frame--theme" aria-live="polite">
-        <pre class="theme-code"><code id="theme-snippet">theme.SetTheme("catppuccin-mocha")
+        <div class="code-frame__top">
+          <span class="code-title">Go setup snippet</span>
+          <button type="button" class="copy-theme-snippet" id="copy-theme-snippet">Copy snippet</button>
+        </div>
+        <pre class="theme-code"><code id="theme-snippet">// Set once at startup
+theme.SetTheme("catppuccin-mocha")
+
+// Use current theme in every View render
 t := theme.CurrentTheme()</code></pre>
       </div>
     </section>
@@ -273,44 +301,80 @@ t := theme.CurrentTheme()</code></pre>
     (() => {
       const chips = Array.from(document.querySelectorAll("[data-theme-preset]"));
       const snippet = document.getElementById("theme-snippet");
-      if (!chips.length || !snippet) {
+      const preview = document.getElementById("theme-preview");
+      const previewName = document.getElementById("theme-preview-name");
+      const copyButton = document.getElementById("copy-theme-snippet");
+      if (!chips.length || !snippet || !preview || !previewName) {
         return;
       }
 
+      const themeStorageKey = "bento-theme-preset";
+
       function setThemeSnippet(themeName) {
-        snippet.textContent = `theme.SetTheme("${themeName}")\nt := theme.CurrentTheme()`;
+        snippet.textContent = `// Set once at startup\ntheme.SetTheme("${themeName}")\n\n// Use current theme in every View render\nt := theme.CurrentTheme()`;
       }
+
+      function applyPreview(chip) {
+        const { themeBg, themeSurface, themeText, themeAccent, themeCodebg, themeCodeink, themeName } = chip.dataset;
+        if (!themeBg || !themeSurface || !themeText || !themeAccent || !themeCodebg || !themeCodeink || !themeName) {
+          return;
+        }
+
+        preview.style.setProperty("--preview-bg", themeBg);
+        preview.style.setProperty("--preview-surface", themeSurface);
+        preview.style.setProperty("--preview-text", themeText);
+        preview.style.setProperty("--preview-accent", themeAccent);
+        preview.style.setProperty("--preview-codebg", themeCodebg);
+        preview.style.setProperty("--preview-codeink", themeCodeink);
+        previewName.textContent = themeName;
+        setThemeSnippet(themeName);
+      }
+
+      function setActiveChip(activeChip) {
+        chips.forEach((el) => {
+          const isActive = el === activeChip;
+          el.classList.toggle("is-active", isActive);
+          el.setAttribute("aria-pressed", String(isActive));
+        });
+
+        applyPreview(activeChip);
+        localStorage.setItem(themeStorageKey, activeChip.getAttribute("data-theme-name") || "catppuccin-mocha");
+      }
+
+      const storedTheme = localStorage.getItem(themeStorageKey);
+      const storedChip = storedTheme
+        ? chips.find((chip) => chip.getAttribute("data-theme-name") === storedTheme)
+        : null;
+      const initialChip = storedChip || chips[0];
+      setActiveChip(initialChip);
 
       chips.forEach((chip) => {
         chip.addEventListener("click", () => {
-          const themeName = chip.getAttribute("data-theme-name");
-          if (!themeName) {
-            return;
-          }
-          chips.forEach((el) => {
-            el.classList.remove("is-active");
-            el.setAttribute("aria-pressed", "false");
-          });
-          chip.classList.add("is-active");
-          chip.setAttribute("aria-pressed", "true");
-          setThemeSnippet(themeName);
+          setActiveChip(chip);
         });
       });
+
+      if (copyButton) {
+        copyButton.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(snippet.textContent || "");
+            copyButton.textContent = "Copied";
+            setTimeout(() => {
+              copyButton.textContent = "Copy snippet";
+            }, 1200);
+          } catch {
+            copyButton.textContent = "Copy failed";
+            setTimeout(() => {
+              copyButton.textContent = "Copy snippet";
+            }, 1200);
+          }
+        });
+      }
     })();
   </script>
 </BaseLayout>
 
 <style>
-  .warning-banner {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 4px solid #f59e0b;
-    padding: 1rem 1.25rem;
-    border-radius: 0.5rem;
-    margin: 1.5rem 0;
-    font-size: 0.95rem;
-  }
-
   .section-copy {
     margin-top: 0.5rem;
     color: var(--body);
@@ -334,8 +398,8 @@ t := theme.CurrentTheme()</code></pre>
   }
 
   .component-card--current {
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-    background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+    border-color: color-mix(in srgb, var(--green) 48%, var(--border));
+    background: color-mix(in srgb, var(--green) 8%, var(--surface));
   }
 
   .component-card__head {
@@ -389,7 +453,7 @@ t := theme.CurrentTheme()</code></pre>
   }
 
   .component-list code {
-    color: var(--accent);
+    color: color-mix(in srgb, var(--green) 60%, var(--ink));
     font-weight: 600;
   }
 
@@ -419,19 +483,132 @@ t := theme.CurrentTheme()</code></pre>
     line-height: 1.2;
   }
 
+  .theme-chip:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 1px;
+  }
+
   .theme-chip:hover {
     color: var(--ink);
-    border-color: var(--accent-hover);
+    border-color: var(--green-light);
   }
 
   .theme-chip.is-active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+    border-color: var(--green);
+    color: color-mix(in srgb, var(--green) 72%, var(--ink));
+    background: color-mix(in srgb, var(--green) 11%, var(--surface));
   }
 
   .code-frame--theme {
-    margin-top: 0;
+    margin-top: 1rem;
+  }
+
+  .copy-theme-snippet {
+    padding: 0.22rem 0.55rem;
+    border-radius: 0.38rem;
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  .theme-preview {
+    --preview-bg: #1e1e2e;
+    --preview-surface: #313244;
+    --preview-text: #cdd6f4;
+    --preview-accent: #f38ba8;
+    --preview-codebg: #11111b;
+    --preview-codeink: #cdd6f4;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    background: color-mix(in srgb, var(--surface) 90%, white);
+  }
+
+  .theme-preview__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .theme-preview__label,
+  .theme-preview__name {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  .theme-preview__label {
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .theme-preview__name {
+    color: var(--ink);
+  }
+
+  .theme-preview__card {
+    border: 1px solid color-mix(in srgb, var(--preview-accent) 35%, #ffffff22);
+    border-radius: 0.65rem;
+    overflow: hidden;
+    background: var(--preview-bg);
+    color: var(--preview-text);
+  }
+
+  .theme-preview__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    padding: 0.42rem 0.65rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.73rem;
+    background: color-mix(in srgb, var(--preview-surface) 88%, #00000022);
+    border-bottom: 1px solid color-mix(in srgb, var(--preview-accent) 25%, #ffffff1f);
+  }
+
+  .theme-preview__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--preview-accent);
+  }
+
+  .theme-preview__body {
+    padding: 0.75rem 0.8rem 0.5rem;
+    background: var(--preview-surface);
+  }
+
+  .theme-preview__title {
+    margin: 0;
+    font-family: "Outfit", sans-serif;
+    font-size: 0.95rem;
+    color: var(--preview-text);
+  }
+
+  .theme-preview__text {
+    margin: 0.4rem 0 0;
+    font-size: 0.84rem;
+    color: color-mix(in srgb, var(--preview-text) 86%, #00000024);
+  }
+
+  .theme-preview__text code {
+    border: 1px solid color-mix(in srgb, var(--preview-accent) 25%, #ffffff20);
+    border-radius: 0.3rem;
+    padding: 0.02rem 0.3rem;
+    background: color-mix(in srgb, var(--preview-bg) 75%, #0000001f);
+    color: var(--preview-accent);
+  }
+
+  .theme-preview__code {
+    margin: 0;
+    padding: 0.72rem 0.8rem;
+    border-top: 1px solid color-mix(in srgb, var(--preview-accent) 20%, #ffffff1f);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    background: var(--preview-codebg);
+    color: var(--preview-codeink);
   }
 
   .theme-code {
@@ -480,8 +657,8 @@ t := theme.CurrentTheme()</code></pre>
   }
 
   .arch-layer--highlight {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-    background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--green) 45%, var(--border));
+    background: color-mix(in srgb, var(--green) 12%, var(--surface));
   }
 
   .arch-step {
@@ -534,8 +711,8 @@ t := theme.CurrentTheme()</code></pre>
   }
 
   .status-item.active {
-    border-left: 4px solid var(--accent);
-    background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+    border-left: 4px solid var(--green);
+    background: color-mix(in srgb, var(--green) 10%, var(--surface));
   }
 
   .status-check {
@@ -552,7 +729,7 @@ t := theme.CurrentTheme()</code></pre>
   }
 
   .status-item.active .status-check {
-    color: var(--accent);
+    color: var(--green);
   }
 
   .section-p {
@@ -584,6 +761,11 @@ t := theme.CurrentTheme()</code></pre>
     .status-check {
       min-width: 2.3rem;
       font-size: 0.68rem;
+    }
+
+    .theme-preview__header {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 </style>

@@ -5,12 +5,12 @@ const docPages = [
   {
     title: "Architecture",
     href: "/docs/architecture",
-    description: "Composition-first architecture and 1.0 component policy."
+    description: "Composition-first architecture, component policy, and system design."
   },
   {
-    title: "BentoTUI 1.0 Scope Finalized",
+    title: "Roadmap",
     href: "/docs/framework-roadmap",
-    description: "Final component catalog locked; roadmap now bento-first."
+    description: "Component roadmap, priorities, and final 1.0 direction."
   }
 ];
 ---
@@ -38,14 +38,14 @@ const docPages = [
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
       <h1>Documentation</h1>
-      <p class="hero__subtitle">Architecture, policy, and finalized 1.0 scope for BentoTUI.</p>
+      <p class="hero__subtitle">Architecture and roadmap for BentoTUI.</p>
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
-      <div class="docs-grid docs-grid--simple">
+      <div class="docs-grid docs-grid--feature">
         {
           docPages.map((page) => (
-            <article class="docs-card">
+            <article class="docs-card docs-card--feature">
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
             </article>
@@ -57,16 +57,45 @@ const docPages = [
 </BaseLayout>
 
 <style>
-  .docs-grid--simple {
+  .docs-grid--feature {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 800px;
+    max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
+    gap: 1.1rem;
+  }
+
+  .docs-card--feature {
+    min-height: 170px;
+    padding: 1.3rem 1.2rem;
+    border-radius: 0.95rem;
+    border-color: color-mix(in srgb, var(--green) 26%, var(--border));
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, white) 0%, color-mix(in srgb, var(--surface) 86%, white) 100%),
+      radial-gradient(130% 120% at 0% 0%, color-mix(in srgb, var(--green) 9%, transparent) 0%, transparent 65%);
+  }
+
+  .docs-card--feature h3 {
+    font-size: 1.18rem;
+    letter-spacing: 0.01em;
+    font-family: "Fraunces", serif;
+    margin-bottom: 0.5rem;
+  }
+
+  .docs-card--feature p {
+    font-size: 1.03rem;
+    line-height: 1.5;
+    margin-top: 0;
   }
   
   @media (max-width: 680px) {
-    .docs-grid--simple {
+    .docs-grid--feature {
       grid-template-columns: 1fr;
+    }
+
+    .docs-card--feature {
+      min-height: 140px;
+      padding: 1rem;
     }
   }
 </style>

@@ -130,8 +130,8 @@ bentos/                ← complete runnable screen patterns
   }
   
   .app-box {
-    fill: var(--accent);
-    stroke: var(--accent-hover);
+    fill: color-mix(in srgb, var(--green) 78%, var(--ink));
+    stroke: var(--green-light);
     stroke-width: 2;
   }
   
@@ -157,8 +157,8 @@ bentos/                ← complete runnable screen patterns
   }
   
   .registry-box {
-    fill: color-mix(in srgb, var(--accent) 15%, var(--surface));
-    stroke: var(--accent);
+    fill: color-mix(in srgb, var(--ink) 10%, var(--surface));
+    stroke: color-mix(in srgb, var(--ink) 45%, var(--border));
   }
   
   .core-box {
@@ -204,7 +204,7 @@ bentos/                ← complete runnable screen patterns
   }
   
   :root[data-theme="dark"] .registry-box {
-    fill: color-mix(in srgb, var(--accent) 25%, var(--surface));
+    fill: color-mix(in srgb, var(--ink) 18%, var(--surface));
   }
   
   :root[data-theme="dark"] .core-box {
