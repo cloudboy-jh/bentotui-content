@@ -1,0 +1,320 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="BentoTUI Color Guide" description="Bento Coloring and Bento Rose palette guide.">
+  <header class="site-nav reveal" style="--delay: 40ms;">
+    <a class="brand" href="/" aria-label="BentoTUI home">
+      <span class="brand__name">BentoTUI</span>
+      <span class="brand__badge">docs</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/docs">Docs</a>
+      <a href="/docs/colors">Colors</a>
+      <a href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">GitHub</a>
+      <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"></path></svg>
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 17.25A5.25 5.25 0 1 0 12 6.75a5.25 5.25 0 0 0 0 10.5Zm0-15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75Zm0 16.5a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75Zm9-6.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm-16.5 0a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm12.864 6.864a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm-10.608-10.608a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06Zm10.608-1.06a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 1 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM6.756 17.304a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0Z"></path></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="color-main">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <section id="color-system" class="color-system bento-color-system"></section>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const bentoWeb = {
+        label: "Bento Coloring",
+        desc: "bentotui.com - warm beige site palette",
+        groups: [
+          { name: "Backgrounds", colors: [
+            { name: "Page", hex: "#f7f3ec", note: "Base canvas" },
+            { name: "Surface", hex: "#f0ebe0", note: "Cards, panels" },
+            { name: "Elevated", hex: "#ede8dd", note: "Hover, nested" },
+            { name: "Code", hex: "#e8dcc8", note: "Code blocks" }
+          ]},
+          { name: "Text", colors: [
+            { name: "Primary", hex: "#2e1a18", note: "Headlines, dark brown" },
+            { name: "Body", hex: "#4a2c2a", note: "Paragraphs, chocolate" },
+            { name: "Secondary", hex: "#c8b898", note: "Muted labels, wood tan" },
+            { name: "Tertiary", hex: "#a89880", note: "Timestamps, sand" }
+          ]},
+          { name: "Borders", colors: [
+            { name: "Default", hex: "#d4cdc0", note: "Card borders" },
+            { name: "Subtle", hex: "#e0d9cc", note: "Dividers" }
+          ]},
+          { name: "Accents", colors: [
+            { name: "Salmon", hex: "#c85a5a", note: "Primary CTA" },
+            { name: "Salmon Light", hex: "#d4807a", note: "Hover state" },
+            { name: "Green", hex: "#6b9e4f", note: "Success, install" },
+            { name: "Green Light", hex: "#8bb86e", note: "Green hover" }
+          ]}
+        ]
+      };
+
+      const bentoRose = {
+        label: "Bento Rose",
+        desc: "TUI custom theme - dark rose palette",
+        groups: [
+          { name: "Backgrounds", colors: [
+            { name: "Canvas", hex: "#201a19", note: "Base background" },
+            { name: "Frame", hex: "#2f2826", note: "Panel surfaces" },
+            { name: "Elevated", hex: "#3a302d", note: "Hover / nested" }
+          ]},
+          { name: "Text", colors: [
+            { name: "Beige", hex: "#f4ddca", note: "Primary text" },
+            { name: "Muted Beige", hex: "#d5b8a2", note: "Secondary text" },
+            { name: "Dim", hex: "#8a7568", note: "Tertiary / ghost" }
+          ]},
+          { name: "Borders", colors: [
+            { name: "Mauve", hex: "#a77b8f", note: "Default borders" },
+            { name: "Subtle", hex: "#4a3a3a", note: "Dividers" }
+          ]},
+          { name: "Accents", colors: [
+            { name: "Accent Pink", hex: "#ff92b6", note: "Primary accent" },
+            { name: "Rose Muted", hex: "#c76e8a", note: "Hover / softer" },
+            { name: "Mauve Border", hex: "#a77b8f", note: "Focus ring" }
+          ]}
+        ]
+      };
+
+      const palettes = { web: bentoWeb, rose: bentoRose };
+      let activeTab = "web";
+      let showPreview = true;
+
+      function hexToRgb(hex) {
+        return {
+          r: parseInt(hex.slice(1, 3), 16),
+          g: parseInt(hex.slice(3, 5), 16),
+          b: parseInt(hex.slice(5, 7), 16)
+        };
+      }
+
+      function relativeLuminance(hex) {
+        const { r, g, b } = hexToRgb(hex);
+        const [rs, gs, bs] = [r, g, b].map((c) => {
+          const v = c / 255;
+          return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+      }
+
+      function contrastRatio(hex1, hex2) {
+        const l1 = relativeLuminance(hex1);
+        const l2 = relativeLuminance(hex2);
+        const lighter = Math.max(l1, l2);
+        const darker = Math.min(l1, l2);
+        return ((lighter + 0.05) / (darker + 0.05)).toFixed(2);
+      }
+
+      function render() {
+        const active = palettes[activeTab];
+        const isRose = activeTab === "rose";
+        const rootText = "#2e1a18";
+        const rootTextSec = "#4a2c2a";
+        const rootBorder = "#d4cdc0";
+        const rootMuted = "#c8b898";
+        const rootAccent = isRose ? "#ff92b6" : "#c85a5a";
+        const rootSurface = isRose ? "#2f2826" : "#f0ebe0";
+        const bgRef = isRose ? "#201a19" : "#f7f3ec";
+        const previewBg = isRose ? "#201a19" : "#f7f3ec";
+
+        const groupsHtml = active.groups.map((group) => {
+          const columns = Math.min(group.colors.length, 4);
+          const swatches = group.colors.map((c) => {
+            const lum = relativeLuminance(c.hex);
+            const textColor = lum > 0.35 ? "#1a1a1a" : "#f0f0f0";
+            const ratio = contrastRatio(c.hex, bgRef);
+            return `
+              <div class="swatch" style="background:${c.hex};color:${textColor};border:1px solid ${lum > 0.8 ? "#d4cdc0" : "transparent"}">
+                <div>
+                  <div class="swatch-name">${c.name}</div>
+                  <div class="swatch-hex">${c.hex}</div>
+                </div>
+                <div class="swatch-foot">
+                  <span>${c.note}</span>
+                  <span>${ratio}:1</span>
+                </div>
+              </div>
+            `;
+          }).join("");
+          return `
+            <section class="group-wrap">
+              <div class="group-name" style="color:${rootMuted}">${group.name}</div>
+              <div class="swatch-grid" style="grid-template-columns:repeat(${columns},minmax(0,1fr))">${swatches}</div>
+            </section>
+          `;
+        }).join("");
+
+        const tokenText = isRose
+          ? `:root {\n  /* Bento Rose - TUI Theme */\n  --bg-canvas: #201a19;\n  --bg-frame: #2f2826;\n  --bg-elevated: #3a302d;\n  --border: #a77b8f;\n  --border-subtle: #4a3a3a;\n  --text-primary: #f4ddca;\n  --text-secondary: #d5b8a2;\n  --text-tertiary: #8a7568;\n  --accent: #ff92b6;\n  --accent-muted: #c76e8a;\n}`
+          : `:root {\n  /* Bento Coloring - Web Palette */\n  --bg-page: #f7f3ec;\n  --bg-surface: #f0ebe0;\n  --bg-elevated: #ede8dd;\n  --bg-code: #e8dcc8;\n  --border: #d4cdc0;\n  --border-subtle: #e0d9cc;\n  --text-primary: #2e1a18;\n  --text-body: #4a2c2a;\n  --text-secondary: #c8b898;\n  --text-tertiary: #a89880;\n  --accent: #c85a5a;\n  --accent-hover: #d4807a;\n  --accent-green: #6b9e4f;\n  --accent-green-light: #8bb86e;\n}`;
+
+        const contrastRows = (isRose
+          ? [
+              ["Beige / Canvas", "#f4ddca", "#201a19"],
+              ["Pink / Canvas", "#ff92b6", "#201a19"],
+              ["Muted / Canvas", "#d5b8a2", "#201a19"],
+              ["Mauve / Canvas", "#a77b8f", "#201a19"],
+              ["Beige / Frame", "#f4ddca", "#2f2826"],
+              ["Pink / Frame", "#ff92b6", "#2f2826"]
+            ]
+          : [
+              ["Primary / Page", "#2e1a18", "#f7f3ec"],
+              ["Body / Page", "#4a2c2a", "#f7f3ec"],
+              ["Salmon / Page", "#c85a5a", "#f7f3ec"],
+              ["Secondary / Page", "#c8b898", "#f7f3ec"],
+              ["Primary / Surface", "#2e1a18", "#f0ebe0"],
+              ["Salmon / Surface", "#c85a5a", "#f0ebe0"]
+            ])
+          .map(([label, fg, bgColor]) => {
+            const ratio = contrastRatio(fg, bgColor);
+            const pass = parseFloat(ratio) >= 4.5;
+            const passAA = parseFloat(ratio) >= 3;
+            const outcome = pass ? "AAA" : passAA ? "AA" : "FAIL";
+            const tone = pass ? "#34d399" : passAA ? "#fbbf24" : "#f87171";
+            return `<span class="ratio-chip" style="background:${isRose ? "#2f2826" : "#f0ebe0"};border-color:${rootBorder};color:${rootTextSec}"><i style="background:${fg};border-color:${rootBorder}"></i>${label}<b style="color:${tone}">${ratio}:1 ${outcome}</b></span>`;
+          })
+          .join("");
+
+        const previewHtml = showPreview
+          ? `
+            <section class="preview-wrap">
+              <div class="group-name" style="color:${rootMuted}">Preview</div>
+              <div class="preview-card" style="background:${previewBg};border-color:${isRose ? "#a77b8f" : rootBorder};color:${isRose ? "#f4ddca" : rootText}">
+                <div class="preview-head">
+                  <div class="preview-logo" style="background:${rootAccent};color:${isRose ? "#201a19" : "#fff"}">B</div>
+                  <div>
+                    <div class="preview-brand" style="font-family:${isRose ? "'Manrope',sans-serif" : "'Fraunces',serif"};font-weight:${isRose ? "700" : "500"};">BentoTUI</div>
+                    <div class="preview-mode" style="color:${rootMuted}">${isRose ? "tui theme" : "landing page"}</div>
+                  </div>
+                </div>
+                <div class="preview-panel" style="background:${rootSurface};border-color:${rootBorder}">
+                  <div class="preview-title">${isRose ? "Focus Panel" : "Getting Started"}</div>
+                  <p class="preview-copy" style="color:${isRose ? "#d5b8a2" : rootTextSec}">${isRose
+                    ? "Active panel renders with accent border. Tab cycles focus ring through layout components."
+                    : "The application framework for Bubble Tea. Build production-grade terminal UIs with composable layouts."}</p>
+                  <pre class="preview-code" style="background:${isRose ? "#1a1412" : "#e8dcc8"};color:${isRose ? "#d5b8a2" : "#4a2c2a"}">${isRose
+                    ? `<span style=\"color:${rootAccent}\">❯</span> bento add input\n<span style=\"color:${rootMuted}\">  wrote components/input/input.go</span>`
+                    : `<span style=\"color:${rootAccent}\">$</span> go get github.com/cloudboy-jh/bentotui`}</pre>
+                </div>
+                <div class="preview-actions">
+                  <span class="btn-a" style="background:${rootAccent};color:${isRose ? "#201a19" : "#fff"}">${isRose ? "Apply Theme" : "Get Started"}</span>
+                  <span class="btn-b" style="border-color:${isRose ? "#a77b8f" : rootBorder};color:${isRose ? "#d5b8a2" : rootTextSec}">${isRose ? "View Themes" : "Documentation"}</span>
+                </div>
+              </div>
+            </section>
+            <section class="ratio-wrap">
+              <div class="group-name" style="color:${rootMuted}">Key Contrast Ratios</div>
+              <div class="ratio-row">${contrastRows}</div>
+            </section>
+          `
+          : "";
+
+        const root = document.getElementById("color-system");
+        if (!root) return;
+        root.innerHTML = `
+          <div class="color-root" style="color:${rootText}">
+            <div class="tab-row" style="border-color:${rootBorder}">
+              <button data-tab="web" class="tab-btn ${activeTab === "web" ? "is-active" : ""}" style="--tab-accent:${rootAccent};--tab-text:${rootText};--tab-muted:${rootMuted}">Bento Coloring</button>
+              <button data-tab="rose" class="tab-btn ${activeTab === "rose" ? "is-active" : ""}" style="--tab-accent:${rootAccent};--tab-text:${rootText};--tab-muted:${rootMuted}">Bento Rose</button>
+              <span class="spacer"></span>
+              <button data-toggle-preview class="toggle-btn" style="color:${showPreview ? rootText : rootMuted}">${showPreview ? "Hide Preview" : "Show Preview"}</button>
+            </div>
+
+            ${groupsHtml}
+
+            <section class="group-wrap">
+              <div class="group-name" style="color:${rootMuted}">CSS Variables</div>
+              <pre class="token-box" style="background:${rootSurface};border-color:${isRose ? "#a77b8f" : rootBorder};color:${isRose ? "#d5b8a2" : rootTextSec}">${tokenText}</pre>
+            </section>
+
+            ${previewHtml}
+
+            <footer class="color-footer" style="border-color:${rootBorder};color:${rootMuted}">
+              <span>bentotui.com</span>
+              <span>${isRose ? "6 core tokens" : "14 core tokens"}</span>
+            </footer>
+          </div>
+        `;
+
+        root.querySelectorAll("[data-tab]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            activeTab = btn.getAttribute("data-tab") || "web";
+            render();
+          });
+        });
+
+        const toggle = root.querySelector("[data-toggle-preview]");
+        if (toggle) {
+          toggle.addEventListener("click", () => {
+            showPreview = !showPreview;
+            render();
+          });
+        }
+      }
+
+      render();
+    })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .color-root {
+    padding: 0;
+    transition: background 200ms ease, color 200ms ease;
+    font-family: "DM Sans", sans-serif;
+  }
+  .color-main {
+    width: 100%;
+    padding: 2.4rem 1.2rem 0;
+  }
+  .tab-row { width: 100%; margin: 0 0 32px; border-bottom: 1px solid; display: flex; align-items: center; }
+  .tab-btn, .toggle-btn { font-family: "IBM Plex Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 10px 18px; background: transparent; border: 0; cursor: pointer; }
+  .tab-btn { color: var(--tab-muted); border-bottom: 2px solid transparent; }
+  .tab-btn.is-active { color: var(--tab-text); border-bottom-color: var(--tab-accent); font-weight: 600; }
+  .toggle-btn { padding: 10px 14px; }
+  .spacer { flex: 1; }
+  .group-wrap, .preview-wrap, .ratio-wrap { width: 100%; margin: 0 0 32px; }
+  .group-name { font-family: "IBM Plex Mono", monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .swatch-grid { display: grid; gap: 2px; }
+  .swatch { min-height: 80px; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 12px; transition: transform 100ms ease; }
+  .swatch:hover { transform: scale(1.02); }
+  .swatch-name { font-family: "Manrope", sans-serif; font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+  .swatch-hex { font-family: "IBM Plex Mono", monospace; font-size: 10px; opacity: 0.7; }
+  .swatch-foot { display: flex; justify-content: space-between; align-items: flex-end; font-family: "DM Sans", sans-serif; font-size: 10px; opacity: 0.6; gap: 8px; }
+  .swatch-foot span:first-child { max-width: 70%; }
+  .token-box { border: 1px solid; padding: 16px; margin: 0; white-space: pre-wrap; font-family: "IBM Plex Mono", monospace; font-size: 11px; line-height: 1.6; }
+  .preview-card { border: 1px solid; padding: 24px; }
+  .preview-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .preview-logo { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; font-family: "Familjen Grotesk", sans-serif; font-weight: 700; font-size: 16px; }
+  .preview-brand { font-size: 16px; }
+  .preview-mode { font-family: "IBM Plex Mono", monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .preview-panel { border: 1px solid; padding: 16px; margin-bottom: 16px; }
+  .preview-title { font-family: "Manrope", sans-serif; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+  .preview-copy { font-family: "DM Sans", sans-serif; font-size: 12px; line-height: 1.6; margin: 0 0 12px; }
+  .preview-code { font-family: "IBM Plex Mono", monospace; font-size: 11px; padding: 10px; margin: 0; line-height: 1.5; white-space: pre-wrap; }
+  .preview-actions { display: flex; gap: 8px; }
+  .btn-a, .btn-b { font-family: "IBM Plex Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 7px 14px; display: inline-flex; }
+  .btn-a { font-weight: 600; }
+  .btn-b { border: 1px solid; }
+  .ratio-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ratio-chip { font-family: "IBM Plex Mono", monospace; font-size: 10px; padding: 6px 10px; border: 1px solid; display: inline-flex; align-items: center; gap: 8px; }
+  .ratio-chip i { width: 10px; height: 10px; border: 1px solid; display: inline-block; flex-shrink: 0; }
+  .ratio-chip b { font-weight: 600; white-space: nowrap; }
+  .color-footer { width: 100%; margin: 40px 0 0; border-top: 1px solid; padding: 40px 0; display: flex; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 9px; }
+  @media (max-width: 720px) {
+    .swatch-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 520px) {
+    .swatch-grid { grid-template-columns: 1fr !important; }
+    .tab-row { flex-wrap: wrap; }
+    .spacer { display: none; }
+  }
+</style>

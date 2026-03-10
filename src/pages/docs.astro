@@ -11,6 +11,11 @@ const docPages = [
     title: "Roadmap",
     href: "/docs/framework-roadmap",
     description: "Component roadmap, priorities, and final 1.0 direction."
+  },
+  {
+    title: "Color Guide",
+    href: "/docs/colors",
+    description: "Bento Coloring and Bento Rose palettes, contrast checks, and token exports."
   }
 ];
 ---
@@ -22,7 +27,8 @@ const docPages = [
       <span class="brand__badge">docs</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="/">Home</a>
+      <a href="/docs">Docs</a>
+      <a href="/docs/colors">Colors</a>
       <a href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">GitHub</a>
       <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme" title="Switch theme">
         <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -38,14 +44,25 @@ const docPages = [
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
       <h1>Documentation</h1>
-      <p class="hero__subtitle">Architecture and roadmap for BentoTUI.</p>
+      <p class="hero__subtitle">Architecture, roadmap, and color system guides for BentoTUI.</p>
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
-      <div class="docs-grid docs-grid--feature">
+      <div class="docs-grid docs-grid--feature docs-grid--primary">
         {
-          docPages.map((page) => (
+          docPages.slice(0, 2).map((page) => (
             <article class="docs-card docs-card--feature">
+              <h3><a href={page.href}>{page.title}</a></h3>
+              <p>{page.description}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="docs-grid docs-grid--secondary">
+        {
+          docPages.slice(2).map((page) => (
+            <article class="docs-card docs-card--feature docs-card--secondary">
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
             </article>
@@ -59,15 +76,22 @@ const docPages = [
 <style>
   .docs-grid--feature {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 1.1rem;
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  .docs-grid--secondary {
+    margin-top: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  .docs-card--secondary {
+    min-height: 148px;
   }
 
   .docs-card--feature {
-    min-height: 170px;
-    padding: 1.3rem 1.2rem;
+    min-height: 210px;
+    padding: 1.5rem 1.35rem;
     border-radius: 0.95rem;
     border-color: color-mix(in srgb, var(--green) 26%, var(--border));
     background:
@@ -76,14 +100,14 @@ const docPages = [
   }
 
   .docs-card--feature h3 {
-    font-size: 1.18rem;
+    font-size: 1.35rem;
     letter-spacing: 0.01em;
     font-family: "Fraunces", serif;
     margin-bottom: 0.5rem;
   }
 
   .docs-card--feature p {
-    font-size: 1.03rem;
+    font-size: 1.08rem;
     line-height: 1.5;
     margin-top: 0;
   }

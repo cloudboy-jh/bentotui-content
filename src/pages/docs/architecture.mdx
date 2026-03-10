@@ -1,348 +1,224 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: BentoTUI Architecture
-description: 1.0 composition-first architecture and component policy for BentoTUI.
+description: Composition-first architecture, package boundaries, and 1.0 policy.
 ---
 
 import { Code } from "astro:components";
 
 # BentoTUI Architecture
 
-BentoTUI is a copy-and-own terminal UI registry for [Bubble Tea v2](https://github.com/charmbracelet/bubbletea) and [Lip Gloss v2](https://github.com/charmbracelet/lipgloss).
+BentoTUI uses a copy-and-own delivery model: UI source is copied into your codebase, while a small set of stable packages stays imported as normal Go modules.
 
-<div class="overview-cards">
+<div class="arch-summary">
   <article>
-    <p class="overview-label">Model</p>
-    <p class="overview-value">Copy and own</p>
+    <p class="label">Model</p>
+    <p class="value">Copy and own source</p>
   </article>
   <article>
-    <p class="overview-label">Live now</p>
-    <p class="overview-value">17 components</p>
+    <p class="label">1.0 catalog</p>
+    <p class="value">17 components</p>
   </article>
   <article>
-    <p class="overview-label">Core imports</p>
-    <p class="overview-value">theme, styles, layout</p>
+    <p class="label">Stable imports</p>
+    <p class="value">theme, styles, layout</p>
   </article>
 </div>
 
----
+## Delivery Model
 
-## How It Works
+| Layer | Purpose |
+|---|---|
+| `registry/components/` | Source copied by `bento add` into your project |
+| `bentos/` | Runnable full-screen patterns you copy and adapt |
+| module packages | Stable imports for theme and layout plumbing |
 
-Two things live in this repo:
-
-| Thing | What it is |
-|-------|-----------|
-| **component** | Atomic UI piece. `bento add input` copies it into your project. |
-| **bentos** | Pre-built layout composition. A complete screen pattern you copy wholesale. |
-
-```
-registry/components/   ← copied into your project by `bento add`
-bentos/                ← complete runnable screen patterns
+```text
+registry/components/   <- copied to your app by bento add
+bentos/                <- complete screen templates
 ```
 
----
-
-## Architecture Stack
+## Runtime Architecture
 
 <div class="arch-diagram">
-  <svg viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg">
-    <rect x="220" y="10" width="160" height="40" rx="6" class="app-box"/>
-    <text x="300" y="35" text-anchor="middle" class="app-text">Your App</text>
-    
-    <path d="M 300 50 L 300 70" class="arrow-line"/>
-    <polygon points="300,78 295,68 305,68" class="arrow-head"/>
-    
-    <g class="layer-group">
-      <rect x="50" y="80" width="500" height="70" rx="8" class="layer-box registry-box"/>
-      <text x="300" y="105" text-anchor="middle" class="layer-title">registry/components/</text>
-      <text x="300" y="125" text-anchor="middle" class="layer-subtitle">Copied into your project — you own the source</text>
-      <text x="300" y="140" text-anchor="middle" class="layer-items">surface · panel · bar · dialog · ... · separator (17 total)</text>
-    </g>
-    
-    <path d="M 300 150 L 300 170" class="arrow-line"/>
-    <polygon points="300,178 295,168 305,168" class="arrow-head"/>
-    
-    <g class="layer-group">
-      <rect x="50" y="180" width="500" height="70" rx="8" class="layer-box core-box"/>
-      <text x="300" y="205" text-anchor="middle" class="layer-title">bentotui module deps</text>
-      <text x="300" y="225" text-anchor="middle" class="layer-subtitle">Real Go imports — not copied</text>
-      <text x="300" y="240" text-anchor="middle" class="layer-items">theme · styles · layout</text>
-    </g>
-    
-    <path d="M 300 250 L 300 270" class="arrow-line"/>
-    <polygon points="300,278 295,268 305,268" class="arrow-head"/>
-    
-    <g class="layer-group">
-      <rect x="50" y="280" width="500" height="80" rx="8" class="layer-box charm-box"/>
-      <text x="300" y="305" text-anchor="middle" class="layer-title">Charm Stack</text>
-      <text x="300" y="325" text-anchor="middle" class="layer-subtitle">The foundation</text>
-      <text x="300" y="340" text-anchor="middle" class="layer-items">Bubble Tea v2 · Lip Gloss v2 · Ultraviolet</text>
-    </g>
+  <svg viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg">
+    <rect x="210" y="14" width="200" height="40" rx="8" class="box app"/>
+    <text x="310" y="39" text-anchor="middle" class="title top">Your App</text>
+
+    <path d="M 310 54 L 310 78" class="line"/>
+    <polygon points="310,86 304,74 316,74" class="arrow"/>
+
+    <rect x="60" y="88" width="500" height="74" rx="10" class="box copied"/>
+    <text x="310" y="114" text-anchor="middle" class="title">Copied source</text>
+    <text x="310" y="136" text-anchor="middle" class="subtitle">surface, panel, bar, dialog, badge, tabs, toast, separator, ...</text>
+    <text x="310" y="152" text-anchor="middle" class="note">Owned by your repository after bento add</text>
+
+    <path d="M 310 162 L 310 186" class="line"/>
+    <polygon points="310,194 304,182 316,182" class="arrow"/>
+
+    <rect x="60" y="196" width="500" height="66" rx="10" class="box imports"/>
+    <text x="310" y="222" text-anchor="middle" class="title">Stable imports</text>
+    <text x="310" y="242" text-anchor="middle" class="subtitle">theme · styles · layout</text>
+
+    <path d="M 310 262 L 310 286" class="line"/>
+    <polygon points="310,294 304,282 316,282" class="arrow"/>
+
+    <rect x="60" y="296" width="500" height="34" rx="10" class="box stack"/>
+    <text x="310" y="318" text-anchor="middle" class="subtitle">Bubble Tea v2 · Lip Gloss v2 · Ultraviolet</text>
   </svg>
 </div>
 
-<style>{`
-  .overview-cards {
-    margin: 1.2rem 0 1.6rem;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.65rem;
-  }
+## Primitive Policy
 
-  .overview-cards article {
-    border: 1px solid var(--border);
-    border-radius: 0.65rem;
-    background: color-mix(in srgb, var(--surface) 90%, white);
-    padding: 0.75rem 0.85rem;
-  }
-
-  .overview-label {
-    margin: 0;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .overview-value {
-    margin: 0.25rem 0 0;
-    font-size: 0.95rem;
-    color: var(--ink);
-  }
-
-  .arch-diagram {
-    margin: 1.7rem 0 1.5rem;
-    padding: 1.5rem 1.2rem;
-    background: color-mix(in srgb, var(--surface) 90%, white);
-    border: 1px solid var(--border);
-    border-radius: 0.85rem;
-    overflow-x: auto;
-    box-shadow: 0 12px 26px -24px rgba(46, 26, 24, 0.5);
-  }
-  
-  .arch-diagram svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
-  
-  .app-box {
-    fill: color-mix(in srgb, var(--green) 78%, var(--ink));
-    stroke: var(--green-light);
-    stroke-width: 2;
-  }
-  
-  .app-text {
-    fill: white;
-    font-family: "DM Sans", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .arrow-line {
-    stroke: var(--muted);
-    stroke-width: 2;
-    fill: none;
-  }
-  
-  .arrow-head {
-    fill: var(--muted);
-  }
-  
-  .layer-box {
-    stroke-width: 1.5;
-  }
-  
-  .registry-box {
-    fill: color-mix(in srgb, var(--ink) 10%, var(--surface));
-    stroke: color-mix(in srgb, var(--ink) 45%, var(--border));
-  }
-  
-  .core-box {
-    fill: color-mix(in srgb, var(--green) 15%, var(--surface));
-    stroke: var(--green);
-  }
-  
-  .charm-box {
-    fill: color-mix(in srgb, var(--ink) 8%, var(--surface));
-    stroke: var(--muted);
-  }
-  
-  .layer-title {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13.5px;
-    font-weight: 600;
-    fill: var(--ink);
-  }
-  
-  .layer-subtitle {
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    fill: var(--body);
-  }
-  
-  .layer-items {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 10.5px;
-    fill: var(--muted);
-  }
-
-  @media (max-width: 760px) {
-    .overview-cards {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-      margin-bottom: 1.1rem;
-    }
-
-    .arch-diagram {
-      margin-top: 1.1rem;
-      padding: 0.9rem 0.7rem;
-    }
-  }
-  
-  :root[data-theme="dark"] .registry-box {
-    fill: color-mix(in srgb, var(--ink) 18%, var(--surface));
-  }
-  
-  :root[data-theme="dark"] .core-box {
-    fill: color-mix(in srgb, var(--green) 25%, var(--surface));
-  }
-`}</style>
-
----
-
-## Core Packages (Real Imports)
-
-These are stable module deps your project imports directly:
-
-| Package | Import Path | What it is |
-|---------|-------------|------------|
-| **theme** | `github.com/cloudboy-jh/bentotui/theme` | Global theme store, 15 presets, goroutine-safe |
-| **styles** | `github.com/cloudboy-jh/bentotui/styles` | Theme to Lip Gloss style mapping |
-| **layout** | `github.com/cloudboy-jh/bentotui/layout` | `Horizontal` / `Vertical` split layout |
-
----
-
-## The `surface` Primitive
-
-`surface` is the key rendering primitive. It wraps Ultraviolet's cell buffer so every cell is explicitly painted before Bubble Tea flushes the frame, eliminating ANSI whitespace-reset bleed that occurs with pure string composition.
-
-Used by every full-screen layout.
-
----
-
-## Component Policy (1.0)
-
-The 1.0 scope is locked around composition-focused components. Bento intentionally avoids rebuilding primitives that are already strong in Bubbles.
+BentoTUI 1.0 does not wrap primitives that are already strong in Bubbles unless there is clear composition value.
 
 - Use `charm.land/bubbles/v2/spinner` directly for loading states.
-- Prefer direct Bubbles primitives unless Bento-specific composition value is clear.
+- Prefer direct Bubble primitives for low-level behavior.
+- Use Bento components where composition and layout structure are the primary value.
 
----
+## Core Packages
 
-## Final Component Catalog (1.0)
+| Package | Import | Role |
+|---|---|---|
+| `theme` | `github.com/cloudboy-jh/bentotui/theme` | Global theme store and preset selection |
+| `styles` | `github.com/cloudboy-jh/bentotui/styles` | Theme-aware Lip Gloss style mapping |
+| `layout` | `github.com/cloudboy-jh/bentotui/layout` | Horizontal and vertical split helpers |
 
-All components live in `registry/components/` and are copied into your project by `bento add`. Once copied they live at `yourmodule/components/<name>` and you own the source.
+## Surface Rendering
 
-### Core layout/container
+`surface` wraps Ultraviolet cell rendering to ensure deterministic full-frame painting and avoid ANSI whitespace-reset bleed.
 
-- `surface`
-- `panel`
-- `bar`
-- `dialog`
-
-### Display helpers
-
-- `badge`
-- `kbd`
-- `wordmark`
-
-### Form/feedback
-
-- `select`
-- `checkbox`
-- `progress`
-
-### Advanced composition helpers
-
-- `tabs`
-- `toast`
-- `separator`
-
-### Compatibility components (already shipped)
-
-- `input`
-- `list`
-- `table`
-- `text`
-
----
-
-## Final Bento List (1.0)
-
-Bentos are complete runnable screen patterns you copy wholesale. Each is a self-contained `.go` file demonstrating real composition in production-like layouts.
-
-### Foundation wave
-
-- `home-screen`
-- `app-shell`
-- `dashboard`
-- `settings`
-
-### Workflow wave
-
-- `form`
-- `detail-view`
-- `log-viewer`
-- `command-view`
-- `table-browser`
-- `file-browser`
-
-### Advanced wave
-
-- `release-monitor`
-- `incident-console`
-- `chat-console`
-- `kanban-board`
-- `onboarding-wizard`
-- `admin-control-center`
-
-Execution focus after scope lock: broad bento example coverage.
-
----
-
-## Theme System
-
-15 built-in presets:
-
-<Code lang="go" code={`// Set once at startup
+```go
+// Set once at startup
 theme.SetTheme("tokyo-night")
 
-// Components always call this in View() — never cache it
-t := theme.CurrentTheme()`} />
+// Read current theme during each View render
+t := theme.CurrentTheme()
+```
 
-Available themes: `catppuccin-mocha` (default), `catppuccin-macchiato`, `catppuccin-frappe`, `dracula`, `tokyo-night`, `tokyo-night-storm`, `nord`, `gruvbox-dark`, `monokai-pro`, `kanagawa`, `rose-pine`, `ayu-mirage`, `one-dark`, `material-ocean`, `github-dark`.
-
----
-
-## CLI Usage
+## CLI Boundary
 
 ```bash
 # Install the CLI
 go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 
-# Copy components into your project
+# Copy source components
 bento add panel bar surface
 
-# List the 1.0 catalog
+# Inspect what is available
 bento list
 ```
 
----
-
 ## Related
 
-- [BentoTUI 1.0 Scope Finalized](./framework-roadmap) — Final component and bento scope
+- [Roadmap](./framework-roadmap) - finalized 1.0 scope and execution focus
+- [Color Guide](./colors) - Bento Coloring and Bento Rose palettes
+
+<style>{`
+  .arch-summary {
+    margin: 1.2rem 0 1.4rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .arch-summary article {
+    border: 1px solid var(--border);
+    border-radius: 0.72rem;
+    background: color-mix(in srgb, var(--surface) 92%, white);
+    padding: 0.85rem 0.9rem;
+  }
+
+  .arch-summary .label {
+    margin: 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .arch-summary .value {
+    margin: 0.24rem 0 0;
+    color: var(--ink);
+  }
+
+  .arch-diagram {
+    margin: 1.3rem 0 1.1rem;
+    padding: 1rem 0.95rem;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: color-mix(in srgb, var(--surface) 92%, white);
+    overflow-x: auto;
+  }
+
+  .arch-diagram svg {
+    display: block;
+    width: 100%;
+    min-width: 620px;
+    height: auto;
+  }
+
+  .box {
+    stroke-width: 1.4;
+  }
+
+  .box.app {
+    fill: color-mix(in srgb, var(--ink) 85%, var(--green));
+    stroke: color-mix(in srgb, var(--green) 60%, var(--border));
+  }
+
+  .box.copied {
+    fill: color-mix(in srgb, var(--surface) 80%, white);
+    stroke: color-mix(in srgb, var(--muted) 42%, var(--border));
+  }
+
+  .box.imports {
+    fill: color-mix(in srgb, var(--green) 10%, var(--surface));
+    stroke: color-mix(in srgb, var(--green) 40%, var(--border));
+  }
+
+  .box.stack {
+    fill: color-mix(in srgb, var(--ink) 8%, var(--surface));
+    stroke: color-mix(in srgb, var(--muted) 40%, var(--border));
+  }
+
+  .line {
+    stroke: color-mix(in srgb, var(--muted) 68%, var(--border));
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .arrow {
+    fill: color-mix(in srgb, var(--muted) 68%, var(--border));
+  }
+
+  .title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--ink);
+  }
+
+  .title.top {
+    fill: #fff;
+  }
+
+  .subtitle {
+    font-family: "DM Sans", sans-serif;
+    font-size: 11.5px;
+    fill: var(--body);
+  }
+
+  .note {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    fill: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .arch-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+`}</style>
