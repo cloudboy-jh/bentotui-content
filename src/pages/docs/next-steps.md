@@ -7,6 +7,17 @@ publishedAt: 2026-03-15
 
 # Next Steps
 
+This page tracks immediate work after the architecture freeze.
+
+## Definition
+
+- Bentos orchestrate behavior.
+- Rooms allocate geometry.
+- Bricks paint UI.
+- Theme engine governs semantics globally.
+
+Everything below reinforces that contract.
+
 ## Immediate
 
 - Keep app-shell as the canonical framework validation bento.

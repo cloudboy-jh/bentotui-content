@@ -3,194 +3,59 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { Code } from "astro:components";
 import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 
-const quickStartCode = `# Copy components into your project
-bento add panel bar surface
+const quickStartCode = `# Install Bento CLI
+go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 
-# See available components and bentos
+# Add a validation app and architecture primitives
+bento add app-shell panel bar surface list
+
+# Inspect all available bentos, rooms, and bricks
 bento list
 
-# Check your environment and setup
-bento doctor
-
-# Scaffold or compose from copy-and-own source
+# Start from copy-and-own source
 bento init myapp`;
 
-const liveThemes = [
+const modelCards = [
   {
-    name: "catppuccin-mocha",
-    slug: "catppuccin-mocha",
-    bg: "#1e1e2e",
-    surface: "#313244",
-    text: "#cdd6f4",
-    body: "#bac2de",
-    accent: "#f38ba8",
-    codebg: "#11111b",
-    codeink: "#cdd6f4"
+    label: "Bentos",
+    scope: "Full app orchestration",
+    detail: "Bentos define complete user flows, scenario coverage, and screen-level behavior.",
+    points: ["Own app-level states", "Coordinate focus flows", "Drive validation scenarios"]
   },
   {
-    name: "catppuccin-macchiato",
-    slug: "catppuccin-macchiato",
-    bg: "#24273a",
-    surface: "#363a4f",
-    text: "#cad3f5",
-    body: "#b8c0e0",
-    accent: "#f5bde6",
-    codebg: "#181926",
-    codeink: "#cad3f5"
+    label: "Rooms",
+    scope: "Geometry and allocation",
+    detail: "Rooms compose layout geometry, split policy, and viewport adaptation across screens.",
+    points: ["Allocate width and height", "Use `WithGutter` and `WithDivider`", "Keep layout deterministic"]
   },
   {
-    name: "catppuccin-frappe",
-    slug: "catppuccin-frappe",
-    bg: "#303446",
-    surface: "#414559",
-    text: "#c6d0f5",
-    body: "#b5bfe2",
-    accent: "#eebebe",
-    codebg: "#232634",
-    codeink: "#c6d0f5"
+    label: "Bricks",
+    scope: "Reusable UI rendering",
+    detail: "Bricks render components with stable contracts so teams can upgrade behavior safely.",
+    points: ["Paint visual components", "Preserve compatibility", "Harden ANSI-heavy rendering"]
+  }
+];
+
+const docLinks = [
+  {
+    title: "Architecture",
+    href: "/docs/architecture",
+    text: "Canonical freeze contract, validation tuple, and model boundaries."
   },
   {
-    name: "dracula",
-    slug: "dracula",
-    bg: "#282a36",
-    surface: "#343746",
-    text: "#f8f8f2",
-    body: "#d9d9d2",
-    accent: "#ff79c6",
-    codebg: "#1f2029",
-    codeink: "#f8f8f2"
+    title: "Untouchable Theme Engine",
+    href: "/docs/theme-engine",
+    text: "Theme semantics, token responsibilities, and rendering rules."
   },
   {
-    name: "tokyo-night",
-    slug: "tokyo-night",
-    bg: "#1a1b26",
-    surface: "#24283b",
-    text: "#c0caf5",
-    body: "#a9b1d6",
-    accent: "#7aa2f7",
-    codebg: "#16161e",
-    codeink: "#c0caf5"
+    title: "Roadmap",
+    href: "/docs/roadmap",
+    text: "Execution priorities, quality gates, and what ships next."
   },
   {
-    name: "tokyo-night-storm",
-    slug: "tokyo-night-storm",
-    bg: "#1f2335",
-    surface: "#292e42",
-    text: "#c0caf5",
-    body: "#a9b1d6",
-    accent: "#9d7cd8",
-    codebg: "#171b29",
-    codeink: "#c0caf5"
-  },
-  {
-    name: "nord",
-    slug: "nord",
-    bg: "#2e3440",
-    surface: "#3b4252",
-    text: "#eceff4",
-    body: "#d8dee9",
-    accent: "#88c0d0",
-    codebg: "#242933",
-    codeink: "#eceff4"
-  },
-  {
-    name: "gruvbox-dark",
-    slug: "gruvbox-dark",
-    bg: "#282828",
-    surface: "#3c3836",
-    text: "#ebdbb2",
-    body: "#d5c4a1",
-    accent: "#d79921",
-    codebg: "#1d2021",
-    codeink: "#ebdbb2"
-  },
-  {
-    name: "monokai-pro",
-    slug: "monokai-pro",
-    bg: "#2d2a2e",
-    surface: "#403e41",
-    text: "#fcfcfa",
-    body: "#d7d8d2",
-    accent: "#ffd866",
-    codebg: "#221f22",
-    codeink: "#fcfcfa"
-  },
-  {
-    name: "kanagawa",
-    slug: "kanagawa",
-    bg: "#1f1f28",
-    surface: "#2a2a37",
-    text: "#dcd7ba",
-    body: "#c8c093",
-    accent: "#7e9cd8",
-    codebg: "#16161d",
-    codeink: "#dcd7ba"
-  },
-  {
-    name: "rose-pine",
-    slug: "rose-pine",
-    bg: "#191724",
-    surface: "#26233a",
-    text: "#e0def4",
-    body: "#908caa",
-    accent: "#eb6f92",
-    codebg: "#111019",
-    codeink: "#e0def4"
-  },
-  {
-    name: "ayu-mirage",
-    slug: "ayu-mirage",
-    bg: "#1f2430",
-    surface: "#2b3245",
-    text: "#cccac2",
-    body: "#b8b6af",
-    accent: "#ffb454",
-    codebg: "#171b24",
-    codeink: "#cccac2"
-  },
-  {
-    name: "one-dark",
-    slug: "one-dark",
-    bg: "#282c34",
-    surface: "#353b45",
-    text: "#abb2bf",
-    body: "#98a1b3",
-    accent: "#61afef",
-    codebg: "#1f2329",
-    codeink: "#abb2bf"
-  },
-  {
-    name: "material-ocean",
-    slug: "material-ocean",
-    bg: "#0f111a",
-    surface: "#1a1c25",
-    text: "#a6accd",
-    body: "#8f93b0",
-    accent: "#89ddff",
-    codebg: "#090b10",
-    codeink: "#a6accd"
-  },
-  {
-    name: "github-dark",
-    slug: "github-dark",
-    bg: "#0d1117",
-    surface: "#161b22",
-    text: "#c9d1d9",
-    body: "#8b949e",
-    accent: "#58a6ff",
-    codebg: "#010409",
-    codeink: "#c9d1d9"
-  },
-  {
-    name: "Bento Rose",
-    slug: "rose",
-    bg: "#201a19",
-    surface: "#2f2826",
-    text: "#f4ddca",
-    body: "#d5b8a2",
-    accent: "#ff92b6",
-    codebg: "#1a1412",
-    codeink: "#d5b8a2"
+    title: "Next Steps",
+    href: "/docs/next-steps",
+    text: "Immediate tasks for validation breadth and contract hardening."
   }
 ];
 ---
@@ -215,741 +80,205 @@ const liveThemes = [
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
       <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <p class="hero__subtitle">A copy-and-own terminal UI registry for Bubble Tea v2.</p>
+      <p class="hero__subtitle">Copy-and-own TUI architecture for Bubble Tea v2.</p>
       <p class="hero__pitch">
-        BentoTUI 1.0 finalizes a composition-first component catalog and shifts fully into
-        shipping runnable bento screen patterns. Run <code>bento add &lt;component&gt;</code>, copy
-        source into your app, and build production TUIs without framework lock-in.
+        BentoTUI now ships with a frozen contract: <code>bentos</code>, <code>rooms</code>, and <code>bricks</code>.
+        Apps move faster because responsibilities are explicit and visual semantics are centralized in the Untouchable Theme Engine.
       </p>
-
       <div class="install-pill reveal" style="--delay: 200ms;">
         <code>go install github.com/cloudboy-jh/bentotui/cmd/bento@latest</code>
       </div>
     </section>
 
-    <section class="section-pad section-body reveal" style="--delay: 240ms;">
-      <h2>How it works</h2>
-      <p>
-        BentoTUI ships two source artifacts: <strong>components</strong> for reusable UI building blocks and
-        <strong> bentos</strong> for complete screen patterns. You copy code directly into your project,
-        keep ownership, and adapt behavior without framework lock-in.
+    <section class="section-pad section-body reveal" style="--delay: 210ms;">
+      <h2>Copy and compose</h2>
+      <p class="section-copy">
+        The CLI copies source into your repository so your team owns delivery. Start with a bento, compose rooms,
+        and paint with bricks while keeping framework validation reproducible.
       </p>
-      
       <div class="code-frame">
         <Code lang="bash" code={quickStartCode} />
       </div>
     </section>
 
-    <section class="section-pad section-body reveal" style="--delay: 280ms;">
-      <h2>Final Component Catalog (1.0)</h2>
-      <p class="section-copy">The 1.0 catalog is locked for composition workflows: layout primitives, interaction helpers, and compatibility components for teams already shipping today.</p>
+    <section class="section-pad section-body reveal" style="--delay: 250ms;">
+      <h2>Bentos, rooms, bricks</h2>
+      <p class="section-copy">
+        The architecture model is intentionally strict: bentos orchestrate behavior, rooms allocate geometry,
+        and bricks paint reusable UI components.
+      </p>
 
-      <div class="components-grid">
-        <article class="component-card component-card--current">
-          <header class="component-card__head">
-            <h3>Core layout/container</h3>
-            <span class="component-count">4</span>
-          </header>
-          <ul class="component-list">
-            <li><code>surface</code><span>Cell-buffer rendering with Ultraviolet</span></li>
-            <li><code>panel</code><span>Titled and focusable content container</span></li>
-            <li><code>bar</code><span>Status/nav bar with left and right slots</span></li>
-            <li><code>dialog</code><span>Modal manager (Confirm, Custom, ThemePicker)</span></li>
-          </ul>
+      <div class="model-grid">
+        {
+          modelCards.map((card) => (
+            <article class="model-card">
+              <p class="model-card__label">{card.label}</p>
+              <h3>{card.scope}</h3>
+              <p>{card.detail}</p>
+              <ul>
+                {card.points.map((point) => (<li>{point}</li>))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section-pad section-body reveal" style="--delay: 290ms;">
+      <h2>Untouchable Theme Engine</h2>
+      <p class="section-copy">
+        Theme semantics are global and non-negotiable at the contract layer. The theme engine removes per-screen color glue,
+        keeps rendering coherent, and makes scenario snapshots meaningful across viewports.
+      </p>
+
+      <div class="theme-principles">
+        <article>
+          <h3>Global semantics</h3>
+          <p>Tokens and style mappings are shared across bentos, rooms, and bricks.</p>
         </article>
-
-        <article class="component-card">
-          <header class="component-card__head">
-            <h3>Display helpers</h3>
-            <span class="component-count">3</span>
-          </header>
-          <ul class="component-list component-list--muted">
-            <li><code>badge</code><span>Inline colored label</span></li>
-            <li><code>kbd</code><span>Keyboard shortcut display</span></li>
-            <li><code>wordmark</code><span>Large centered app identity</span></li>
-          </ul>
+        <article>
+          <h3>Deterministic validation</h3>
+          <p><code>app-shell</code> validates scenarios with <code>scenario + viewport + theme + focus + snapshot</code>.</p>
         </article>
-
-        <article class="component-card">
-          <header class="component-card__head">
-            <h3>Form/feedback</h3>
-            <span class="component-count">3</span>
-          </header>
-          <ul class="component-list component-list--muted">
-            <li><code>select</code><span>Inline single-choice picker</span></li>
-            <li><code>checkbox</code><span>Toggle boolean values</span></li>
-            <li><code>progress</code><span>Progress bar with label support</span></li>
-          </ul>
-        </article>
-
-        <article class="component-card">
-          <header class="component-card__head">
-            <h3>Advanced composition</h3>
-            <span class="component-count">3</span>
-          </header>
-          <ul class="component-list component-list--muted">
-            <li><code>toast</code><span>Stacked auto-dismiss notifications</span></li>
-            <li><code>tabs</code><span>Horizontal tab switcher</span></li>
-            <li><code>separator</code><span>Horizontal or vertical rule</span></li>
-          </ul>
-        </article>
-
-        <article class="component-card">
-          <header class="component-card__head">
-            <h3>Compatibility shipped</h3>
-            <span class="component-count">4</span>
-          </header>
-          <ul class="component-list component-list--muted">
-            <li><code>input</code><span>Single-line input with accent border</span></li>
-            <li><code>list</code><span>Scrollable log-style list</span></li>
-            <li><code>table</code><span>Header and data rows</span></li>
-            <li><code>text</code><span>Static styled label</span></li>
-          </ul>
+        <article>
+          <h3>No local drift</h3>
+          <p>Theme behavior is centralized so product teams avoid one-off palette logic.</p>
         </article>
       </div>
     </section>
 
-    <section class="section-pad section-body reveal" style="--delay: 320ms;">
-      <h2>Live Theme Preview</h2>
-      <p>Preview all built-in themes and Bento Rose in an app-shell simulation before selecting a preset for your project.</p>
-
-      <div class="theme-preview" id="theme-preview" aria-live="polite">
-        <div class="theme-preview__header">
-          <div class="theme-preview__head-meta">
-            <span class="theme-preview__label">Live Theme Preview</span>
-            <span class="theme-preview__name" id="theme-preview-name">catppuccin-mocha</span>
-          </div>
-        </div>
-        <div class="theme-shell" id="theme-shell">
-          <div class="theme-preview__card">
-            <div class="theme-preview__bar">
-              <span class="theme-preview__dot"></span>
-              <span>bento app-shell preview</span>
-              <span class="theme-preview__spacer"></span>
-              <button type="button" class="theme-picker__open" id="open-theme-dialog">Theme Picker</button>
-              <span class="theme-picker__current" id="theme-picker-current">catppuccin-mocha</span>
-            </div>
-
-            <div class="theme-dialog" id="theme-dialog" aria-label="Theme picker" hidden>
-              <header class="theme-dialog__header">
-                <p>Theme Picker</p>
-                <button type="button" class="theme-dialog__close" id="close-theme-dialog">Close</button>
-              </header>
-              <div class="theme-dialog__list" role="listbox" aria-label="Theme options">
-                {liveThemes.map((theme, idx) => (
-                  <button
-                    type="button"
-                    class={`theme-option${idx === 0 ? " is-active" : ""}`}
-                    data-live-theme
-                    data-theme-slug={theme.slug}
-                    data-theme-name={theme.name}
-                    data-theme-bg={theme.bg}
-                    data-theme-surface={theme.surface}
-                    data-theme-text={theme.text}
-                    data-theme-body={theme.body}
-                    data-theme-accent={theme.accent}
-                    data-theme-codebg={theme.codebg}
-                    data-theme-codeink={theme.codeink}
-                    aria-selected={idx === 0 ? "true" : "false"}
-                  >
-                    {theme.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div class="theme-preview__body">
-              <p class="theme-preview__title">Dashboard panel</p>
-              <p class="theme-preview__text">Compare tone, contrast, and border treatment across themes before finalizing your interface preset.</p>
-            </div>
-            <pre class="theme-preview__code"><code>$ bento add panel bar surface
-$ bento init myapp
-$ bento add badge tabs toast</code></pre>
-          </div>
-        </div>
+    <section class="section-pad section-body reveal" style="--delay: 330ms;">
+      <h2>Defined docs path</h2>
+      <p class="section-copy">
+        The docs set now mirrors the frozen architecture and execution flow. Use these in order when onboarding contributors.
+      </p>
+      <div class="docs-path-grid">
+        {
+          docLinks.map((item) => (
+            <article class="docs-path-card">
+              <h3><a href={item.href}>{item.title}</a></h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
       </div>
     </section>
-
-    <section class="section-pad section-body reveal" style="--delay: 360ms;">
-      <h2>Architecture Freeze</h2>
-      <p>
-        BentoTUI now runs on a locked contract: <code>registry/bentos</code> for full app orchestration,
-        <code>registry/rooms</code> for geometry/layout allocation, and <code>registry/bricks</code> for reusable UI painting.
-      </p>
-
-      <p>
-        The Untouchable Theme Engine drives visual semantics globally, and
-        <code>registry/bentos/app-shell</code> is now the scenario-driven validation bento for reproducible framework regressions.
-      </p>
-
-      <div class="arch-flow">
-        <article class="arch-layer">
-          <span class="arch-step">01</span>
-          <div>
-            <strong>Your app code</strong>
-            <span class="arch-note">Compose products with copied source and stable contracts.</span>
-          </div>
-        </article>
-        <article class="arch-layer arch-layer--highlight">
-          <span class="arch-step">02</span>
-          <div>
-            <strong>registry/bentos</strong>
-            <span class="arch-note">Orchestrate app scenarios and validation behavior.</span>
-          </div>
-        </article>
-        <article class="arch-layer">
-          <span class="arch-step">03</span>
-          <div>
-            <strong>registry/rooms</strong>
-            <span class="arch-note">Allocate geometry, splits, gutters, and dividers.</span>
-          </div>
-        </article>
-        <article class="arch-layer">
-          <span class="arch-step">04</span>
-          <div>
-            <strong>registry/bricks + theme engine</strong>
-            <span class="arch-note">Paint UI components under global theme semantics.</span>
-          </div>
-        </article>
-      </div>
-
-      <p class="section-p">
-        <a href="/docs/architecture">Read the architecture freeze guide</a> or
-        <a href="https://github.com/cloudboy-jh/bentotui">explore on GitHub</a>.
-      </p>
-    </section>
-
   </main>
 
-  <footer class="site-footer reveal" style="--delay: 480ms;">
-    <p>BentoTUI - Copy-and-own terminal UI registry for Bubble Tea v2</p>
+  <footer class="site-footer reveal" style="--delay: 420ms;">
+    <p>BentoTUI - copy-and-own architecture with bentos, rooms, bricks, and the Untouchable Theme Engine.</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <a href="/docs">Docs</a>
     </div>
   </footer>
-
-  <script is:inline>
-    (() => {
-      const options = Array.from(document.querySelectorAll("[data-live-theme]"));
-      const preview = document.getElementById("theme-preview");
-      const previewName = document.getElementById("theme-preview-name");
-      const pickerCurrent = document.getElementById("theme-picker-current");
-      const dialog = document.getElementById("theme-dialog");
-      const openButton = document.getElementById("open-theme-dialog");
-      const closeButton = document.getElementById("close-theme-dialog");
-      if (!options.length || !preview || !previewName || !pickerCurrent) {
-        return;
-      }
-
-      const themeStorageKey = "bento-theme-preset";
-
-      function applyPreview(option) {
-        const { themeBg, themeSurface, themeText, themeBody, themeAccent, themeCodebg, themeCodeink, themeName } = option.dataset;
-        if (!themeBg || !themeSurface || !themeText || !themeBody || !themeAccent || !themeCodebg || !themeCodeink || !themeName) {
-          return;
-        }
-
-        preview.style.setProperty("--preview-bg", themeBg);
-        preview.style.setProperty("--preview-surface", themeSurface);
-        preview.style.setProperty("--preview-text", themeText);
-        preview.style.setProperty("--preview-body", themeBody);
-        preview.style.setProperty("--preview-accent", themeAccent);
-        preview.style.setProperty("--preview-codebg", themeCodebg);
-        preview.style.setProperty("--preview-codeink", themeCodeink);
-        previewName.textContent = themeName;
-        pickerCurrent.textContent = themeName;
-      }
-
-      function setActiveOption(activeOption) {
-        options.forEach((el) => {
-          const isActive = el === activeOption;
-          el.classList.toggle("is-active", isActive);
-          el.setAttribute("aria-selected", String(isActive));
-        });
-
-        applyPreview(activeOption);
-        localStorage.setItem(themeStorageKey, activeOption.getAttribute("data-theme-slug") || "catppuccin-mocha");
-      }
-
-      const storedTheme = localStorage.getItem(themeStorageKey);
-      const storedOption = storedTheme
-        ? options.find((option) => option.getAttribute("data-theme-slug") === storedTheme)
-        : null;
-      const initialOption = storedOption || options[0];
-      setActiveOption(initialOption);
-
-      options.forEach((option) => {
-        option.addEventListener("click", () => {
-          setActiveOption(option);
-          if (dialog) {
-            dialog.setAttribute("hidden", "");
-          }
-        });
-      });
-
-      if (openButton && dialog) {
-        openButton.addEventListener("click", () => {
-          const isHidden = dialog.hasAttribute("hidden");
-          if (isHidden) {
-            dialog.removeAttribute("hidden");
-          } else {
-            dialog.setAttribute("hidden", "");
-          }
-        });
-      }
-
-      if (closeButton && dialog) {
-        closeButton.addEventListener("click", () => {
-          dialog.setAttribute("hidden", "");
-        });
-      }
-
-      document.addEventListener("click", (event) => {
-        if (!dialog || dialog.hasAttribute("hidden")) {
-          return;
-        }
-        const target = event.target;
-        if (!(target instanceof Node)) {
-          return;
-        }
-        if (!dialog.contains(target) && openButton && !openButton.contains(target)) {
-          dialog.setAttribute("hidden", "");
-        }
-      });
-    })();
-  </script>
 </BaseLayout>
 
 <style>
   .section-copy {
-    margin-top: 0.5rem;
+    margin-top: 0.55rem;
     color: var(--body);
-    max-width: 70ch;
+    max-width: 72ch;
   }
 
-  .components-grid {
-    margin-top: 1.5rem;
+  .model-grid {
+    margin-top: 1.2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-
-  .component-card {
-    border: 1px solid var(--border);
-    border-radius: 0.8rem;
-    background: color-mix(in srgb, var(--surface) 90%, white);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
     gap: 0.9rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .component-card--current {
-    border-color: color-mix(in srgb, var(--green) 48%, var(--border));
-    background: color-mix(in srgb, var(--green) 8%, var(--surface));
-  }
-
-  .component-card__head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.6rem;
-    padding-bottom: 0.55rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .component-card__head h3 {
-    margin: 0;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .component-count {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.75rem;
-    color: var(--ink);
+  .model-card {
     border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.14rem 0.45rem;
-    background: var(--surface);
-  }
-
-  .component-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .component-list li {
-    display: grid;
-    grid-template-columns: minmax(0, auto) 1fr;
-    gap: 0.5rem;
-    align-items: baseline;
-    padding: 0.36rem 0;
-    border-bottom: 1px dashed color-mix(in srgb, var(--border) 82%, transparent);
-    font-size: 0.9rem;
-  }
-
-  .component-list li:last-child {
-    border-bottom: none;
-  }
-
-  .component-list code {
-    color: color-mix(in srgb, var(--green) 60%, var(--ink));
-    font-weight: 600;
-  }
-
-  .component-list--muted code {
-    color: var(--muted);
-  }
-
-  .component-list span {
-    color: var(--body);
-  }
-
-  .theme-picker__open {
-    padding: 0.38rem 0.78rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    font-size: 0.78rem;
-    font-family: "IBM Plex Mono", monospace;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-
-  .theme-picker__current {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.73rem;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.2rem 0.55rem;
+    border-radius: 0.82rem;
+    padding: 1rem;
     background: color-mix(in srgb, var(--surface) 90%, white);
   }
 
-  .theme-dialog {
-    width: min(500px, calc(100% - 1.6rem));
-    border: 1px solid var(--border);
-    border-radius: 0.72rem;
-    padding: 0;
-    background: color-mix(in srgb, var(--surface) 90%, white);
-    color: var(--ink);
-    box-shadow: 0 28px 46px -30px rgba(0, 0, 0, 0.65);
-    position: absolute;
-    top: 3.3rem;
-    right: 0.8rem;
-    z-index: 14;
-  }
-
-  .theme-dialog[hidden] {
-    display: none;
-  }
-
-  .theme-dialog__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-    margin: 0;
-    padding: 0.75rem 0.85rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .theme-dialog__header p {
-    margin: 0;
+  .model-card__label {
+    margin: 0 0 0.35rem;
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.76rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .theme-dialog__close {
-    padding: 0.24rem 0.6rem;
-    border-radius: 0.4rem;
-    font-size: 0.74rem;
-  }
-
-  .theme-dialog__list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-    padding: 0.85rem;
-    max-height: 220px;
-    overflow-y: auto;
-  }
-
-  .theme-option {
-    text-align: left;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.74rem;
-    padding: 0.45rem 0.55rem;
-    border-radius: 0.46rem;
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--surface) 92%, white);
-    color: var(--ink);
-  }
-
-  .theme-option:hover {
-    border-color: var(--green-light);
-  }
-
-  .theme-option.is-active {
-    border-color: color-mix(in srgb, var(--green) 68%, var(--border));
-    background: color-mix(in srgb, var(--green) 12%, var(--surface));
-    color: color-mix(in srgb, var(--green) 78%, var(--ink));
-  }
-
-  .theme-preview {
-    --preview-bg: #1e1e2e;
-    --preview-surface: #313244;
-    --preview-text: #cdd6f4;
-    --preview-body: #bac2de;
-    --preview-accent: #f38ba8;
-    --preview-codebg: #11111b;
-    --preview-codeink: #cdd6f4;
-    margin-top: 1rem;
-    padding: 1.15rem;
-    border: 1px solid var(--border);
-    border-radius: 0.9rem;
-    background: color-mix(in srgb, var(--surface) 90%, white);
-    position: relative;
-  }
-
-  .theme-shell {
-    position: relative;
-  }
-
-  .theme-preview__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .theme-preview__head-meta {
-    display: grid;
-    gap: 0.3rem;
-  }
-
-  .theme-preview__spacer {
-    flex: 1;
-  }
-
-  .theme-preview__label,
-  .theme-preview__name {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.74rem;
-    letter-spacing: 0.04em;
-  }
-
-  .theme-preview__label {
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .theme-preview__name {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .theme-preview__card {
-    border: 1px solid color-mix(in srgb, var(--preview-accent) 35%, #ffffff22);
-    border-radius: 0.75rem;
-    overflow: hidden;
-    background: var(--preview-bg);
-    color: var(--preview-text);
-    min-height: 420px;
-    position: relative;
-    z-index: 3;
-  }
-
-  .theme-preview__bar {
-    display: flex;
-    align-items: center;
-    gap: 0.48rem;
-    padding: 0.52rem 0.74rem;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.92rem;
-    background: color-mix(in srgb, var(--preview-surface) 88%, #00000022);
-    border-bottom: 1px solid color-mix(in srgb, var(--preview-accent) 25%, #ffffff1f);
-  }
-
-  .theme-preview__bar .theme-picker__open {
-    background: color-mix(in srgb, var(--preview-surface) 70%, #00000022);
-    border-color: color-mix(in srgb, var(--preview-accent) 38%, #ffffff33);
-    color: var(--preview-text);
     font-size: 0.72rem;
-    padding: 0.3rem 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
   }
 
-  .theme-preview__bar .theme-picker__current {
-    background: color-mix(in srgb, var(--preview-surface) 65%, #0000001e);
-    border-color: color-mix(in srgb, var(--preview-accent) 28%, #ffffff2e);
-    color: var(--preview-body);
-    font-size: 0.69rem;
-    padding: 0.18rem 0.5rem;
-  }
-
-  .theme-preview__dot {
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
-    background: var(--preview-accent);
-  }
-
-  .theme-preview__body {
-    padding: 1.35rem 1.35rem 1rem;
-    background: var(--preview-surface);
-  }
-
-  .theme-preview__title {
+  .model-card h3 {
     margin: 0;
     font-family: "Outfit", sans-serif;
-    font-size: 1.45rem;
-    color: var(--preview-text);
-  }
-
-  .theme-preview__text {
-    margin: 0.4rem 0 0;
-    font-size: 1.12rem;
-    color: var(--preview-body);
-  }
-
-  .theme-preview__text code {
-    border: 1px solid color-mix(in srgb, var(--preview-accent) 25%, #ffffff20);
-    border-radius: 0.3rem;
-    padding: 0.02rem 0.3rem;
-    background: color-mix(in srgb, var(--preview-bg) 75%, #0000001f);
-    color: var(--preview-accent);
-  }
-
-  .theme-preview__code {
-    margin: 0;
-    padding: 1.35rem 1.35rem;
-    border-top: 1px solid color-mix(in srgb, var(--preview-accent) 20%, #ffffff1f);
-    font-family: "IBM Plex Mono", monospace;
     font-size: 1.15rem;
-    line-height: 1.5;
-    background: var(--preview-codebg);
-    color: var(--preview-codeink);
+    letter-spacing: 0;
   }
 
-  .arch-flow {
-    margin-top: 1.3rem;
-    display: grid;
-    gap: 0.65rem;
+  .model-card p {
+    margin: 0.45rem 0;
   }
 
-  .arch-layer {
-    position: relative;
+  .model-card ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1rem;
+  }
+
+  .theme-principles {
+    margin-top: 1rem;
     display: grid;
-    grid-template-columns: 3rem 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.8rem;
-    align-items: start;
-    padding: 0.9rem 1rem;
+  }
+
+  .theme-principles article {
     border: 1px solid var(--border);
-    border-radius: 0.7rem;
+    border-radius: 0.78rem;
+    padding: 0.85rem 0.9rem;
     background: color-mix(in srgb, var(--surface) 92%, white);
   }
 
-  .arch-layer:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    left: 1.48rem;
-    bottom: -0.68rem;
-    width: 1px;
-    height: 0.68rem;
-    background: color-mix(in srgb, var(--muted) 55%, var(--border));
-  }
-
-  .arch-layer--highlight {
-    border-color: color-mix(in srgb, var(--muted) 50%, var(--border));
-    background: color-mix(in srgb, var(--surface) 95%, white);
-  }
-
-  .arch-step {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--surface);
+  .theme-principles h3 {
+    margin: 0;
+    font-size: 0.78rem;
+    text-transform: uppercase;
     color: var(--muted);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
   }
 
-  .arch-layer strong {
-    display: block;
-    color: var(--ink);
-  }
-
-  .arch-note {
-    display: block;
-    font-size: 0.9rem;
+  .theme-principles p {
+    margin: 0.45rem 0 0;
     color: var(--body);
-    margin-top: 0.25rem;
   }
 
-  .section-p {
-    margin-top: 1.2rem;
-    text-align: center;
+  .docs-path-grid {
+    margin-top: 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .section-p a {
+  .docs-path-card {
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    padding: 0.95rem;
+    background: color-mix(in srgb, var(--surface) 90%, white);
+  }
+
+  .docs-path-card h3 {
+    margin: 0;
+    font-size: 0.88rem;
+  }
+
+  .docs-path-card h3 a {
     text-decoration: underline;
     text-underline-offset: 0.14em;
   }
 
-  @media (max-width: 680px) {
-    .component-list li {
+  .docs-path-card p {
+    margin: 0.45rem 0 0;
+  }
+
+  @media (max-width: 900px) {
+    .model-grid,
+    .theme-principles,
+    .docs-path-grid {
       grid-template-columns: 1fr;
-      gap: 0.18rem;
-    }
-
-    .arch-layer {
-      grid-template-columns: 2.5rem 1fr;
-      gap: 0.6rem;
-      padding: 0.8rem 0.85rem;
-    }
-
-    .arch-layer:not(:last-child)::after {
-      left: 1.2rem;
-    }
-
-    .theme-dialog__list {
-      grid-template-columns: 1fr;
-    }
-
-    .theme-dialog {
-      width: calc(100% - 1rem);
-      right: 0.5rem;
-      top: 4.2rem;
-    }
-
-    .theme-preview__header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .theme-preview__bar {
-      flex-wrap: wrap;
-    }
-
-    .theme-preview__spacer {
-      display: none;
     }
   }
 </style>

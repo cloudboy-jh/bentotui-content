@@ -5,17 +5,20 @@ const strategyPages = [
   {
     title: "Untouchable Theme Engine",
     href: "/docs/theme-engine",
-    description: "Global visual semantics with stable tokens and no per-screen color glue."
+    description: "Defines theme semantics, token boundaries, and rendering guarantees across the entire model.",
+    status: "Contract"
   },
   {
     title: "Roadmap",
     href: "/docs/roadmap",
-    description: "Execution direction after architecture freeze and validation bento hardening."
+    description: "Defines phase priorities, validation depth goals, and measurable quality gates.",
+    status: "Execution"
   },
   {
     title: "Next Steps",
     href: "/docs/next-steps",
-    description: "Short-term delivery priorities for docs, scenarios, and quality gates."
+    description: "Defines immediate delivery work for app-shell, room options, and compatibility checks.",
+    status: "Now"
   }
 ];
 
@@ -23,27 +26,32 @@ const architecturePages = [
   {
     title: "Architecture",
     href: "/docs/architecture",
-    description: "Locked bentos/rooms/bricks contract and validation tuple."
+    description: "Canonical freeze statement for bentos, rooms, bricks, and deterministic validation.",
+    status: "Core"
   },
   {
     title: "Bentos",
     href: "/docs/architecture/bentos",
-    description: "Full-app orchestration patterns and scenario ownership."
+    description: "Defines full-app orchestration responsibilities and scenario ownership.",
+    status: "Layer"
   },
   {
     title: "Rooms",
     href: "/docs/architecture/rooms",
-    description: "Geometry and split composition with gutter/divider controls."
+    description: "Defines geometry allocation and split options including `WithGutter` and `WithDivider`.",
+    status: "Layer"
   },
   {
     title: "Bricks",
     href: "/docs/architecture/bricks",
-    description: "Reusable UI components with strict render contracts."
+    description: "Defines reusable component rendering contracts and compatibility constraints.",
+    status: "Layer"
   },
   {
     title: "Color Guide",
     href: "/docs/colors",
-    description: "Bento Coloring and Bento Rose palettes with contrast references."
+    description: "Reference palettes and contrast helpers used by the theme system.",
+    status: "Reference"
   }
 ];
 ---
@@ -78,10 +86,12 @@ const architecturePages = [
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
       <h2 class="docs-group-title">Strategy and Direction</h2>
+      <p class="docs-intro">Read these first to understand the frozen contract, what is actively shipping, and what is next.</p>
       <div class="docs-grid docs-grid--feature">
         {
           strategyPages.map((page) => (
             <article class="docs-card docs-card--feature">
+              <p class="docs-status">{page.status}</p>
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
             </article>
@@ -92,10 +102,12 @@ const architecturePages = [
 
     <section class="docs-section section-pad reveal" style="--delay: 210ms;">
       <h2 class="docs-group-title">Architecture Cluster</h2>
+      <p class="docs-intro">Use this cluster to map responsibility boundaries before touching implementation details.</p>
       <div class="docs-grid docs-grid--secondary">
         {
           architecturePages.map((page) => (
             <article class="docs-card docs-card--feature docs-card--secondary">
+              <p class="docs-status docs-status--muted">{page.status}</p>
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
             </article>
@@ -120,6 +132,12 @@ const architecturePages = [
     grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     gap: 1rem;
+  }
+
+  .docs-intro {
+    margin: 0.35rem 0 0;
+    color: var(--body);
+    max-width: 72ch;
   }
 
   .docs-grid--secondary {
@@ -147,6 +165,19 @@ const architecturePages = [
     letter-spacing: 0.01em;
     font-family: "Fraunces", serif;
     margin-bottom: 0.45rem;
+  }
+
+  .docs-status {
+    margin: 0 0 0.36rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--green) 82%, var(--ink));
+  }
+
+  .docs-status--muted {
+    color: var(--muted);
   }
 
   .docs-card--feature p {
