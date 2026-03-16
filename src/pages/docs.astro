@@ -1,21 +1,49 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const docPages = [
+const strategyPages = [
   {
-    title: "Architecture",
-    href: "/docs/architecture",
-    description: "Composition-first architecture, component policy, and system design."
+    title: "Untouchable Theme Engine",
+    href: "/docs/theme-engine",
+    description: "Global visual semantics with stable tokens and no per-screen color glue."
   },
   {
     title: "Roadmap",
-    href: "/docs/framework-roadmap",
-    description: "Component roadmap, priorities, and final 1.0 direction."
+    href: "/docs/roadmap",
+    description: "Execution direction after architecture freeze and validation bento hardening."
+  },
+  {
+    title: "Next Steps",
+    href: "/docs/next-steps",
+    description: "Short-term delivery priorities for docs, scenarios, and quality gates."
+  }
+];
+
+const architecturePages = [
+  {
+    title: "Architecture",
+    href: "/docs/architecture",
+    description: "Locked bentos/rooms/bricks contract and validation tuple."
+  },
+  {
+    title: "Bentos",
+    href: "/docs/architecture/bentos",
+    description: "Full-app orchestration patterns and scenario ownership."
+  },
+  {
+    title: "Rooms",
+    href: "/docs/architecture/rooms",
+    description: "Geometry and split composition with gutter/divider controls."
+  },
+  {
+    title: "Bricks",
+    href: "/docs/architecture/bricks",
+    description: "Reusable UI components with strict render contracts."
   },
   {
     title: "Color Guide",
     href: "/docs/colors",
-    description: "Bento Coloring and Bento Rose palettes, contrast checks, and token exports."
+    description: "Bento Coloring and Bento Rose palettes with contrast references."
   }
 ];
 ---
@@ -28,7 +56,8 @@ const docPages = [
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/docs">Docs</a>
-      <a href="/docs/colors">Colors</a>
+      <a href="/docs/theme-engine">Theme Engine</a>
+      <a href="/docs/roadmap">Roadmap</a>
       <a href="https://github.com/cloudboy-jh/bentotui" aria-label="BentoTUI GitHub repository">GitHub</a>
       <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme" title="Switch theme">
         <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -44,13 +73,14 @@ const docPages = [
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
       <h1>Documentation</h1>
-      <p class="hero__subtitle">Architecture, roadmap, and color system guides for BentoTUI.</p>
+      <p class="hero__subtitle">Architecture freeze docs for the bentos/rooms/bricks model and Untouchable Theme Engine.</p>
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
-      <div class="docs-grid docs-grid--feature docs-grid--primary">
+      <h2 class="docs-group-title">Strategy and Direction</h2>
+      <div class="docs-grid docs-grid--feature">
         {
-          docPages.slice(0, 2).map((page) => (
+          strategyPages.map((page) => (
             <article class="docs-card docs-card--feature">
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
@@ -58,10 +88,13 @@ const docPages = [
           ))
         }
       </div>
+    </section>
 
+    <section class="docs-section section-pad reveal" style="--delay: 210ms;">
+      <h2 class="docs-group-title">Architecture Cluster</h2>
       <div class="docs-grid docs-grid--secondary">
         {
-          docPages.slice(2).map((page) => (
+          architecturePages.map((page) => (
             <article class="docs-card docs-card--feature docs-card--secondary">
               <h3><a href={page.href}>{page.title}</a></h3>
               <p>{page.description}</p>
@@ -74,15 +107,25 @@ const docPages = [
 </BaseLayout>
 
 <style>
+  .docs-group-title {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin: 0 0 0.8rem;
+  }
+
   .docs-grid--feature {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .docs-grid--secondary {
-    margin-top: 1.25rem;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 1rem;
   }
 
   .docs-card--secondary {
@@ -90,8 +133,8 @@ const docPages = [
   }
 
   .docs-card--feature {
-    min-height: 210px;
-    padding: 1.5rem 1.35rem;
+    min-height: 170px;
+    padding: 1.25rem 1.1rem;
     border-radius: 0.95rem;
     border-color: color-mix(in srgb, var(--green) 26%, var(--border));
     background:
@@ -100,26 +143,22 @@ const docPages = [
   }
 
   .docs-card--feature h3 {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     letter-spacing: 0.01em;
     font-family: "Fraunces", serif;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
   }
 
   .docs-card--feature p {
-    font-size: 1.08rem;
-    line-height: 1.5;
+    font-size: 0.98rem;
+    line-height: 1.45;
     margin-top: 0;
   }
-  
-  @media (max-width: 680px) {
-    .docs-grid--feature {
-      grid-template-columns: 1fr;
-    }
 
-    .docs-card--feature {
-      min-height: 140px;
-      padding: 1rem;
+  @media (max-width: 900px) {
+    .docs-grid--feature,
+    .docs-grid--secondary {
+      grid-template-columns: 1fr;
     }
   }
 </style>

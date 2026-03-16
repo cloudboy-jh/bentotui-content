@@ -202,7 +202,8 @@ const liveThemes = [
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/docs">Docs</a>
-      <a href="/docs/colors">Colors</a>
+      <a href="/docs/theme-engine">Theme Engine</a>
+      <a href="/docs/roadmap">Roadmap</a>
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <button type="button" class="icon-button theme-toggle" data-theme-toggle aria-label="Switch theme">
         <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24"><path d="M21 14.25A8.25 8.25 0 1 1 9.75 3a7 7 0 1 0 11.25 11.25Z"/></svg>
@@ -370,14 +371,15 @@ $ bento add badge tabs toast</code></pre>
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 360ms;">
-      <h2>Architecture</h2>
+      <h2>Architecture Freeze</h2>
       <p>
-        BentoTUI separates copied source from stable module imports. Components are copied into your
-        codebase with <code>bento add</code>, while <code>theme</code>, <code>styles</code>, and <code>layout</code> remain standard package imports.
+        BentoTUI now runs on a locked contract: <code>registry/bentos</code> for full app orchestration,
+        <code>registry/rooms</code> for geometry/layout allocation, and <code>registry/bricks</code> for reusable UI painting.
       </p>
 
       <p>
-        Primitive wrappers are intentionally limited in 1.0. Use <code>charm.land/bubbles/v2/spinner</code> directly unless Bento adds clear composition value.
+        The Untouchable Theme Engine drives visual semantics globally, and
+        <code>registry/bentos/app-shell</code> is now the scenario-driven validation bento for reproducible framework regressions.
       </p>
 
       <div class="arch-flow">
@@ -385,34 +387,34 @@ $ bento add badge tabs toast</code></pre>
           <span class="arch-step">01</span>
           <div>
             <strong>Your app code</strong>
-            <span class="arch-note">Compose screens with copied components.</span>
+            <span class="arch-note">Compose products with copied source and stable contracts.</span>
           </div>
         </article>
         <article class="arch-layer arch-layer--highlight">
           <span class="arch-step">02</span>
           <div>
-            <strong>registry/components/</strong>
-            <span class="arch-note">Copy source into your app and own the implementation.</span>
+            <strong>registry/bentos</strong>
+            <span class="arch-note">Orchestrate app scenarios and validation behavior.</span>
           </div>
         </article>
         <article class="arch-layer">
           <span class="arch-step">03</span>
           <div>
-            <strong>bentotui module deps</strong>
-            <span class="arch-note">Stable imports: theme, styles, layout.</span>
+            <strong>registry/rooms</strong>
+            <span class="arch-note">Allocate geometry, splits, gutters, and dividers.</span>
           </div>
         </article>
         <article class="arch-layer">
           <span class="arch-step">04</span>
           <div>
-            <strong>Charm stack</strong>
-            <span class="arch-note">Built on Bubble Tea v2, Lip Gloss v2, and Ultraviolet.</span>
+            <strong>registry/bricks + theme engine</strong>
+            <span class="arch-note">Paint UI components under global theme semantics.</span>
           </div>
         </article>
       </div>
 
       <p class="section-p">
-        <a href="/docs/architecture">Read the architecture guide</a> or
+        <a href="/docs/architecture">Read the architecture freeze guide</a> or
         <a href="https://github.com/cloudboy-jh/bentotui">explore on GitHub</a>.
       </p>
     </section>
