@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: Overview / Getting Started
-description: BentoTUI overview and quick start for v0.5.4.
+description: BentoTUI overview and quick start for v0.6.0.
 publishedAt: 2026-03-20
 ---
 
@@ -26,8 +26,8 @@ go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 ## First run path
 
 ```bash
+bento init app-shell
 bento
-bento init myapp
 bento list
 bento add card
 bento add recipe vimstatus
@@ -36,14 +36,16 @@ go run ./registry/bentos/home-screen
 
 ## Current release snapshot
 
-- Current docs/app snapshot target: `v0.5.4`
-- `CHANGELOG.md` top release: `0.5.4` dated `2026-03-19`
+- Current docs/app snapshot target: `v0.6.0`
+- `CHANGELOG.md` top release: `0.6.0` dated `2026-03-20`
 
-## v0.5.4 highlights
+## v0.6.0 highlights
 
-- Command palette action ordering is deterministic.
-- Dialog lifecycle handling (`dialog.OpenMsg` / `dialog.CloseMsg`) is explicit in bento update flows.
-- `app-shell` theme propagation updates footer, center deck, and dialog manager consistently.
+- `bento init` now requires an explicit named template: `bento init <bento>`.
+- The old starter scaffold path (`bento init [name]`) is removed in favor of template-first initialization.
+- `bento list` now includes bentos alongside bricks and recipes.
+- The interactive `bento` flow uses a template-init picker.
+- `dashboard-brick-lab` now handles `theme.ThemeChangedMsg` and propagates updates through composed bricks.
 
 ## Related
 

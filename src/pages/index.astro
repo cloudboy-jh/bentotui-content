@@ -7,8 +7,8 @@ const quickStartCode = `# Install BentoTUI and CLI
 go get github.com/cloudboy-jh/bentotui
 go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 
-# Launch interactive installer/launcher
-bento
+# Initialize a named bento template
+bento init app-shell
 
 # Start from a runnable template app
 go run ./registry/bentos/home-screen
@@ -41,7 +41,7 @@ const docLinks = [
   {
     title: "Overview / Getting Started",
     href: "/docs/overview",
-    text: "Product framing, install path, and first-run flow for BentoTUI v0.5.4."
+    text: "Product framing, install path, and first-run flow for BentoTUI v0.6.0."
   },
   {
     title: "Bricks API",
@@ -87,7 +87,7 @@ const docLinks = [
         import-only room layouts, and runnable bento templates.
       </p>
       <div class="install-pill reveal" style="--delay: 200ms;">
-        <code>Current docs snapshot: v0.5.4</code>
+        <code>Current docs snapshot: v0.6.0</code>
       </div>
     </section>
 
@@ -142,8 +142,8 @@ const docLinks = [
           <p>Rooms stay stable as geometry contracts with no color or theme decisions.</p>
         </article>
         <article>
-          <h3>Deterministic app-shell</h3>
-          <p>v0.5.4 keeps command palette ordering deterministic and theme updates consistent.</p>
+          <h3>Template-first CLI</h3>
+          <p>v0.6.0 standardizes `bento init &lt;bento&gt;` and keeps bento templates first-class.</p>
         </article>
       </div>
     </section>

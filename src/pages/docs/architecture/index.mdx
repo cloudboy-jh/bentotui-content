@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: "BentoTUI Architecture Contract"
-description: "Current architecture contract for BentoTUI v0.5.4: theme, styles, bricks, recipes, rooms, surface, and Bubble Tea frame."
+description: "Current architecture contract for BentoTUI v0.6.0: theme, styles, bricks, recipes, rooms, surface, and Bubble Tea frame."
 publishedAt: 2026-03-20
 tags:
   - bentotui
@@ -53,7 +53,7 @@ Guardrails are part of product reliability, not internal trivia:
 
 Every row drawn to surface-backed layouts should have explicit background ownership, usually via `styles.Row(...)`, to avoid bleed and gaps.
 
-## Runtime baseline in v0.5.4
+## Runtime baseline in v0.6.0
 
 - Go module baseline: `go 1.25.2`
 - `charm.land/bubbletea/v2 v2.0.0-rc.2`

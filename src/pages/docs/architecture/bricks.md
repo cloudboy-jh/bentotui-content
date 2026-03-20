@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: BentoTUI Bricks
-description: Installable copy-and-own UI building blocks for BentoTUI v0.5.4.
+description: Installable copy-and-own UI building blocks for BentoTUI v0.6.0.
 publishedAt: 2026-03-20
 ---
 
@@ -37,7 +37,7 @@ Bricks are official UI building blocks copied into app code with `bento add <bri
 18. `toast` - stacked notifications
 19. `separator` - horizontal/vertical divider
 
-## v0.5.4 behavior notes
+## Current behavior notes
 
 - Command palette action ordering is deterministic.
 - Dialog lifecycle handling now uses explicit `dialog.OpenMsg` and `dialog.CloseMsg` flow events.

@@ -22,15 +22,14 @@ publishedAt: 2026-03-20
 - `app-shell` - canonical workspace shell with command palette and theme flow
 - `detail-view` - list/detail split and session card
 - `dashboard-brick-lab` - component showcase and layout test bed
-- `vimstatus-demo` - recipe-driven demo for vim-style status line
 
 Primary docs emphasis: `home-screen`, `app-shell`, and `detail-view`.
 
-## v0.5.4 app-shell notes
+## v0.6.0 template and behavior notes
 
-- Command palette action ordering is deterministic.
-- Dialog lifecycle handling is explicit with `dialog.OpenMsg` and `dialog.CloseMsg`.
-- Theme propagation updates footer, center deck, and dialog manager consistently.
+- `bento init` is template-first and requires `bento init <bento>`.
+- The interactive `bento` flow uses a template picker for named bentos.
+- `dashboard-brick-lab` propagates `theme.ThemeChangedMsg` through composed bricks.
 
 ## Contract
 

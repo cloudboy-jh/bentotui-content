@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: Theme Engine
-description: Theme interface, presets, and token contract for BentoTUI v0.5.4.
+description: Theme interface, presets, and token contract for BentoTUI v0.6.0.
 publishedAt: 2026-03-20
 ---
 

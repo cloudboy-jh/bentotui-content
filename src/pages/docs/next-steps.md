@@ -1,13 +1,13 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: BentoTUI Next Steps
-description: Immediate documentation and product sync tasks after v0.5.4.
+description: Immediate documentation and product sync tasks after v0.6.0.
 publishedAt: 2026-03-20
 ---
 
 # Next Steps
 
-This page tracks immediate content and reliability work after `v0.5.4`.
+This page tracks immediate content and reliability work after `v0.6.0`.
 
 ## Definition
 
@@ -20,9 +20,9 @@ Everything below reinforces that contract.
 
 ## Immediate
 
-- Keep docs references pinned to `v0.5.4`.
+- Keep docs references pinned to `v0.6.0`.
 - Keep recipes lists synced with CLI source of truth, including `vimstatus`.
-- Keep app-shell behavior notes aligned with deterministic palette and explicit dialog lifecycle handling.
+- Keep CLI docs synced with template-first init: `bento init <bento>`.
 
 ## Near Term
 

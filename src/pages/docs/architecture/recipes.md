@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: BentoTUI Recipes
-description: Installable copy-and-own composed flow patterns for BentoTUI v0.5.4.
+description: Installable copy-and-own composed flow patterns for BentoTUI v0.6.0.
 publishedAt: 2026-03-20
 ---
 

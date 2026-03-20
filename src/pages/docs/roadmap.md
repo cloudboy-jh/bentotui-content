@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: Product Direction and Roadmap
-description: Outcome-focused direction after BentoTUI v0.5.4.
+description: Outcome-focused direction after BentoTUI v0.6.0.
 publishedAt: 2026-03-20
 ---
 
@@ -17,7 +17,7 @@ BentoTUI focuses on helping Go teams ship full terminal apps quickly with clear 
 
 ## Near-term focus
 
-- Keep templates and docs synchronized with current release behavior (`v0.5.4`).
+- Keep templates and docs synchronized with current release behavior (`v0.6.0`).
 - Expand practical examples that start from bentos, then adapt bricks and recipes.
 - Keep room contracts stable and import-only.
 - Strengthen rendering consistency through surface + styles guidance.
@@ -31,6 +31,7 @@ BentoTUI focuses on helping Go teams ship full terminal apps quickly with clear 
 ## Documentation priorities
 
 - Keep install catalogs current (`bento list` as source of truth).
+- Keep CLI docs aligned with template-first initialization (`bento init <bento>`).
 - Ensure recipes docs include `vimstatus` anywhere installable recipes are listed.
 - Keep the theme interface docs updated with diff/syntax token surface.
 
