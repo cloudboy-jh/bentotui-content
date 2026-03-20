@@ -1,57 +1,75 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const strategyPages = [
+const gettingStartedPages = [
   {
-    title: "Untouchable Theme Engine",
-    href: "/docs/theme-engine",
-    description: "Defines theme semantics, token boundaries, and rendering guarantees across the entire model.",
-    status: "Contract"
+    title: "Overview / Getting Started",
+    href: "/docs/overview",
+    description: "Start from BentoTUI v0.5.4 with install, first commands, and product language.",
+    status: "Start"
   },
   {
-    title: "Roadmap",
-    href: "/docs/roadmap",
-    description: "Defines phase priorities, validation depth goals, and measurable quality gates.",
-    status: "Execution"
+    title: "CLI Commands",
+    href: "/docs/cli-commands",
+    description: "Reference for init, add, add recipe, list, doctor, version, and interactive launcher.",
+    status: "CLI"
   },
   {
-    title: "Next Steps",
-    href: "/docs/next-steps",
-    description: "Defines immediate delivery work for app-shell, room options, and compatibility checks.",
-    status: "Now"
+    title: "Bentos Templates",
+    href: "/docs/architecture/bentos",
+    description: "Primary remix templates and the full shipped bento catalog.",
+    status: "Templates"
   }
 ];
 
-const architecturePages = [
+const referencePages = [
   {
     title: "Architecture",
     href: "/docs/architecture",
-    description: "Canonical freeze statement for bentos, rooms, bricks, and deterministic validation.",
+    description: "Architecture contract order: theme, styles, bricks, recipes, rooms, surface, Bubble Tea frame.",
     status: "Core"
   },
   {
     title: "Bentos",
     href: "/docs/architecture/bentos",
-    description: "Defines full-app orchestration responsibilities and scenario ownership.",
+    description: "Runnable template apps and app-shell behavior guarantees.",
     status: "Layer"
   },
   {
     title: "Rooms",
     href: "/docs/architecture/rooms",
-    description: "Defines geometry allocation and split options including `WithGutter` and `WithDivider`.",
+    description: "Import-only layout contracts and room primitives.",
     status: "Layer"
   },
   {
     title: "Bricks",
     href: "/docs/architecture/bricks",
-    description: "Defines reusable component rendering contracts and compatibility constraints.",
+    description: "Installable copy-and-own UI building blocks.",
     status: "Layer"
   },
   {
-    title: "Color Guide",
-    href: "/docs/colors",
-    description: "Reference palettes and contrast helpers used by the theme system.",
+    title: "Recipes",
+    href: "/docs/architecture/recipes",
+    description: "Installable copy-and-own composition flows, including vimstatus.",
+    status: "Layer"
+  },
+  {
+    title: "Theme Engine",
+    href: "/docs/theme-engine",
+    description: "Theme interface, built-in presets, global manager, and token contract.",
     status: "Reference"
+  },
+  {
+    title: "Rendering and Coloring Rules",
+    href: "/docs/rendering-and-coloring-rules",
+    description: "Surface composition and explicit background ownership guidance.",
+    status: "Reference"
+  },
+  {
+    title: "Product Direction and Roadmap",
+    href: "/docs/roadmap",
+    description: "Outcome-focused direction and near-term priorities after v0.5.4.",
+    status: "Direction"
   }
 ];
 ---
@@ -81,15 +99,15 @@ const architecturePages = [
   <main class="main-wrap docs-main">
     <section class="docs-hero section-pad reveal" style="--delay: 100ms;">
       <h1>Documentation</h1>
-      <p class="hero__subtitle">Architecture freeze docs for the bentos/rooms/bricks model and Untouchable Theme Engine.</p>
+      <p class="hero__subtitle">BentoTUI v0.5.4 docs for bricks, recipes, rooms, bentos, and rendering contracts.</p>
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 170ms;">
-      <h2 class="docs-group-title">Strategy and Direction</h2>
-      <p class="docs-intro">Read these first to understand the frozen contract, what is actively shipping, and what is next.</p>
+      <h2 class="docs-group-title">Getting Started</h2>
+      <p class="docs-intro">Start here to install BentoTUI, run your first bento, and learn the current command surface.</p>
       <div class="docs-grid docs-grid--feature">
         {
-          strategyPages.map((page) => (
+          gettingStartedPages.map((page) => (
             <article class="docs-card docs-card--feature">
               <p class="docs-status">{page.status}</p>
               <h3><a href={page.href}>{page.title}</a></h3>
@@ -101,11 +119,11 @@ const architecturePages = [
     </section>
 
     <section class="docs-section section-pad reveal" style="--delay: 210ms;">
-      <h2 class="docs-group-title">Architecture Cluster</h2>
-      <p class="docs-intro">Use this cluster to map responsibility boundaries before touching implementation details.</p>
+      <h2 class="docs-group-title">API and Architecture Reference</h2>
+      <p class="docs-intro">Use these references for exact contracts, installable catalogs, theme APIs, and reliability guardrails.</p>
       <div class="docs-grid docs-grid--secondary">
         {
-          architecturePages.map((page) => (
+          referencePages.map((page) => (
             <article class="docs-card docs-card--feature docs-card--secondary">
               <p class="docs-status docs-status--muted">{page.status}</p>
               <h3><a href={page.href}>{page.title}</a></h3>
@@ -141,7 +159,7 @@ const architecturePages = [
   }
 
   .docs-grid--secondary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     gap: 1rem;
   }

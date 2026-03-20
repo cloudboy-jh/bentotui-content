@@ -3,59 +3,60 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { Code } from "astro:components";
 import bentotuiWordmarkLogo from "../../bentotui-wordmark-logo.png";
 
-const quickStartCode = `# Install Bento CLI
+const quickStartCode = `# Install BentoTUI and CLI
+go get github.com/cloudboy-jh/bentotui
 go install github.com/cloudboy-jh/bentotui/cmd/bento@latest
 
-# Add a validation app and architecture primitives
-bento add app-shell panel bar surface list
+# Launch interactive installer/launcher
+bento
 
-# Inspect all available bentos, rooms, and bricks
-bento list
+# Start from a runnable template app
+go run ./registry/bentos/home-screen
 
-# Start from copy-and-own source
-bento init myapp`;
+# Copy a brick into your app
+bento add card`;
 
 const modelCards = [
   {
     label: "Bentos",
     scope: "Full app orchestration",
-    detail: "Bentos define complete user flows, scenario coverage, and screen-level behavior.",
-    points: ["Own app-level states", "Coordinate focus flows", "Drive validation scenarios"]
+    detail: "Runnable template apps under registry/bentos/* let teams remix full experiences quickly.",
+    points: ["Start with home-screen", "Remix app-shell", "Ship serious shells fast"]
   },
   {
     label: "Rooms",
     scope: "Geometry and allocation",
-    detail: "Rooms compose layout geometry, split policy, and viewport adaptation across screens.",
-    points: ["Allocate width and height", "Use `WithGutter` and `WithDivider`", "Keep layout deterministic"]
+    detail: "Import-only layout contracts from registry/rooms keep geometry stable and predictable.",
+    points: ["Geometry only", "No theme ownership", "Deterministic composition"]
   },
   {
     label: "Bricks",
     scope: "Reusable UI rendering",
-    detail: "Bricks render components with stable contracts so teams can upgrade behavior safely.",
-    points: ["Paint visual components", "Preserve compatibility", "Harden ANSI-heavy rendering"]
+    detail: "Official UI blocks are copied into your codebase with bento add <brick>.",
+    points: ["Copy and own source", "Adapt without lock-in", "Upgrade on your timeline"]
   }
 ];
 
 const docLinks = [
   {
-    title: "Architecture",
-    href: "/docs/architecture",
-    text: "Canonical freeze contract, validation tuple, and model boundaries."
+    title: "Overview / Getting Started",
+    href: "/docs/overview",
+    text: "Product framing, install path, and first-run flow for BentoTUI v0.5.4."
   },
   {
-    title: "Untouchable Theme Engine",
+    title: "Bricks API",
+    href: "/docs/architecture/bricks",
+    text: "Installable bricks catalog and copy-and-own contracts."
+  },
+  {
+    title: "Rooms API",
+    href: "/docs/architecture/rooms",
+    text: "Import-only room contracts and geometry primitives."
+  },
+  {
+    title: "Theme Engine",
     href: "/docs/theme-engine",
-    text: "Theme semantics, token responsibilities, and rendering rules."
-  },
-  {
-    title: "Roadmap",
-    href: "/docs/roadmap",
-    text: "Execution priorities, quality gates, and what ships next."
-  },
-  {
-    title: "Next Steps",
-    href: "/docs/next-steps",
-    text: "Immediate tasks for validation breadth and contract hardening."
+    text: "Theme interface, presets, manager APIs, and diff/syntax tokens."
   }
 ];
 ---
@@ -80,21 +81,21 @@ const docLinks = [
   <main id="top" class="main-wrap">
     <section class="hero section-pad reveal" style="--delay: 120ms;">
       <img class="hero__logo" src={bentotuiWordmarkLogo.src} alt="BentoTUI" />
-      <p class="hero__subtitle">Copy-and-own TUI architecture for Bubble Tea v2.</p>
+      <p class="hero__subtitle">Build full Go TUIs fast.</p>
       <p class="hero__pitch">
-        BentoTUI now ships with a frozen contract: <code>bentos</code>, <code>rooms</code>, and <code>bricks</code>.
-        Apps move faster because responsibilities are explicit and visual semantics are centralized in the Untouchable Theme Engine.
+        BentoTUI is the fastest way to build full Go TUIs using copy-and-own bricks and recipes,
+        import-only room layouts, and runnable bento templates.
       </p>
       <div class="install-pill reveal" style="--delay: 200ms;">
-        <code>go install github.com/cloudboy-jh/bentotui/cmd/bento@latest</code>
+        <code>Current docs snapshot: v0.5.4</code>
       </div>
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 210ms;">
-      <h2>Copy and compose</h2>
+      <h2>Ship in days, not weeks</h2>
       <p class="section-copy">
-        The CLI copies source into your repository so your team owns delivery. Start with a bento, compose rooms,
-        and paint with bricks while keeping framework validation reproducible.
+        BentoTUI gives Go teams a production-oriented TUI system: copy-and-own bricks and recipes,
+        stable room contracts, and runnable bentos to remix quickly.
       </p>
       <div class="code-frame">
         <Code lang="bash" code={quickStartCode} />
@@ -102,10 +103,10 @@ const docLinks = [
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 250ms;">
-      <h2>Bentos, rooms, bricks</h2>
+      <h2>Bricks, recipes, rooms, bentos</h2>
       <p class="section-copy">
-        The architecture model is intentionally strict: bentos orchestrate behavior, rooms allocate geometry,
-        and bricks paint reusable UI components.
+        Use Bento vocabulary end-to-end: copy bricks and recipes into app code, compose with room contracts,
+        and launch full bento templates for rapid delivery.
       </p>
 
       <div class="model-grid">
@@ -125,24 +126,24 @@ const docLinks = [
     </section>
 
     <section class="section-pad section-body reveal" style="--delay: 290ms;">
-      <h2>Untouchable Theme Engine</h2>
+      <h2>Reliable by design</h2>
       <p class="section-copy">
-        Theme semantics are global and non-negotiable at the contract layer. The theme engine removes per-screen color glue,
-        keeps rendering coherent, and makes scenario snapshots meaningful across viewports.
+        Guardrails enforce clean boundaries so teams avoid architecture drift: rooms stay geometry-only,
+        bricks do not import bricks, and app-level theme state is model-owned.
       </p>
 
       <div class="theme-principles">
         <article>
-          <h3>Global semantics</h3>
-          <p>Tokens and style mappings are shared across bentos, rooms, and bricks.</p>
+          <h3>Copy-and-own UI</h3>
+          <p>Bricks and recipes are copied into your repo so your team owns behavior and release timing.</p>
         </article>
         <article>
-          <h3>Deterministic validation</h3>
-          <p><code>app-shell</code> validates scenarios with <code>scenario + viewport + theme + focus + snapshot</code>.</p>
+          <h3>Import-only layouts</h3>
+          <p>Rooms stay stable as geometry contracts with no color or theme decisions.</p>
         </article>
         <article>
-          <h3>No local drift</h3>
-          <p>Theme behavior is centralized so product teams avoid one-off palette logic.</p>
+          <h3>Deterministic app-shell</h3>
+          <p>v0.5.4 keeps command palette ordering deterministic and theme updates consistent.</p>
         </article>
       </div>
     </section>
@@ -150,7 +151,7 @@ const docLinks = [
     <section class="section-pad section-body reveal" style="--delay: 330ms;">
       <h2>Defined docs path</h2>
       <p class="section-copy">
-        The docs set now mirrors the frozen architecture and execution flow. Use these in order when onboarding contributors.
+        Follow the updated docs IA for current APIs, install catalogs, and rendering contracts.
       </p>
       <div class="docs-path-grid">
         {
@@ -166,7 +167,7 @@ const docLinks = [
   </main>
 
   <footer class="site-footer reveal" style="--delay: 420ms;">
-    <p>BentoTUI - copy-and-own architecture with bentos, rooms, bricks, and the Untouchable Theme Engine.</p>
+    <p>BentoTUI - copy-and-own bricks and recipes, import-only rooms, and runnable bentos.</p>
     <div class="footer-links">
       <a href="https://github.com/cloudboy-jh/bentotui">GitHub</a>
       <a href="/docs">Docs</a>

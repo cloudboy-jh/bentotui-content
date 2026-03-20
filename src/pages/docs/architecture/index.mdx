@@ -1,86 +1,72 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: "BentoTUI Architecture Freeze: Untouchable Theme Engine + Validation Bento"
-description: "BentoTUI now locks the core model around bentos, rooms, and bricks, with app-shell as a scenario-driven framework validation bento."
-publishedAt: 2026-03-15
+title: "BentoTUI Architecture Contract"
+description: "Current architecture contract for BentoTUI v0.5.4: theme, styles, bricks, recipes, rooms, surface, and Bubble Tea frame."
+publishedAt: 2026-03-20
 tags:
   - bentotui
   - go
-  - bubbletea
+  - bubbletea-v2
   - terminal-ui
   - architecture
-  - themes
+  - rooms
 draft: false
 ---
 
-# BentoTUI Architecture Freeze: Untouchable Theme Engine + Validation Bento
+# BentoTUI Architecture Contract
 
-BentoTUI now has a locked architecture contract:
+BentoTUI ships with an explicit product architecture aimed at outcomes: ship a serious app shell in one day.
 
-- `registry/bentos` = full apps
-- `registry/rooms` = geometry/layout composition
-- `registry/bricks` = UI components
+- Bricks and recipes are copy-and-own.
+- Rooms are import-only geometry contracts.
+- Bentos are runnable templates for rapid remix.
 
-And the visual system is now officially documented as the **Untouchable Theme Engine**.
+## Canonical stack order
 
-## What changed
+Use this order when explaining or implementing BentoTUI:
 
-- Moved shared style helpers from `styles/` to `theme/styles/`.
-- Reworked `registry/bentos/app-shell` into a scenario-driven validation bento.
-- Added room-level split separation options (`WithGutter`, `WithDivider`).
-- Added anchored footer card style modes (`plain`, `chip`, `mixed`).
-- Expanded structured list rows with typed fields while keeping compatibility.
-- Hardened panel render contract for ANSI-heavy content.
+1. `theme` interface, presets, and optional global manager
+2. `theme/styles` helpers (`Row`, `RowClip`, `ClipANSI`)
+3. `registry/bricks` copy-and-own component layer
+4. `registry/recipes` copy-and-own composed flows
+5. `registry/rooms` import-only layout geometry
+6. `surface` UV compositor
+7. Bubble Tea frame (`tea.NewView`, `AltScreen`, `BackgroundColor`)
 
-## Validation bento role
+## Layer responsibilities
 
-`registry/bentos/app-shell` is now the canonical proving ground for framework quality,
-not a static demo.
+- **Bricks**: official UI building blocks copied into app code with `bento add <brick>`.
+- **Recipes**: copy-and-own flow patterns copied with `bento add recipe <name>`.
+- **Rooms**: stable import-only page layout contracts from `registry/rooms`.
+- **Bentos**: runnable template apps under `registry/bentos/*`.
 
-It ships scenario groups for:
+## Reliability guardrails
 
-- layout
-- hierarchy
-- footer
-- list
-- overlay
-- stress
+Guardrails are part of product reliability, not internal trivia:
 
-This makes regressions reproducible via a deterministic tuple:
+- Rooms do not import theme, bricks, or raw bubbles.
+- Bricks do not import other bricks.
+- Bentos/starter/scaffold/recipes avoid raw `bubbles/*` (spinner exception).
+- Bento `View()` methods do not call `theme.CurrentTheme()` directly; theme should be model-owned state.
 
-`scenario + viewport + theme + focus + snapshot`
+## Rendering rule
 
-## Docs reshaped
+Every row drawn to surface-backed layouts should have explicit background ownership, usually via `styles.Row(...)`, to avoid bleed and gaps.
 
-Architecture docs now live under `docs/architecture/`:
+## Runtime baseline in v0.5.4
 
-- `architecture.md`
-- `bentos.md`
-- `bricks.md`
-- `rooms.md`
-
-Top-level docs now focus on strategy and direction:
-
-- `theme-engine.md`
-- `roadmap.md`
-- `next-steps.md`
-
-## Why this matters
-
-This removes layout/color guesswork by making responsibilities explicit:
-
-- bentos orchestrate
-- rooms allocate
-- bricks paint
-
-With themes driving visual semantics globally, app teams can compose faster
-without per-screen color glue. [https://github.com/cloudboy-jh/bentotui/tree/main](https://github.com/cloudboy-jh/bentotui/tree/main)
+- Go module baseline: `go 1.25.2`
+- `charm.land/bubbletea/v2 v2.0.0-rc.2`
+- `charm.land/bubbles/v2 v2.0.0-rc.1`
+- `charm.land/lipgloss/v2 v2.0.0-beta.3`
+- `github.com/charmbracelet/ultraviolet`
 
 ## Related
 
 - [Architecture: Bentos](./bentos)
 - [Architecture: Rooms](./rooms)
 - [Architecture: Bricks](./bricks)
-- [Untouchable Theme Engine](../theme-engine)
-- [Roadmap](../roadmap)
-- [Next Steps](../next-steps)
+- [Architecture: Recipes](./recipes)
+- [Theme Engine](../theme-engine)
+- [Rendering and Coloring Rules](../rendering-and-coloring-rules)
+- [CLI Commands](../cli-commands)

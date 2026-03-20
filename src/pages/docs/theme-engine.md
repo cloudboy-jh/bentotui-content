@@ -1,62 +1,60 @@
 ---
 layout: ../../layouts/DocsLayout.astro
-title: Untouchable Theme Engine
-description: Official visual semantics contract for BentoTUI.
-publishedAt: 2026-03-15
+title: Theme Engine
+description: Theme interface, presets, and token contract for BentoTUI v0.5.4.
+publishedAt: 2026-03-20
 ---
 
-# Untouchable Theme Engine
+# Theme Engine
 
-The Untouchable Theme Engine is the official visual contract for BentoTUI.
+The theme engine is the visual semantics contract for BentoTUI.
 
-## Definition
+## Model
 
-The theme engine is not a skin layer. It is a contract layer.
+- `Theme` is an interface, not a struct token bag.
+- Bricks support `WithTheme(t)` and runtime `SetTheme(t)` updates.
+- If no explicit theme is set, bricks may fall back to `theme.CurrentTheme()`.
 
-- Bentos consume theme semantics for screen-level behavior.
-- Rooms consume theme semantics for spacing and split readability.
-- Bricks consume theme semantics for component rendering and contrast.
+## Built-in presets
 
-When this contract is stable, app teams can compose quickly without per-screen color glue.
+16 built-in presets:
 
-## Scope
+`catppuccin-mocha` (default), `catppuccin-macchiato`, `catppuccin-frappe`, `dracula`, `tokyo-night`, `tokyo-night-storm`, `nord`, `bento-rose`, `gruvbox-dark`, `monokai-pro`, `kanagawa`, `rose-pine`, `ayu-mirage`, `one-dark`, `material-ocean`, `github-dark`.
 
-- Centralize visual semantics across all bentos, rooms, and bricks.
-- Prevent ad-hoc per-screen color glue and style drift.
-- Keep rendering predictable across themes and snapshots.
+## Global manager (optional)
 
-## Architecture Placement
+- `theme.CurrentTheme()`
+- `theme.CurrentThemeName()`
+- `theme.SetTheme(name)`
+- `theme.PreviewTheme(name)`
+- `theme.AvailableThemes()`
+- `theme.RegisterTheme(name, t)`
 
-- Shared style helpers moved from `styles/` to `theme/styles/`.
-- Theme values are consumed by components as semantic roles, not hard-coded colors.
-- Validation scenarios treat theme switching as a first-class input.
+## Token surface
+
+Theme covers app UI tokens and extended token domains:
+
+- UI semantics for app shell, cards, text, borders, accents, and states
+- Diff tokens for added/removed/context backgrounds and intraline highlights
+- Syntax tokens such as `SyntaxKeyword`, `SyntaxType`, `SyntaxFunction`, and related roles
 
 ## Contract Rules
 
-1. Theme decisions happen globally, not per feature screen.
-2. Bricks render using semantic tokens and must preserve contrast guarantees.
-3. Rooms do not invent local color systems.
-4. Bentos should remain theme-agnostic in behavior logic.
+1. Theme decisions are model-owned and consistent across views.
+2. Rooms are geometry-only and do not own color decisions.
+3. Bricks consume semantic theme roles, not ad-hoc hard-coded colors.
+4. Bento `View()` methods should not call `theme.CurrentTheme()` directly.
 
-## Validation Expectations
+## Related style helpers
 
-Theme regressions should always be reproducible using the frozen tuple:
+Use `theme/styles` helpers for reliable row rendering:
 
-`scenario + viewport + theme + focus + snapshot`
-
-`registry/bentos/app-shell` is the proving ground for this behavior and should stay deterministic.
-
-## Current State
-
-- Shared style helpers moved from `styles/` to `theme/styles/`.
-- Themes now drive global visual intent instead of local overrides.
-- Validation scenarios use theme changes as first-class regression inputs.
-
-## Outcome
-
-Teams can compose faster because layout and component behavior remain stable while theme semantics apply globally.
+- `Row`
+- `RowClip`
+- `ClipANSI`
 
 ## Related
 
-- [Architecture Freeze](./architecture)
-- [Roadmap](./roadmap)
+- [Architecture Contract](./architecture)
+- [Rendering and Coloring Rules](./rendering-and-coloring-rules)
+- [Product Direction and Roadmap](./roadmap)

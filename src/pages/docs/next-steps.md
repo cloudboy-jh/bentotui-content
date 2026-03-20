@@ -1,36 +1,36 @@
 ---
 layout: ../../layouts/DocsLayout.astro
 title: BentoTUI Next Steps
-description: Immediate execution plan after architecture freeze.
-publishedAt: 2026-03-15
+description: Immediate documentation and product sync tasks after v0.5.4.
+publishedAt: 2026-03-20
 ---
 
 # Next Steps
 
-This page tracks immediate work after the architecture freeze.
+This page tracks immediate content and reliability work after `v0.5.4`.
 
 ## Definition
 
-- Bentos orchestrate behavior.
-- Rooms allocate geometry.
-- Bricks paint UI.
-- Theme engine governs semantics globally.
+- Bricks and recipes are copy-and-own.
+- Rooms are import-only and geometry-only.
+- Bentos are runnable templates for fast remix.
+- Theme semantics stay model-owned and consistent.
 
 Everything below reinforces that contract.
 
 ## Immediate
 
-- Keep app-shell as the canonical framework validation bento.
-- Add scenario breadth where regressions are most likely.
-- Continue documenting architecture boundaries with code-level examples.
+- Keep docs references pinned to `v0.5.4`.
+- Keep recipes lists synced with CLI source of truth, including `vimstatus`.
+- Keep app-shell behavior notes aligned with deterministic palette and explicit dialog lifecycle handling.
 
 ## Near Term
 
-- Expand room split examples (`WithGutter`, `WithDivider`) across screen patterns.
-- Validate footer mode behavior (`plain`, `chip`, `mixed`) across themes.
-- Ensure typed structured-list rows remain compatible with existing data sources.
+- Expand templates guidance around `home-screen`, `app-shell`, and `detail-view`.
+- Add more end-to-end examples showing `bento add` + room composition + surface view.
+- Keep theme contract docs aligned with diff and syntax token additions.
 
 ## Ongoing
 
-- Enforce bentos orchestrate, rooms allocate, bricks paint.
-- Keep theme semantics global and untouchable at the app-contract level.
+- Treat guardrails as a product reliability feature.
+- Keep install catalogs and CLI command docs synchronized with releases.

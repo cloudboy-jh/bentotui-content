@@ -1,64 +1,47 @@
 ---
 layout: ../../layouts/DocsLayout.astro
-title: BentoTUI Roadmap After Architecture Freeze
-description: Direction after locking the architecture contract.
-publishedAt: 2026-03-15
+title: Product Direction and Roadmap
+description: Outcome-focused direction after BentoTUI v0.5.4.
+publishedAt: 2026-03-20
 ---
 
-# Roadmap
+# Product Direction and Roadmap
 
-Architecture is now frozen around bentos, rooms, and bricks.
+BentoTUI focuses on helping Go teams ship full terminal apps quickly with clear ownership.
 
-## Definition
+## Positioning
 
-This roadmap is execution-focused. The model itself is not being redesigned.
+- Not a framework shell users must conform to.
+- Not a low-level Bubble Tea/Bubbles internals tutorial.
+- A fast path to shipping full Go TUIs with ownership.
 
-- We improve quality, validation, and documentation depth.
-- We do not introduce new architecture categories.
-- We prioritize deterministic behavior over novelty.
+## Near-term focus
 
-## Priority Areas
+- Keep templates and docs synchronized with current release behavior (`v0.5.4`).
+- Expand practical examples that start from bentos, then adapt bricks and recipes.
+- Keep room contracts stable and import-only.
+- Strengthen rendering consistency through surface + styles guidance.
 
-- Expand app-shell validation scenarios and coverage depth.
-- Continue hardening ANSI and stress rendering contracts.
-- Grow architecture docs with concrete composition examples.
-- Improve developer confidence via deterministic snapshot tuples.
+## Reliability priorities
 
-## Delivery Phases
+- Maintain deterministic command palette and dialog lifecycle behavior in `app-shell`.
+- Keep theme propagation consistent across footer, center deck, and dialog manager.
+- Continue guardrail enforcement for room/brick/theme boundaries.
 
-### Phase 1: Validation hardening
+## Documentation priorities
 
-- Increase scenario breadth in `app-shell` across layout, hierarchy, footer, list, overlay, and stress.
-- Require reproducible snapshots for each scenario profile.
+- Keep install catalogs current (`bento list` as source of truth).
+- Ensure recipes docs include `vimstatus` anywhere installable recipes are listed.
+- Keep the theme interface docs updated with diff/syntax token surface.
 
-### Phase 2: Layer contract depth
+## Success criteria
 
-- Publish stronger guidance for bentos orchestration boundaries.
-- Expand room split examples including `WithGutter` and `WithDivider`.
-- Document brick compatibility behavior for typed rows and ANSI-heavy rendering.
-
-### Phase 3: Team adoption
-
-- Improve onboarding flow so teams start from bento scenarios instead of ad-hoc screens.
-- Keep docs and examples synchronized with the frozen model.
-
-## Validation Tuple
-
-Every regression should be reproducible through:
-
-`scenario + viewport + theme + focus + snapshot`
-
-## Success Criteria
-
-- App-shell scenarios catch layout regressions before release.
-- Theme changes do not require per-screen overrides.
-- New teams can onboard using docs without architecture re-interpretation.
-
-## Direction
-
-The roadmap now emphasizes quality and repeatability over introducing new architecture categories.
+- New teams can ship a serious app shell in one day.
+- Docs match released behavior and command surface.
+- Regressions are caught with deterministic validation scenarios.
 
 ## Related
 
-- [Untouchable Theme Engine](./theme-engine)
-- [Next Steps](./next-steps)
+- [Overview / Getting Started](./overview)
+- [Theme Engine](./theme-engine)
+- [CLI Commands](./cli-commands)

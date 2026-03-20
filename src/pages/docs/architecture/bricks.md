@@ -1,28 +1,50 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: BentoTUI Bricks
-description: Reusable UI component layer in the frozen architecture contract.
-publishedAt: 2026-03-15
+description: Installable copy-and-own UI building blocks for BentoTUI v0.5.4.
+publishedAt: 2026-03-20
 ---
 
 # Bricks
 
-`registry/bricks` is the UI component layer.
+Bricks are official UI building blocks copied into app code with `bento add <brick>`.
 
 ## Responsibility
 
-- Render reusable visual and interaction components.
-- Apply theme-driven semantics through stable style contracts.
-- Preserve compatibility while enabling typed model upgrades.
+- Render reusable terminal UI components.
+- Accept `WithTheme(t)` and runtime `SetTheme(t)` updates.
+- Remain copy-and-own so teams can adapt behavior safely.
 
-## Current Contract Additions
+## Installable bricks (`bento add`)
 
-- Anchored footer card style modes: `plain`, `chip`, `mixed`.
-- Structured list rows expanded with typed fields and compatibility behavior.
-- Panel render contract hardened for ANSI-heavy content.
+1. `surface` - full-terminal paint surface with UV cell buffer
+2. `card` - content container (raised default or flat with `Flat()`)
+3. `bar` - header/footer row with keybind cards
+4. `dialog` - modal manager + confirm/custom/theme picker/command palette
+5. `filepicker` - file and directory picker wrapper
+6. `list` - scrollable list wrapper
+7. `table` - data table wrapper
+8. `text` - static text label
+9. `input` - single-line text field
+10. `badge` - inline status label
+11. `kbd` - command/label shortcut pair
+12. `wordmark` - themed heading block
+13. `select` - single-choice picker
+14. `checkbox` - boolean toggle
+15. `progress` - horizontal progress bar
+16. `package-manager` - sequential install flow with spinner + progress
+17. `tabs` - tab row with keyboard input
+18. `toast` - stacked notifications
+19. `separator` - horizontal/vertical divider
+
+## v0.5.4 behavior notes
+
+- Command palette action ordering is deterministic.
+- Dialog lifecycle handling now uses explicit `dialog.OpenMsg` and `dialog.CloseMsg` flow events.
+- `app-shell` theme propagation updates footer, center deck, and dialog manager consistently.
 
 ## Contract
 
-- Bricks paint; they do not decide app-level orchestration or room geometry.
-- Brick rendering must remain stable across theme changes.
-- Brick APIs should preserve backward-compatible defaults.
+- Bricks paint UI; they do not decide app-level orchestration or room geometry.
+- Bricks do not import other bricks (guardrail-enforced).
+- Brick APIs keep backward-compatible defaults where possible.
